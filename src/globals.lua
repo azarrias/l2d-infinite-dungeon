@@ -3,13 +3,16 @@ Class = require 'libs.class'
 push = require 'libs.push'
 
 -- general purpose / utility
+require 'BaseState'
+require 'GameStateStart'
+require 'StateMachine'
 require 'util'
 require 'Vector2D'
 
 --[[
     constants
   ]]
-GAME_TITLE = 'Infinite dungeon'
+GAME_TITLE = 'Infinite Dungeon'
 
 -- OS checks in order to make necessary adjustments to support multiplatform
 MOBILE_OS = (love._version_major > 0 or love._version_minor >= 9) and (love.system.getOS() == 'Android' or love.system.getOS() == 'OS X')

@@ -19,10 +19,12 @@ function love.load()
   })
   love.window.setTitle(GAME_TITLE)
   
-  text = { 
-    { string = GAME_TITLE, font = FONTS['zelda'], textColor = {175 / 255, 53 / 255, 42 / 255, 1}, shadowColor = {34 / 255, 34 / 255, 34 / 255, 1} },
-    { string = 'Press Enter', font = FONTS['zelda-small'] }
+  gameStateMachine = StateMachine {
+    ['start'] = function() return GameStateStart() end,
+    ['play'] = function() return GameStatePlay() end,
+    ['game-over'] = function() return GameStateGameOver() end
   }
+  gameStateMachine:change('start')
   
   love.keyboard.keysPressed = {}
 end
@@ -32,6 +34,8 @@ function love.update(dt)
   if love.keyboard.keysPressed['escape'] then
     love.event.quit()
   end
+  
+  gameStateMachine:update(dt)
   
   love.keyboard.keysPressed = {}
 end
@@ -48,6 +52,6 @@ end
 
 function love.draw()
   push:start()
-  RenderCenteredText(text)
+  gameStateMachine:render()
   push:finish()
 end
