@@ -90,7 +90,7 @@ end
     The keys in the formatted text tables are:
     font - DEFAULT: love.graphics.getFont()
     textColor - DEFAULT: {1, 1, 1, 1}
-    shadow - DEFAULT: false
+    shadowColor - DEFAULT: nil
     string
   ]]
 function RenderCenteredText(formattedText)
@@ -99,7 +99,7 @@ function RenderCenteredText(formattedText)
   -- calculate the accumulated height and populate the formatted text table with defaults if needed
   for k, line in pairs(formattedText) do
     line.font = line.font ~= nil and line.font or love.graphics.getFont()
-    line.shadow = line.shadow ~= nil and line.shadow or false
+    --line.shadowColor = line.shadowColor ~= nil and line.shadowColor or false
     line.accumulated_height = accumulated_height
     accumulated_height = accumulated_height + line.font:getHeight()
     line.textColor = line.textColor or { 1, 1, 1, 1 }
@@ -109,9 +109,9 @@ function RenderCenteredText(formattedText)
   
   for k, line in pairs(formattedText) do
     love.graphics.setFont(line.font)
-    if line.shadow then
-      love.graphics.setColor({ 0, 0, 0, 1 })
-      love.graphics.printf(line.string, 1, padding + line.accumulated_height + 1,
+    if line.shadowColor then
+      love.graphics.setColor(line.shadowColor)
+      love.graphics.printf(line.string, 2, padding + line.accumulated_height + 2,
         VIRTUAL_WIDTH, 'center')
     end
     love.graphics.setColor(line.textColor)

@@ -19,13 +19,10 @@ function love.load()
   })
   love.window.setTitle(GAME_TITLE)
   
-  font = love.graphics.newFont(FONT_SIZE)
-  love.graphics.setFont(font)
-  os_str = love.system.getOS()
-  vmajor, vminor, vrevision, vcodename = love.getVersion()
-  v_str = string.format("Love version: %d.%d.%d - %s", vmajor, vminor, vrevision, vcodename)
-  bd_str = love.filesystem.getSourceBaseDirectory()
-  wd_str = love.filesystem.getWorkingDirectory()
+  text = { 
+    { string = GAME_TITLE, font = FONTS['zelda'], textColor = {175 / 255, 53 / 255, 42 / 255, 1}, shadowColor = {34 / 255, 34 / 255, 34 / 255, 1} },
+    { string = 'Press Enter', font = FONTS['zelda-small'] }
+  }
   
   love.keyboard.keysPressed = {}
 end
@@ -51,10 +48,6 @@ end
 
 function love.draw()
   push:start()
-  love.graphics.print(GAME_TITLE, 0, 0)
-  love.graphics.print("O.S.: " .. os_str, 0, 16)
-  love.graphics.print(v_str, 0, 32)
-  love.graphics.print("Source base path: " .. bd_str, 0, 48)
-  love.graphics.print("Working path: " .. wd_str, 0, 64)
+  RenderCenteredText(text)
   push:finish()
 end
