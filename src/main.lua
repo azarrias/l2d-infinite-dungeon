@@ -1,16 +1,15 @@
-push = require 'libs.push'
+require 'globals'
 
-local MOBILE_OS = (love._version_major > 0 or love._version_minor >= 9) and (love.system.getOS() == 'Android' or love.system.getOS() == 'OS X')
-local WEB_OS = (love._version_major > 0 or love._version_minor >= 9) and love.system.getOS() == 'Web'
-local WINDOW_WIDTH, WINDOW_HEIGHT = 1280, 720
-local VIRTUAL_WIDTH, VIRTUAL_HEIGHT = 512, 288
-local GAME_TITLE = 'Hello LÖVE2D!!'
 local FONT_SIZE = 16
 
 function love.load()
   if arg[#arg] == "-debug" then 
     require("mobdebug").start() 
   end
+
+  -- use nearest-neighbor (point) filtering on upscaling and downscaling to prevent blurring of text and 
+  -- graphics instead of the bilinear filter that is applied by default 
+  love.graphics.setDefaultFilter('nearest', 'nearest')
   
   -- Set up window
   push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, WINDOW_WIDTH, WINDOW_HEIGHT, {
@@ -19,10 +18,6 @@ function love.load()
     resizable = not MOBILE_OS
   })
   love.window.setTitle(GAME_TITLE)
-  
-  -- use nearest-neighbor (point) filtering on upscaling and downscaling to prevent blurring of text and 
-  -- graphics instead of the bilinear filter that is applied by default 
-  love.graphics.setDefaultFilter('nearest', 'nearest')
   
   font = love.graphics.newFont(FONT_SIZE)
   love.graphics.setFont(font)
