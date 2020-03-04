@@ -3,7 +3,7 @@
     width and a height for the tiles therein, split the texture into
     all of the quads by simply dividing it evenly.
 ]]
-function GenerateQuads(atlas, tilewidth, tileheight)
+function GenerateAllQuads(atlas, tilewidth, tileheight)
   local sheetWidth = atlas:getWidth() / tilewidth
   local sheetHeight = atlas:getHeight() / tileheight
   
@@ -13,6 +13,35 @@ function GenerateQuads(atlas, tilewidth, tileheight)
     for x = 0, sheetWidth - 1 do
       table.insert(spritesheet, love.graphics.newQuad(x * tilewidth, y * tileheight,
           tilewidth, tileheight, atlas:getDimensions()))
+    end
+  end
+  
+  return spritesheet
+end
+
+--[[
+    Given an "atlas", as well as all necessary parameters, slice the
+    texture into the selected quads.
+    Parameters:
+    rows - number of rows of sprites
+    columns - number of columns of sprites
+    spriteSize - Vector2D with the sprite dimensions
+    offset - Vector2D with an initial offset to start slicing the sprites
+    padding - Vector2D with the x, y padding between sprites
+]]
+function GenerateQuads(atlas, rows, columns, spriteSize, offset, padding)
+  local spritesheet = {}
+  offset = offset or Vector2D(0, 0)
+  padding = padding or Vector2D(0, 0)
+  
+  for y = 0, rows - 1 do
+    for x = 0, columns - 1 do
+      table.insert(spritesheet, love.graphics.newQuad(
+        x * (spriteSize.x + padding.x) + offset.x,
+        y * (spriteSize.y + padding.y) + offset.y,
+        spriteSize.x,
+        spriteSize.y,
+        atlas:getDimensions()))
     end
   end
   
@@ -90,7 +119,7 @@ end
     The keys in the formatted text tables are:
     font - DEFAULT: love.graphics.getFont()
     textColor - DEFAULT: {1, 1, 1, 1}
-    shadowColor - DEFAULT: nil
+    shadow - DEFAULT: false
     string
   ]]
 function RenderCenteredText(formattedText)
@@ -99,7 +128,7 @@ function RenderCenteredText(formattedText)
   -- calculate the accumulated height and populate the formatted text table with defaults if needed
   for k, line in pairs(formattedText) do
     line.font = line.font ~= nil and line.font or love.graphics.getFont()
-    --line.shadowColor = line.shadowColor ~= nil and line.shadowColor or false
+    line.shadow = line.shadow ~= nil and line.shadow or false
     line.accumulated_height = accumulated_height
     accumulated_height = accumulated_height + line.font:getHeight()
     line.textColor = line.textColor or { 1, 1, 1, 1 }
@@ -109,9 +138,9 @@ function RenderCenteredText(formattedText)
   
   for k, line in pairs(formattedText) do
     love.graphics.setFont(line.font)
-    if line.shadowColor then
-      love.graphics.setColor(line.shadowColor)
-      love.graphics.printf(line.string, 2, padding + line.accumulated_height + 2,
+    if line.shadow then
+      love.graphics.setColor({ 0, 0, 0, 1 })
+      love.graphics.printf(line.string, 1, padding + line.accumulated_height + 1,
         VIRTUAL_WIDTH, 'center')
     end
     love.graphics.setColor(line.textColor)

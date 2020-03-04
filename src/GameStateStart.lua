@@ -7,6 +7,12 @@ function GameStateStart:init()
   }
 end
 
+function GameStateStart:update(dt)
+  if love.keyboard.keysPressed['enter'] or love.keyboard.keysPressed['return'] then
+    gameStateMachine:change('play')
+  end
+end
+
 function GameStateStart:render()
   RenderCenteredText(self.text)
 end

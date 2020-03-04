@@ -44,3 +44,7 @@ function Vector2D:__eq(other)
     error "Vector2D can only be compared to another Vector2D"
   end
 end
+
+function Vector2D:__tostring()
+  return "(" .. self.x .. ", " .. self.y .. ")"
+end
