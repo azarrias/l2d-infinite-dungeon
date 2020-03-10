@@ -6,6 +6,8 @@ function love.load()
   if arg[#arg] == "-debug" then 
     require("mobdebug").start() 
   end
+  
+  io.stdout:setvbuf("no")
 
   -- use nearest-neighbor (point) filtering on upscaling and downscaling to prevent blurring of text and 
   -- graphics instead of the bilinear filter that is applied by default 

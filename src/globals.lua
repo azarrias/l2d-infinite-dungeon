@@ -3,6 +3,12 @@ Class = require 'libs.class'
 push = require 'libs.push'
 
 -- general purpose / utility
+require 'AnimatorCondition'
+require 'AnimatorControllerParameter'
+require 'AnimatorController'
+require 'AnimatorState'
+require 'AnimatorStateMachine'
+require 'AnimatorStateTransition'
 require 'BaseState'
 require 'Entity'
 require 'GameStatePlay'
