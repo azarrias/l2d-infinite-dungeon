@@ -5,14 +5,12 @@ function AnimatorController:init(name)
   self.name = name
   self.stateMachine = AnimatorStateMachine()
   self.parameters = {}
-end
-
-function AnimatorController:AddParameter(name, _type)
-  local parameter = AnimatorControllerParameter(name, _type)
-  self.parameters[name] = parameter
+  self.animations = {}
 end
 
 function AnimatorController:update(dt)
+  self.stateMachine:update(dt)
+  
   -- check the state machine's transitions for triggered conditions
   -- if all the conditions of a transition are met, perform the transition
   for k, transition in pairs(self.stateMachine.anyStateTransitions) do
@@ -28,7 +26,27 @@ function AnimatorController:update(dt)
       print("Change to " .. transition.destinationState.name)
     end
   end
+end
+
+--[[
+     Creates a new state with the animation in it
+  ]]
+function AnimatorController:AddAnimation(name, frames, interval)
+  local animation = Animation(name, frames, interval)
+  self.animations[name] = animation
+  local state = self.stateMachine:AddState(name)
+  state.animation = animation
+  return state
+end
   
+      
+  --self.name = def.name
+  --self.frames = def.frames
+  --self.interval = def.interval
+
+function AnimatorController:AddParameter(name, _type)
+  local parameter = AnimatorControllerParameter(name, _type)
+  self.parameters[name] = parameter
 end
 
 --[[

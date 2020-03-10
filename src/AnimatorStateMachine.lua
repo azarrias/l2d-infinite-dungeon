@@ -8,6 +8,10 @@ function AnimatorStateMachine:init()
   self.entryTransition = nil
 end
 
+function AnimatorStateMachine:update(dt)
+  self.currentState:update(dt)
+end
+
 function AnimatorStateMachine:AddState(name)
   local state = AnimatorState(name)
   -- the first state that is created for a state machine

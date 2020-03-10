@@ -3,6 +3,7 @@ Class = require 'libs.class'
 push = require 'libs.push'
 
 -- general purpose / utility
+require 'Animation'
 require 'AnimatorCondition'
 require 'AnimatorControllerParameter'
 require 'AnimatorController'
