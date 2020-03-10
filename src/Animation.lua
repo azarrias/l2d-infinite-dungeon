@@ -18,8 +18,3 @@ function Animation:update(dt)
     end
   end
 end
-
-function Animation:draw(image, x, y, r, sx, sy, ox, oy, kx, ky)
-  r, sx, sy, ox, oy, kx, ky = r or 0, sx or 1, sy or 1, ox or 0, oy or 0, kx or 0, ky or 0
-  love.graphics.draw(image, self.frames[self.currentFrame], x, y, r, sx, sy, ox, oy, kx, ky)
-end

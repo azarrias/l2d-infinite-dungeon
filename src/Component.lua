@@ -1,8 +1,8 @@
 Component = Class{}
 
-function Component:init(def)
-  self.enabled = def.enabled
-  self.parent = def.parent
+function Component:init(parent)
+  self.enabled = true
+  self.parent = nil
 end
 
 function Component:update(dt)

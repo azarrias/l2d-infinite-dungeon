@@ -1,14 +1,23 @@
 Entity = Class{}
 
-function Entity:init(def)
-  self.position = def.position
-  self.size = def.size
-  self.texture = def.texture
-  self.frame = def.frame
+function Entity:init(posX, posY, rotation, scaleX, scaleY)
+  self.position = Vector2D(posX, posY)
+  self.rotation = rotation or 0
+  self.scale = scaleX and scaleY and Vector2D(scaleX, scaleY) or Vector2D(1, 1)
   self.components = {}
 end
 
+function Entity:update(dt)
+  for k, component in pairs(self.components) do
+    component:update(dt)
+  end
+end
+
 function Entity:render()
+  if self.components['Sprite'] then
+    self.components['Sprite']:render()
+  end
+--[[
   if self.components['AnimatorController'] then
     self.components['AnimatorController'].stateMachine.currentState.animation:draw(
       self.texture, 
@@ -24,11 +33,15 @@ function Entity:render()
   elseif self.texture then
     love.graphics.draw(self.texture, self.frame, self.position.x, self.position.y)
   end
+]]
 end
 
 function Entity:AddComponent(component)
   component.parent = self
-  if component.componentType == 'AnimatorController' then
+  -- overwrite components if their type only allows one instance per entity
+  if component.componentType == 'AnimatorController' or
+    component.componentType == 'Sprite' or
+    component.componentType == 'Transform' then
     self.components[component.componentType] = component
   end
 end

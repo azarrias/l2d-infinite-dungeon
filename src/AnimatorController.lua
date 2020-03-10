@@ -1,6 +1,7 @@
 AnimatorController = Class{__includes = Component}
 
 function AnimatorController:init(name)
+  Component.init(self)
   self.componentType = 'AnimatorController'
   self.name = name
   self.stateMachine = AnimatorStateMachine()
@@ -10,6 +11,12 @@ end
 
 function AnimatorController:update(dt)
   self.stateMachine:update(dt)
+  
+  -- update sprite component of the parent entity (if it exists)
+  if self.parent.components['Sprite'] then
+    local animation = self.stateMachine.currentState.animation
+    self.parent.components['Sprite'].quad = animation.frames[animation.currentFrame]
+  end
   
   -- check the state machine's transitions for triggered conditions
   -- if all the conditions of a transition are met, perform the transition
@@ -39,11 +46,6 @@ function AnimatorController:AddAnimation(name, frames, interval)
   return state
 end
   
-      
-  --self.name = def.name
-  --self.frames = def.frames
-  --self.interval = def.interval
-
 function AnimatorController:AddParameter(name, _type)
   local parameter = AnimatorControllerParameter(name, _type)
   self.parameters[name] = parameter

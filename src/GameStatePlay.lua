@@ -1,12 +1,12 @@
 GameStatePlay = Class{__includes = BaseState}
 
 function GameStatePlay:init()
-  self.player = Entity {
-    position = Vector2D(VIRTUAL_WIDTH / 2, VIRTUAL_HEIGHT / 2),
-    size = PLAYER_WALK_SIZE,
-    texture = TEXTURES['player'],
-    frame = FRAMES['player-walk-down'][1]
-  }
+  self.player = Entity(VIRTUAL_WIDTH / 2, VIRTUAL_HEIGHT / 2)
+
+  -- sprite component
+  playerSprite = Sprite(TEXTURES['player'], FRAMES['player-walk-down'][1])
+  self.player:AddComponent(playerSprite)
+  
   -- create animator controller and setup parameters
   playerAnimatorController = AnimatorController('PlayerAnimatorController')
   self.player:AddComponent(playerAnimatorController)
@@ -57,7 +57,7 @@ function GameStatePlay:update(dt)
   playerAnimatorController:SetValue('MoveUp', isDownUp)
   playerAnimatorController:SetValue('MoveLeft', isDownLeft)
   playerAnimatorController:SetValue('MoveRight', isDownRight)
-  playerAnimatorController:update(dt)
+  self.player:update(dt)
 end
 
 function GameStatePlay:render()
