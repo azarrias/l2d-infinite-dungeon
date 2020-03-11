@@ -7,7 +7,9 @@ function AnimatorState:init(name)
 end
 
 function AnimatorState:update(dt)
-  self.animation:update(dt)
+  if self.animation then
+    self.animation:update(dt)
+  end
 end
 
 function AnimatorState:AddTransition(state)
