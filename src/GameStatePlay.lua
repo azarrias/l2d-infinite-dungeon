@@ -14,20 +14,31 @@ function GameStatePlay:init()
   playerAnimatorController:AddParameter('MoveUp', AnimatorControllerParameterType.Bool)
   playerAnimatorController:AddParameter('MoveLeft', AnimatorControllerParameterType.Bool)
   playerAnimatorController:AddParameter('MoveRight', AnimatorControllerParameterType.Bool)
+  
   -- create state machine states (first state to be created will be the default state)
-  stateIdle = playerAnimatorController:AddAnimation('Idle', { FRAMES['player-walk-down'][1] }, 1)
-  stateMovingDown = playerAnimatorController:AddAnimation('MovingDown', 
-    { FRAMES['player-walk-down'][1], FRAMES['player-walk-down'][2], FRAMES['player-walk-down'][3], FRAMES['player-walk-down'][4] },
-    0.3)
-  stateMovingUp = playerAnimatorController:AddAnimation('MovingUp', 
-    { FRAMES['player-walk-up'][1], FRAMES['player-walk-up'][2], FRAMES['player-walk-up'][3], FRAMES['player-walk-up'][4] },
-    0.3)
-  stateMovingLeft = playerAnimatorController:AddAnimation('MovingLeft', 
-    { FRAMES['player-walk-left'][1], FRAMES['player-walk-left'][2], FRAMES['player-walk-left'][3], FRAMES['player-walk-left'][4] },
-    0.3)
-  stateMovingRight = playerAnimatorController:AddAnimation('MovingRight', 
-    { FRAMES['player-walk-right'][1], FRAMES['player-walk-right'][2], FRAMES['player-walk-right'][3], FRAMES['player-walk-right'][4] },
-    0.3)
+  stateIdle = playerAnimatorController:AddAnimation('Idle')
+  stateIdle.animation:AddFrame(TEXTURES['player'], FRAMES['player-walk-down'][1], 1)
+  stateMovingDown = playerAnimatorController:AddAnimation('MovingDown')
+  stateMovingDown.animation:AddFrame(TEXTURES['player'], FRAMES['player-walk-down'][1], 0.3)
+  stateMovingDown.animation:AddFrame(TEXTURES['player'], FRAMES['player-walk-down'][2], 0.3)
+  stateMovingDown.animation:AddFrame(TEXTURES['player'], FRAMES['player-walk-down'][3], 0.3)
+  stateMovingDown.animation:AddFrame(TEXTURES['player'], FRAMES['player-walk-down'][4], 0.3)
+  stateMovingUp = playerAnimatorController:AddAnimation('MovingUp')
+  stateMovingUp.animation:AddFrame(TEXTURES['player'], FRAMES['player-walk-up'][1], 0.3)
+  stateMovingUp.animation:AddFrame(TEXTURES['player'], FRAMES['player-walk-up'][2], 0.3)
+  stateMovingUp.animation:AddFrame(TEXTURES['player'], FRAMES['player-walk-up'][3], 0.3)
+  stateMovingUp.animation:AddFrame(TEXTURES['player'], FRAMES['player-walk-up'][4], 0.3)
+  stateMovingLeft = playerAnimatorController:AddAnimation('MovingLeft')
+  stateMovingLeft.animation:AddFrame(TEXTURES['player'], FRAMES['player-walk-left'][1], 0.3)
+  stateMovingLeft.animation:AddFrame(TEXTURES['player'], FRAMES['player-walk-left'][2], 0.3)
+  stateMovingLeft.animation:AddFrame(TEXTURES['player'], FRAMES['player-walk-left'][3], 0.3)
+  stateMovingLeft.animation:AddFrame(TEXTURES['player'], FRAMES['player-walk-left'][4], 0.3)
+  stateMovingRight = playerAnimatorController:AddAnimation('MovingRight')
+  stateMovingRight.animation:AddFrame(TEXTURES['player'], FRAMES['player-walk-right'][1], 0.3)
+  stateMovingRight.animation:AddFrame(TEXTURES['player'], FRAMES['player-walk-right'][2], 0.3)
+  stateMovingRight.animation:AddFrame(TEXTURES['player'], FRAMES['player-walk-right'][3], 0.3)
+  stateMovingRight.animation:AddFrame(TEXTURES['player'], FRAMES['player-walk-right'][4], 0.3)
+  
   -- transitions
   idleToMovingDownTransition = playerAnimatorController.stateMachine.states[stateIdle.name]:AddTransition(stateMovingDown)
   idleToMovingUpTransition = playerAnimatorController.stateMachine.states[stateIdle.name]:AddTransition(stateMovingUp)

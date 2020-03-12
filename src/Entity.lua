@@ -40,8 +40,7 @@ function Entity:AddComponent(component)
   component.parent = self
   -- overwrite components if their type only allows one instance per entity
   if component.componentType == 'AnimatorController' or
-    component.componentType == 'Sprite' or
-    component.componentType == 'Transform' then
+    component.componentType == 'Sprite' then
     self.components[component.componentType] = component
   end
 end

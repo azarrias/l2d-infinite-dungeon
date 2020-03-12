@@ -4,6 +4,7 @@ push = require 'libs.push'
 
 -- general purpose / utility
 require 'Animation'
+require 'AnimationFrame'
 require 'AnimatorCondition'
 require 'AnimatorControllerParameter'
 require 'AnimatorController'

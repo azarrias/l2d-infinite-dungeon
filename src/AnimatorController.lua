@@ -16,7 +16,8 @@ function AnimatorController:update(dt)
   if self.parent.components['Sprite'] then
     local animation = self.stateMachine.currentState.animation
     if animation then
-      self.parent.components['Sprite'].quad = animation.frames[animation.currentFrame]
+      self.parent.components['Sprite'].texture = animation.frames[animation.currentFrame].texture
+      self.parent.components['Sprite'].quad = animation.frames[animation.currentFrame].quad
     end
   end
   
@@ -78,7 +79,7 @@ function AnimatorController:AreAllConditionsMet(transition)
         self.parameters[condition.parameterName].value >= condition.value then
           return false
       end
-    else error("AnimatorConditionOperatorType '"..tostring(condition.operator).."' does not exist.", 2)
+    else error("AnimatorConditionOperatorType '"..tostring(condition.operator).."' does not exist.")
     end
   end
   
