@@ -14,7 +14,7 @@ function love.load()
   love.graphics.setDefaultFilter('nearest', 'nearest')
   
   -- Set up window
-  push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, WINDOW_WIDTH, WINDOW_HEIGHT, {
+  push:setupScreen(VIRTUAL_SIZE.x, VIRTUAL_SIZE.y, WINDOW_SIZE.x, WINDOW_SIZE.y, {
     vsync = true,
     fullscreen = MOBILE_OS,
     resizable = not MOBILE_OS

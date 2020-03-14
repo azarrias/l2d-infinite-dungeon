@@ -1,7 +1,7 @@
 SceneDungeon = Class{__includes = Scene}
 
 function SceneDungeon:init()
-  self.player = Entity(VIRTUAL_WIDTH / 2, VIRTUAL_HEIGHT / 2)
+  self.player = Entity(VIRTUAL_SIZE.x / 2, VIRTUAL_SIZE.y / 2)
 
   -- sprite component
   playerSprite = Sprite(TEXTURES['player'], FRAMES['player-walk-down'][1])
@@ -88,6 +88,9 @@ function SceneDungeon:init()
   movingUpToIdleUpTransition:AddCondition('MoveUp', AnimatorConditionOperatorType.Equals, false)
   movingLeftToIdleLeftTransition:AddCondition('MoveLeft', AnimatorConditionOperatorType.Equals, false)
   movingRightToIdleRightTransition:AddCondition('MoveRight', AnimatorConditionOperatorType.Equals, false)
+  
+  self.rooms = {}
+  self.currentRoom = Room(self.player)
 end
 
 function SceneDungeon:update(dt)
@@ -103,5 +106,6 @@ function SceneDungeon:update(dt)
 end
 
 function SceneDungeon:render()
+  self.currentRoom:render()
   self.player:render()
 end

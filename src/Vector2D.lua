@@ -48,3 +48,7 @@ end
 function Vector2D:__tostring()
   return "(" .. self.x .. ", " .. self.y .. ")"
 end
+
+function Vector2D:Floor()
+  return Vector2D(math.floor(self.x), math.floor(self.y))
+end

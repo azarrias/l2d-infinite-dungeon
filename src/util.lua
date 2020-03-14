@@ -134,17 +134,17 @@ function RenderCenteredText(formattedText)
     line.textColor = line.textColor or { 1, 1, 1, 1 }
   end
   
-  local padding = math.floor((VIRTUAL_HEIGHT - accumulated_height) / 2)
+  local padding = math.floor((VIRTUAL_SIZE.y - accumulated_height) / 2)
   
   for k, line in pairs(formattedText) do
     love.graphics.setFont(line.font)
     if line.shadow then
       love.graphics.setColor({ 0, 0, 0, 1 })
       love.graphics.printf(line.string, 1, padding + line.accumulated_height + 1,
-        VIRTUAL_WIDTH, 'center')
+        VIRTUAL_SIZE.x, 'center')
     end
     love.graphics.setColor(line.textColor)
     love.graphics.printf(line.string, 0, padding + line.accumulated_height,
-      VIRTUAL_WIDTH, 'center')
+      VIRTUAL_SIZE.x, 'center')
   end
 end
