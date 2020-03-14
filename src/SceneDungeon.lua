@@ -1,6 +1,6 @@
-GameStatePlay = Class{__includes = BaseState}
+SceneDungeon = Class{__includes = Scene}
 
-function GameStatePlay:init()
+function SceneDungeon:init()
   self.player = Entity(VIRTUAL_WIDTH / 2, VIRTUAL_HEIGHT / 2)
 
   -- sprite component
@@ -90,7 +90,7 @@ function GameStatePlay:init()
   movingRightToIdleRightTransition:AddCondition('MoveRight', AnimatorConditionOperatorType.Equals, false)
 end
 
-function GameStatePlay:update(dt)
+function SceneDungeon:update(dt)
   local isDownDown = love.keyboard.isDown('down')
   local isDownUp = love.keyboard.isDown('up')
   local isDownLeft = love.keyboard.isDown('left')
@@ -102,6 +102,6 @@ function GameStatePlay:update(dt)
   self.player:update(dt)
 end
 
-function GameStatePlay:render()
+function SceneDungeon:render()
   self.player:render()
 end

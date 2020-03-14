@@ -21,12 +21,12 @@ function love.load()
   })
   love.window.setTitle(GAME_TITLE)
   
-  gameStateMachine = StateMachine {
-    ['start'] = function() return GameStateStart() end,
-    ['play'] = function() return GameStatePlay() end,
-    ['game-over'] = function() return GameStateGameOver() end
+  sceneManager = SceneManager {
+    ['Start'] = function() return SceneStart() end,
+    ['Play'] = function() return SceneDungeon() end,
+    ['GameOver'] = function() return SceneGameOver() end
   }
-  gameStateMachine:change('start')
+  sceneManager:change('Start')
   
   love.keyboard.keysPressed = {}
 end
@@ -37,7 +37,7 @@ function love.update(dt)
     love.event.quit()
   end
   
-  gameStateMachine:update(dt)
+  sceneManager:update(dt)
   
   love.keyboard.keysPressed = {}
 end
@@ -54,6 +54,6 @@ end
 
 function love.draw()
   push:start()
-  gameStateMachine:render()
+  sceneManager:render()
   push:finish()
 end

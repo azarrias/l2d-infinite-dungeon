@@ -1,6 +1,6 @@
-StateMachine = Class{}
+SceneManager = Class{}
 
-function StateMachine:init(states)
+function SceneManager:init(states)
   self.empty = {
     render = function() end,
     update = function() end,
@@ -11,17 +11,17 @@ function StateMachine:init(states)
   self.current = self.empty
 end
 
-function StateMachine:change(stateName, enterParams)
+function SceneManager:change(stateName, enterParams)
   assert(self.states[stateName]) -- state must exist in the State Machine!
   self.current:exit()
   self.current = self.states[stateName]()
   self.current:enter(enterParams)
 end
 
-function StateMachine:update(dt)
+function SceneManager:update(dt)
   self.current:update(dt)
 end
 
-function StateMachine:render()
+function SceneManager:render()
   self.current:render()
 end
