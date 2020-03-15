@@ -31,7 +31,27 @@ function Room:GenerateTileset()
     table.insert(self.tiles, {})
     
     for x = 1, self.size.x do
-      local id = TILE_FLOORS[math.random(#TILE_FLOORS)]
+      local id = TILE_EMPTY
+      
+      if x == 1 and y == 1 then
+        id = TILE_TOP_LEFT_CORNER
+      elseif x == 1 and y == self.size.y then
+        id = TILE_BOTTOM_LEFT_CORNER
+      elseif x == self.size.x and y == 1 then
+        id = TILE_TOP_RIGHT_CORNER
+      elseif x == self.size.x and y == self.size.y then
+        id = TILE_BOTTOM_RIGHT_CORNER
+      elseif x == 1 then
+        id = TILE_LEFT_WALLS[math.random(#TILE_LEFT_WALLS)]
+      elseif x == self.size.x then
+        id = TILE_RIGHT_WALLS[math.random(#TILE_RIGHT_WALLS)]
+      elseif y == 1 then
+        id = TILE_TOP_WALLS[math.random(#TILE_TOP_WALLS)]
+      elseif y == self.size.y then
+        id = TILE_BOTTOM_WALLS[math.random(#TILE_BOTTOM_WALLS)]
+      else
+        id = TILE_FLOORS[math.random(#TILE_FLOORS)]
+      end
       
       table.insert(self.tiles[y], { id = id })
     end
