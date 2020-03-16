@@ -6,6 +6,7 @@ function SceneDungeon:init()
   -- sprite component
   playerSprite = Sprite(TEXTURES['player'], FRAMES['player-walk-down'][1])
   self.player:AddComponent(playerSprite)
+  self.player:AddScript('PlayerController')
   
   -- create animator controller and setup parameters
   playerAnimatorController = AnimatorController('PlayerAnimatorController')
@@ -44,6 +45,12 @@ function SceneDungeon:init()
   stateMovingRight.animation:AddFrame(TEXTURES['player'], FRAMES['player-walk-right'][2], 0.3)
   stateMovingRight.animation:AddFrame(TEXTURES['player'], FRAMES['player-walk-right'][3], 0.3)
   stateMovingRight.animation:AddFrame(TEXTURES['player'], FRAMES['player-walk-right'][4], 0.3)
+  
+  -- animation states behaviours
+  stateMovingLeft:AddStateMachineBehaviour('BehaviourMovingLeft')
+  stateMovingRight:AddStateMachineBehaviour('BehaviourMovingRight')
+  stateMovingUp:AddStateMachineBehaviour('BehaviourMovingUp')
+  stateMovingDown:AddStateMachineBehaviour('BehaviourMovingDown')
   
   -- transitions
   idleDownToMovingDownTransition = playerAnimatorController.stateMachine.states[stateIdleDown.name]:AddTransition(stateMovingDown)
@@ -94,14 +101,6 @@ function SceneDungeon:init()
 end
 
 function SceneDungeon:update(dt)
-  local isDownDown = love.keyboard.isDown('down')
-  local isDownUp = love.keyboard.isDown('up')
-  local isDownLeft = love.keyboard.isDown('left')
-  local isDownRight = love.keyboard.isDown('right')
-  playerAnimatorController:SetValue('MoveDown', isDownDown)
-  playerAnimatorController:SetValue('MoveUp', isDownUp)
-  playerAnimatorController:SetValue('MoveLeft', isDownLeft)
-  playerAnimatorController:SetValue('MoveRight', isDownRight)
   self.player:update(dt)
 end
 

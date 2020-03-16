@@ -36,6 +36,11 @@ function AnimatorController:update(dt)
       print("Change to " .. transition.destinationState.name)
     end
   end
+  
+  -- execute all behaviours for the current state
+  for k, behaviour in pairs(self.stateMachine.currentState.behaviours) do
+    behaviour:OnStateUpdate(dt, self)
+  end
 end
 
 --[[

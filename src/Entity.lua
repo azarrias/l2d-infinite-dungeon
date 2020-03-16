@@ -8,8 +8,14 @@ function Entity:init(posX, posY, rotation, scaleX, scaleY)
 end
 
 function Entity:update(dt)
-  for k, component in pairs(self.components) do
-    component:update(dt)
+  for k, componentType in pairs(self.components) do
+    if k == 'AnimatorController' or k == 'Sprite' then
+      componentType:update(dt)
+    else
+      for i, component in pairs(componentType) do
+        component:update(dt)
+      end
+    end
   end
 end
 
@@ -42,5 +48,32 @@ function Entity:AddComponent(component)
   if component.componentType == 'AnimatorController' or
     component.componentType == 'Sprite' then
     self.components[component.componentType] = component
+  elseif self.components[component.componentType] == nil or next(self.components[component.componentType]) == nil then
+    self.components[component.componentType] = {}
+    self.components[component.componentType][component.name] = component
+  else
+    self.components[component.componentType][component.name] = component
+  end
+end
+
+function Entity:AddScript(scriptName)
+  -- generates anonymous function that returns an instance of the script subclass
+  local f = loadstring("return " .. scriptName .. "()")
+  if f then
+    local script = f()
+    self:AddComponent(script)
+  else
+    error("Object '"..scriptName.."' does not exist or is not accessible.")
+  end
+end
+
+function AnimatorState:AddStateMachineBehaviour(behaviourName)
+  -- generates anonymous function that returns an instance of the behaviour class
+  local f = loadstring("return " .. behaviourName .. "()")
+  if f then
+    local behaviour = f()
+    self.behaviours[behaviourName] = behaviour
+  else
+    error("Object '"..behaviourName.."' does not exist or is not accessible.")
   end
 end
