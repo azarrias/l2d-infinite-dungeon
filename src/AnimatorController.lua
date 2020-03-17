@@ -12,15 +12,6 @@ end
 function AnimatorController:update(dt)
   self.stateMachine:update(dt)
   
-  -- update sprite component of the parent entity (if it exists)
-  if self.parent.components['Sprite'] then
-    local animation = self.stateMachine.currentState.animation
-    if animation then
-      self.parent.components['Sprite'].texture = animation.frames[animation.currentFrame].texture
-      self.parent.components['Sprite'].quad = animation.frames[animation.currentFrame].quad
-    end
-  end
-  
   -- check the state machine's transitions for triggered conditions
   -- if all the conditions of a transition are met, perform the transition
   for k, transition in pairs(self.stateMachine.anyStateTransitions) do
@@ -47,6 +38,15 @@ function AnimatorController:update(dt)
   -- execute all behaviours for the current state
   for k, behaviour in pairs(self.stateMachine.currentState.behaviours) do
     behaviour:OnStateUpdate(dt, self)
+  end
+  
+  -- update sprite component of the parent entity (if it exists)
+  if self.parent.components['Sprite'] then
+    local animation = self.stateMachine.currentState.animation
+    if animation then
+      self.parent.components['Sprite'].texture = animation.frames[animation.currentFrame].texture
+      self.parent.components['Sprite'].quad = animation.frames[animation.currentFrame].quad
+    end
   end
 end
 
