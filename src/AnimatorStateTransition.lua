@@ -3,6 +3,10 @@ AnimatorStateTransition = Class{}
 function AnimatorStateTransition:init(state)
   self.destinationState = state
   self.conditions = {}
+  
+  -- earliest time at which the transition can take effect
+  -- represented in normalized time (current animation % played)
+  self.exitTime = 0
 end
 
 function AnimatorStateTransition:AddCondition(parameter, operator, value)

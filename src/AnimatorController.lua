@@ -25,13 +25,20 @@ function AnimatorController:update(dt)
   -- if all the conditions of a transition are met, perform the transition
   for k, transition in pairs(self.stateMachine.anyStateTransitions) do
     if self:AreAllConditionsMet(transition) then
+      -- automatically reset triggers that have been consumed by this transaction
+      self:ResetTransitionTriggers(transition)
       self.stateMachine.currentState = transition.destinationState
       print("Change to " .. transition.destinationState.name)
     end
   end
   
   for k, transition in pairs(self.stateMachine.currentState.transitions) do
-    if self:AreAllConditionsMet(transition) then
+    if (#self.stateMachine.currentState.animation.frames <= 1 or 
+      self.stateMachine.currentState.animation.timer > transition.exitTime * self.stateMachine.currentState.animation.duration)
+      and self:AreAllConditionsMet(transition) then
+      -- automatically reset animation and triggers and that have been consumed by this transaction
+      self.stateMachine.currentState.animation:Reset()
+      self:ResetTransitionTriggers(transition)
       self.stateMachine.currentState = transition.destinationState
       print("Change to " .. transition.destinationState.name)
     end
@@ -91,6 +98,37 @@ function AnimatorController:AreAllConditionsMet(transition)
   return true
 end
 
+function AnimatorController:ResetTransitionTriggers(transition)
+  for k, condition in pairs(transition.conditions) do
+    if self.parameters[condition.parameterName].type == 'Trigger' then
+      self:ResetTrigger(condition.parameterName)
+    end
+  end
+end
+
 function AnimatorController:SetValue(parameterName, value)
-  self.parameters[parameterName].value = value
+  if self.parameters[parameterName].type == 'Bool' or
+    self.parameters[parameterName].type == 'Numeric' then
+      self.parameters[parameterName].value = value
+  elseif self.parameters[parameterName].type == 'Trigger' then
+    error('Parameter '..parameterName..' is a Trigger and cannot be given a value.')
+  else
+    error('Parameter '..parameterName..' is of type '..self.parameters[parameterName].type..' which is not supported.')
+  end
+end
+
+function AnimatorController:SetTrigger(triggerName)
+  if self.parameters[triggerName].type == 'Trigger' then
+    self.parameters[triggerName].value = true
+  else
+    error('Parameter '..triggerName..' is not a Trigger.')
+  end
+end
+
+function AnimatorController:ResetTrigger(triggerName)
+  if self.parameters[triggerName].type == 'Trigger' then
+    self.parameters[triggerName].value = false
+  else
+    error('Parameter '..triggerName..' is not a Trigger.')
+  end
 end

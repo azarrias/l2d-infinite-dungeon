@@ -17,4 +17,8 @@ function PlayerController:update(dt)
   playerAnimatorController:SetValue('MoveUp', isDownUp)
   playerAnimatorController:SetValue('MoveLeft', isDownLeft)
   playerAnimatorController:SetValue('MoveRight', isDownRight)
+  
+  if love.keyboard.keysPressed['space'] then
+    playerAnimatorController:SetTrigger('Attack')
+  end
 end
