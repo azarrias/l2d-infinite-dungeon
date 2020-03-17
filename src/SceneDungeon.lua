@@ -100,7 +100,24 @@ function SceneDungeon:init()
   attackingDownToIdleDownTransition.exitTime = 1
   attackingDownToMovingDownTransition = playerAnimatorController.stateMachine.states[stateAttackingDown.name]:AddTransition(stateMovingDown)
   attackingDownToMovingDownTransition.exitTime = 1
-  
+  idleUpToAttackingUpTransition = playerAnimatorController.stateMachine.states[stateIdleUp.name]:AddTransition(stateAttackingUp)
+  movingUpToAttackingUpTransition = playerAnimatorController.stateMachine.states[stateMovingUp.name]:AddTransition(stateAttackingUp)
+  attackingUpToIdleUpTransition = playerAnimatorController.stateMachine.states[stateAttackingUp.name]:AddTransition(stateIdleUp)
+  attackingUpToIdleUpTransition.exitTime = 1
+  attackingUpToMovingUpTransition = playerAnimatorController.stateMachine.states[stateAttackingUp.name]:AddTransition(stateMovingUp)
+  attackingUpToMovingUpTransition.exitTime = 1
+  idleRightToAttackingRightTransition = playerAnimatorController.stateMachine.states[stateIdleRight.name]:AddTransition(stateAttackingRight)
+  movingRightToAttackingRightTransition = playerAnimatorController.stateMachine.states[stateMovingRight.name]:AddTransition(stateAttackingRight)
+  attackingRightToIdleRightTransition = playerAnimatorController.stateMachine.states[stateAttackingRight.name]:AddTransition(stateIdleRight)
+  attackingRightToIdleRightTransition.exitTime = 1
+  attackingRightToMovingRightTransition = playerAnimatorController.stateMachine.states[stateAttackingRight.name]:AddTransition(stateMovingRight)
+  attackingRightToMovingRightTransition.exitTime = 1
+  idleLeftToAttackingLeftTransition = playerAnimatorController.stateMachine.states[stateIdleLeft.name]:AddTransition(stateAttackingLeft)
+  movingLeftToAttackingLeftTransition = playerAnimatorController.stateMachine.states[stateMovingLeft.name]:AddTransition(stateAttackingLeft)
+  attackingLeftToIdleLeftTransition = playerAnimatorController.stateMachine.states[stateAttackingLeft.name]:AddTransition(stateIdleLeft)
+  attackingLeftToIdleLeftTransition.exitTime = 1
+  attackingLeftToMovingLeftTransition = playerAnimatorController.stateMachine.states[stateAttackingLeft.name]:AddTransition(stateMovingLeft)
+  attackingLeftToMovingLeftTransition.exitTime = 1
   
   -- transition conditions
   idleDownToMovingDownTransition:AddCondition('MoveDown', AnimatorConditionOperatorType.Equals, true)
@@ -127,6 +144,18 @@ function SceneDungeon:init()
   movingDownToAttackingDownTransition:AddCondition('Attack', AnimatorConditionOperatorType.Equals, true)
   attackingDownToIdleDownTransition:AddCondition('MoveDown', AnimatorConditionOperatorType.Equals, false)
   attackingDownToMovingDownTransition:AddCondition('MoveDown', AnimatorConditionOperatorType.Equals, true)
+  idleUpToAttackingUpTransition:AddCondition('Attack', AnimatorConditionOperatorType.Equals, true)
+  movingUpToAttackingUpTransition:AddCondition('Attack', AnimatorConditionOperatorType.Equals, true)
+  attackingUpToIdleUpTransition:AddCondition('MoveUp', AnimatorConditionOperatorType.Equals, false)
+  attackingUpToMovingUpTransition:AddCondition('MoveUp', AnimatorConditionOperatorType.Equals, true)
+  idleRightToAttackingRightTransition:AddCondition('Attack', AnimatorConditionOperatorType.Equals, true)
+  movingRightToAttackingRightTransition:AddCondition('Attack', AnimatorConditionOperatorType.Equals, true)
+  attackingRightToIdleRightTransition:AddCondition('MoveRight', AnimatorConditionOperatorType.Equals, false)
+  attackingRightToMovingRightTransition:AddCondition('MoveRight', AnimatorConditionOperatorType.Equals, true)
+  idleLeftToAttackingLeftTransition:AddCondition('Attack', AnimatorConditionOperatorType.Equals, true)
+  movingLeftToAttackingLeftTransition:AddCondition('Attack', AnimatorConditionOperatorType.Equals, true)
+  attackingLeftToIdleLeftTransition:AddCondition('MoveLeft', AnimatorConditionOperatorType.Equals, false)
+  attackingLeftToMovingLeftTransition:AddCondition('MoveLeft', AnimatorConditionOperatorType.Equals, true)
   
   self.rooms = {}
   self.currentRoom = Room(self.player)
