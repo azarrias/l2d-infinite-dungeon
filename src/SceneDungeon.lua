@@ -200,9 +200,20 @@ function SceneDungeon:CreateEntity(entityType)
   local posX = math.random(MAP_RENDER_OFFSET.x + TILE_SIZE + 8, MAP_RENDER_OFFSET.x + MAP_SIZE.x * TILE_SIZE - TILE_SIZE - 8)
   local posY = math.random(MAP_RENDER_OFFSET.y + TILE_SIZE + 8, MAP_RENDER_OFFSET.y + MAP_SIZE.y * TILE_SIZE - TILE_SIZE - 8)
   local entity = Entity(posX, posY)
+  local entitySprite
   
   -- sprite component
-  local entitySprite = Sprite(TEXTURES['entities'], FRAMES['skeleton-walk-down'][2])
+  if entityType == 'skeleton' then
+    entitySprite = Sprite(TEXTURES['entities'], FRAMES['skeleton-move-down'][2])
+  elseif entityType == 'slime' then
+    entitySprite = Sprite(TEXTURES['entities'], FRAMES['slime-move-down'][2])
+  elseif entityType == 'bat' then
+    entitySprite = Sprite(TEXTURES['entities'], FRAMES['bat-move-down'][2])
+  elseif entityType == 'ghost' then
+    entitySprite = Sprite(TEXTURES['entities'], FRAMES['ghost-move-down'][2])
+  elseif entityType == 'spider' then
+    entitySprite = Sprite(TEXTURES['entities'], FRAMES['spider-move-down'][2])
+  end
   entity:AddComponent(entitySprite)
 
   return entity

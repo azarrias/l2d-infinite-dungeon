@@ -78,10 +78,26 @@ FRAMES = {
   ['player-attack-right'] = GenerateQuads(TEXTURES['player'], 1, 4, PLAYER_ATTACK_SIZE, Vector2D(0, 192)),
   ['player-attack-left'] = GenerateQuads(TEXTURES['player'], 1, 4, PLAYER_ATTACK_SIZE, Vector2D(0, 224)),
   ['tiles'] = GenerateAllQuads(TEXTURES['tiles'], TILE_SIZE, TILE_SIZE),
-  ['skeleton-walk-down'] = GenerateQuads(TEXTURES['entities'], 1, 3, ENTITY_SIZE, Vector2D(144, 0)),
-  ['skeleton-walk-left'] = GenerateQuads(TEXTURES['entities'], 1, 3, ENTITY_SIZE, Vector2D(144, 16)),
-  ['skeleton-walk-right'] = GenerateQuads(TEXTURES['entities'], 1, 3, ENTITY_SIZE, Vector2D(144, 32)),
-  ['skeleton-walk-up'] = GenerateQuads(TEXTURES['entities'], 1, 3, ENTITY_SIZE, Vector2D(144, 48))
+  ['skeleton-move-down'] = GenerateQuads(TEXTURES['entities'], 1, 3, ENTITY_SIZE, Vector2D(144, 0)),
+  ['skeleton-move-left'] = GenerateQuads(TEXTURES['entities'], 1, 3, ENTITY_SIZE, Vector2D(144, 16)),
+  ['skeleton-move-right'] = GenerateQuads(TEXTURES['entities'], 1, 3, ENTITY_SIZE, Vector2D(144, 32)),
+  ['skeleton-move-up'] = GenerateQuads(TEXTURES['entities'], 1, 3, ENTITY_SIZE, Vector2D(144, 48)),
+  ['slime-move-down'] = GenerateQuads(TEXTURES['entities'], 1, 3, ENTITY_SIZE, Vector2D(0, 64)),
+  ['slime-move-left'] = GenerateQuads(TEXTURES['entities'], 1, 3, ENTITY_SIZE, Vector2D(0, 80)),
+  ['slime-move-right'] = GenerateQuads(TEXTURES['entities'], 1, 3, ENTITY_SIZE, Vector2D(0, 96)),
+  ['slime-move-up'] = GenerateQuads(TEXTURES['entities'], 1, 3, ENTITY_SIZE, Vector2D(0, 112)),
+  ['bat-move-down'] = GenerateQuads(TEXTURES['entities'], 1, 3, ENTITY_SIZE, Vector2D(48, 64)),
+  ['bat-move-left'] = GenerateQuads(TEXTURES['entities'], 1, 3, ENTITY_SIZE, Vector2D(48, 80)),
+  ['bat-move-right'] = GenerateQuads(TEXTURES['entities'], 1, 3, ENTITY_SIZE, Vector2D(48, 96)),
+  ['bat-move-up'] = GenerateQuads(TEXTURES['entities'], 1, 3, ENTITY_SIZE, Vector2D(48, 112)),
+  ['ghost-move-down'] = GenerateQuads(TEXTURES['entities'], 1, 3, ENTITY_SIZE, Vector2D(96, 64)),
+  ['ghost-move-left'] = GenerateQuads(TEXTURES['entities'], 1, 3, ENTITY_SIZE, Vector2D(96, 80)),
+  ['ghost-move-right'] = GenerateQuads(TEXTURES['entities'], 1, 3, ENTITY_SIZE, Vector2D(96, 96)),
+  ['ghost-move-up'] = GenerateQuads(TEXTURES['entities'], 1, 3, ENTITY_SIZE, Vector2D(96, 112)),
+  ['spider-move-down'] = GenerateQuads(TEXTURES['entities'], 1, 3, ENTITY_SIZE, Vector2D(144, 64)),
+  ['spider-move-left'] = GenerateQuads(TEXTURES['entities'], 1, 3, ENTITY_SIZE, Vector2D(144, 80)),
+  ['spider-move-right'] = GenerateQuads(TEXTURES['entities'], 1, 3, ENTITY_SIZE, Vector2D(144, 96)),
+  ['spider-move-up'] = GenerateQuads(TEXTURES['entities'], 1, 3, ENTITY_SIZE, Vector2D(144, 112))
 }
 
 -- tile IDs
