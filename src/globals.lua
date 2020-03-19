@@ -45,6 +45,7 @@ VIRTUAL_SIZE = Vector2D(384, 216)
 TILE_SIZE = 16
 PLAYER_WALK_SIZE = Vector2D(16, 32)
 PLAYER_ATTACK_SIZE = Vector2D(32, 32)
+ENTITY_SIZE = Vector2D(16, 16)
 
 -- room tile map number of tiles
 MAP_SIZE = (VIRTUAL_SIZE / TILE_SIZE - Vector2D(2, 2)):Floor()
@@ -76,7 +77,11 @@ FRAMES = {
   ['player-attack-up'] = GenerateQuads(TEXTURES['player'], 1, 4, PLAYER_ATTACK_SIZE, Vector2D(0, 160)),
   ['player-attack-right'] = GenerateQuads(TEXTURES['player'], 1, 4, PLAYER_ATTACK_SIZE, Vector2D(0, 192)),
   ['player-attack-left'] = GenerateQuads(TEXTURES['player'], 1, 4, PLAYER_ATTACK_SIZE, Vector2D(0, 224)),
-  ['tiles'] = GenerateAllQuads(TEXTURES['tiles'], TILE_SIZE, TILE_SIZE)
+  ['tiles'] = GenerateAllQuads(TEXTURES['tiles'], TILE_SIZE, TILE_SIZE),
+  ['skeleton-walk-down'] = GenerateQuads(TEXTURES['entities'], 1, 3, ENTITY_SIZE, Vector2D(144, 0)),
+  ['skeleton-walk-left'] = GenerateQuads(TEXTURES['entities'], 1, 3, ENTITY_SIZE, Vector2D(144, 16)),
+  ['skeleton-walk-right'] = GenerateQuads(TEXTURES['entities'], 1, 3, ENTITY_SIZE, Vector2D(144, 32)),
+  ['skeleton-walk-up'] = GenerateQuads(TEXTURES['entities'], 1, 3, ENTITY_SIZE, Vector2D(144, 48))
 }
 
 -- tile IDs

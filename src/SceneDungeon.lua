@@ -2,6 +2,7 @@ SceneDungeon = Class{__includes = Scene}
 
 function SceneDungeon:init()
   self.player = self:CreatePlayer()
+  self.entities = self:GenerateEntities()
   
   self.rooms = {}
   self.currentRoom = Room(self.player)
@@ -9,11 +10,17 @@ end
 
 function SceneDungeon:update(dt)
   self.player:update(dt)
+  for k, entity in pairs(self.entities) do
+    entity:update(dt)
+  end
 end
 
 function SceneDungeon:render()
   self.currentRoom:render()
   self.player:render()
+  for k, entity in pairs(self.entities) do
+    entity:render()
+  end
 end
 
 function SceneDungeon:CreatePlayer()
@@ -174,4 +181,29 @@ function SceneDungeon:CreatePlayer()
   attackingLeftToMovingLeftTransition:AddCondition('MoveLeft', AnimatorConditionOperatorType.Equals, true)
 
   return player
+end
+
+function SceneDungeon:GenerateEntities()
+  local entityTypes = {'skeleton', 'slime', 'bat', 'ghost', 'spider'}
+  local entities = {}
+  
+  for i = 1, 10 do
+    local entityType = entityTypes[math.random(#entityTypes)]
+    local entity = self:CreateEntity(entityType)
+    table.insert(entities, entity)
+  end
+  
+  return entities
+end
+
+function SceneDungeon:CreateEntity(entityType)
+  local posX = math.random(MAP_RENDER_OFFSET.x + TILE_SIZE + 8, MAP_RENDER_OFFSET.x + MAP_SIZE.x * TILE_SIZE - TILE_SIZE - 8)
+  local posY = math.random(MAP_RENDER_OFFSET.y + TILE_SIZE + 8, MAP_RENDER_OFFSET.y + MAP_SIZE.y * TILE_SIZE - TILE_SIZE - 8)
+  local entity = Entity(posX, posY)
+  
+  -- sprite component
+  local entitySprite = Sprite(TEXTURES['entities'], FRAMES['skeleton-walk-down'][2])
+  entity:AddComponent(entitySprite)
+
+  return entity
 end
