@@ -7,6 +7,7 @@ function AnimatorController:init(name)
   self.stateMachine = AnimatorStateMachine()
   self.parameters = {}
   self.animations = {}
+  self.changingState = false
 end
 
 function AnimatorController:update(dt)
@@ -15,11 +16,12 @@ function AnimatorController:update(dt)
   -- check the state machine's transitions for triggered conditions
   -- if all the conditions of a transition are met, perform the transition
   for k, transition in pairs(self.stateMachine.anyStateTransitions) do
-    if self:AreAllConditionsMet(transition) then
-      -- automatically reset triggers that have been consumed by this transaction
-      self:ResetTransitionTriggers(transition)
-      self.stateMachine.currentState = transition.destinationState
-      --print("Change to " .. transition.destinationState.name)
+    if (#self.stateMachine.currentState.animation.frames <= 1 or
+      self.stateMachine.currentState.animation.timer > transition.exitTime * self.stateMachine.currentState.animation.duration)
+      and self:AreAllConditionsMet(transition) then
+        self:ChangeState(transition)
+        self.changingState = true
+        break
     end
   end
   
@@ -27,17 +29,19 @@ function AnimatorController:update(dt)
     if (#self.stateMachine.currentState.animation.frames <= 1 or 
       self.stateMachine.currentState.animation.timer > transition.exitTime * self.stateMachine.currentState.animation.duration)
       and self:AreAllConditionsMet(transition) then
-      -- automatically reset animation and triggers and that have been consumed by this transaction
-      self.stateMachine.currentState.animation:Reset()
-      self:ResetTransitionTriggers(transition)
-      self.stateMachine.currentState = transition.destinationState
-      --print("Change to " .. transition.destinationState.name)
+        self:ChangeState(transition)
+        self.changingState = true
+        break
     end
   end
   
-  -- execute all behaviours for the current state
-  for k, behaviour in pairs(self.stateMachine.currentState.behaviours) do
-    behaviour:OnStateUpdate(dt, self)
+  -- execute update behaviour for the current state, except for its first and last frame
+  if self.changingState then
+    self.changingState = false
+  else
+    for k, behaviour in pairs(self.stateMachine.currentState.behaviours) do
+      behaviour:OnStateUpdate(dt, self)
+    end
   end
   
   -- update sprite component of the parent entity (if it exists)
@@ -96,6 +100,25 @@ function AnimatorController:AreAllConditionsMet(transition)
   end
   
   return true
+end
+
+function AnimatorController:ChangeState(transition)
+  -- automatically reset animation and triggers and that have been consumed by this transaction
+  self.stateMachine.currentState.animation:Reset()
+  self:ResetTransitionTriggers(transition)
+  
+  -- execute all exit behaviours for the source state
+  for k, behaviour in pairs(self.stateMachine.currentState.behaviours) do
+    behaviour:OnStateExit(dt, self)
+  end
+
+  self.stateMachine.currentState = transition.destinationState
+  
+  -- execute all enter behaviours for the target state
+  for k, behaviour in pairs(self.stateMachine.currentState.behaviours) do
+    behaviour:OnStateEnter(dt, self)
+  end
+  --print("Change to " .. transition.destinationState.name)
 end
 
 function AnimatorController:ResetTransitionTriggers(transition)

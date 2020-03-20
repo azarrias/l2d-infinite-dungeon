@@ -5,6 +5,12 @@ function BehaviourMovingUp:init()
   StateMachineBehaviour.init(self)
 end
 
+function BehaviourMovingUp:OnStateEnter(dt, animatorController)
+end
+
+function BehaviourMovingUp:OnStateExit(dt, animatorController)
+end
+
 function BehaviourMovingUp:OnStateUpdate(dt, animatorController)
   local entity = animatorController.parent
   local playerController = entity.components['Script']['PlayerController']

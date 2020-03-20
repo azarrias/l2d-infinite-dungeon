@@ -5,6 +5,12 @@ function BehaviourMovingLeft:init()
   StateMachineBehaviour.init(self)
 end
 
+function BehaviourMovingLeft:OnStateEnter(dt, animatorController)
+end
+
+function BehaviourMovingLeft:OnStateExit(dt, animatorController)
+end
+
 function BehaviourMovingLeft:OnStateUpdate(dt, animatorController)
   local entity = animatorController.parent
   local playerController = entity.components['Script']['PlayerController']

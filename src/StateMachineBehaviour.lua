@@ -4,10 +4,14 @@ function StateMachineBehaviour:init()
 
 end
 
-function StateMachineBehaviour:OnStateEnter()
+function StateMachineBehaviour:OnStateEnter(dt, animatorController)
   
 end
 
-function StateMachineBehaviour:OnStateUpdate(animatorController)
+function StateMachineBehaviour:OnStateExit(dt, animatorController)
+  
+end
+
+function StateMachineBehaviour:OnStateUpdate(dt, animatorController)
   
 end
