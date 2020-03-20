@@ -19,7 +19,7 @@ function AnimatorController:update(dt)
       -- automatically reset triggers that have been consumed by this transaction
       self:ResetTransitionTriggers(transition)
       self.stateMachine.currentState = transition.destinationState
-      print("Change to " .. transition.destinationState.name)
+      --print("Change to " .. transition.destinationState.name)
     end
   end
   
@@ -31,7 +31,7 @@ function AnimatorController:update(dt)
       self.stateMachine.currentState.animation:Reset()
       self:ResetTransitionTriggers(transition)
       self.stateMachine.currentState = transition.destinationState
-      print("Change to " .. transition.destinationState.name)
+      --print("Change to " .. transition.destinationState.name)
     end
   end
   

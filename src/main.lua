@@ -10,6 +10,8 @@ function love.load()
     end
     io.stdout:setvbuf("no")
   end
+  
+  math.randomseed(os.time())
 
   -- use nearest-neighbor (point) filtering on upscaling and downscaling to prevent blurring of text and 
   -- graphics instead of the bilinear filter that is applied by default 
