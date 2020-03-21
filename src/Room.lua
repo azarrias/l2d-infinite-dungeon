@@ -3,7 +3,7 @@ Room = Class{}
 function Room:init(player)
   self.size = MAP_SIZE
   self.tiles = {}
-  self.entities = {}
+  self.entities = self:GenerateEntities()
   self.objects = {}
   self.player = player
   self.renderOffset = MAP_RENDER_OFFSET
@@ -12,7 +12,9 @@ function Room:init(player)
 end
 
 function Room:update(dt)
-
+  for k, entity in pairs(self.entities) do
+    entity:update(dt)
+  end
 end
 
 function Room:render()
@@ -24,6 +26,146 @@ function Room:render()
         (y - 1) * TILE_SIZE + self.renderOffset.y)
     end
   end
+  
+  for k, entity in pairs(self.entities) do
+    entity:render()
+  end
+end
+
+function Room:CreateEntity(entityType)
+  local posX = math.random(MAP_RENDER_OFFSET.x + TILE_SIZE + 8, MAP_RENDER_OFFSET.x + MAP_SIZE.x * TILE_SIZE - TILE_SIZE - 8)
+  local posY = math.random(MAP_RENDER_OFFSET.y + TILE_SIZE + 8, MAP_RENDER_OFFSET.y + MAP_SIZE.y * TILE_SIZE - TILE_SIZE - 8)
+  local entity = Entity(posX, posY)
+  local entitySprite
+  
+  -- sprite component
+  if entityType == 'skeleton' then
+    entitySprite = Sprite(TEXTURES['entities'], FRAMES['skeleton-move-down'][2])
+  elseif entityType == 'slime' then
+    entitySprite = Sprite(TEXTURES['entities'], FRAMES['slime-move-down'][2])
+  elseif entityType == 'bat' then
+    entitySprite = Sprite(TEXTURES['entities'], FRAMES['bat-move-down'][2])
+  elseif entityType == 'ghost' then
+    entitySprite = Sprite(TEXTURES['entities'], FRAMES['ghost-move-down'][2])
+  elseif entityType == 'spider' then
+    entitySprite = Sprite(TEXTURES['entities'], FRAMES['spider-move-down'][2])
+  end
+  entitySprite = Sprite(TEXTURES['entities'], FRAMES[entityType .. '-move-down'][2])
+  entity:AddComponent(entitySprite)
+  
+  entity:AddScript('EntityController')
+  
+  -- create animator controller and setup parameters
+  local entityAnimatorController = AnimatorController('EntityAnimatorController')
+  entity:AddComponent(entityAnimatorController)
+  entityAnimatorController:AddParameter('MoveDown', AnimatorControllerParameterType.Bool)
+  entityAnimatorController:AddParameter('MoveUp', AnimatorControllerParameterType.Bool)
+  entityAnimatorController:AddParameter('MoveLeft', AnimatorControllerParameterType.Bool)
+  entityAnimatorController:AddParameter('MoveRight', AnimatorControllerParameterType.Bool)
+  
+  -- create state machine states (first state to be created will be the default state)
+  local stateIdleDown = entityAnimatorController:AddAnimation('IdleDown')
+  local stateIdleUp = entityAnimatorController:AddAnimation('IdleUp')
+  local stateIdleLeft = entityAnimatorController:AddAnimation('IdleLeft')
+  local stateIdleRight = entityAnimatorController:AddAnimation('IdleRight')
+  local stateMovingDown = entityAnimatorController:AddAnimation('MovingDown')
+  local stateMovingUp = entityAnimatorController:AddAnimation('MovingUp')
+  local stateMovingLeft = entityAnimatorController:AddAnimation('MovingLeft')
+  local stateMovingRight = entityAnimatorController:AddAnimation('MovingRight')
+  
+  stateIdleDown.animation:AddFrame(TEXTURES['entities'], FRAMES[entityType .. '-move-down'][2])
+  stateIdleUp.animation:AddFrame(TEXTURES['entities'], FRAMES[entityType .. '-move-up'][2])
+  stateIdleLeft.animation:AddFrame(TEXTURES['entities'], FRAMES[entityType .. '-move-left'][2])
+  stateIdleRight.animation:AddFrame(TEXTURES['entities'], FRAMES[entityType .. '-move-right'][2])
+
+  stateMovingDown.animation:AddFrame(TEXTURES['entities'], FRAMES[entityType .. '-move-down'][1], 0.3)
+  stateMovingDown.animation:AddFrame(TEXTURES['entities'], FRAMES[entityType .. '-move-down'][2], 0.3)
+  stateMovingDown.animation:AddFrame(TEXTURES['entities'], FRAMES[entityType .. '-move-down'][3], 0.3)
+  stateMovingDown.animation:AddFrame(TEXTURES['entities'], FRAMES[entityType .. '-move-down'][2], 0.3)
+
+  stateMovingUp.animation:AddFrame(TEXTURES['entities'], FRAMES[entityType .. '-move-up'][1], 0.3)
+  stateMovingUp.animation:AddFrame(TEXTURES['entities'], FRAMES[entityType .. '-move-up'][2], 0.3)
+  stateMovingUp.animation:AddFrame(TEXTURES['entities'], FRAMES[entityType .. '-move-up'][3], 0.3)
+  stateMovingUp.animation:AddFrame(TEXTURES['entities'], FRAMES[entityType .. '-move-up'][2], 0.3)
+
+  stateMovingLeft.animation:AddFrame(TEXTURES['entities'], FRAMES[entityType .. '-move-left'][1], 0.3)
+  stateMovingLeft.animation:AddFrame(TEXTURES['entities'], FRAMES[entityType .. '-move-left'][2], 0.3)
+  stateMovingLeft.animation:AddFrame(TEXTURES['entities'], FRAMES[entityType .. '-move-left'][3], 0.3)
+  stateMovingLeft.animation:AddFrame(TEXTURES['entities'], FRAMES[entityType .. '-move-left'][2], 0.3)
+
+  stateMovingRight.animation:AddFrame(TEXTURES['entities'], FRAMES[entityType .. '-move-right'][1], 0.3)
+  stateMovingRight.animation:AddFrame(TEXTURES['entities'], FRAMES[entityType .. '-move-right'][2], 0.3)
+  stateMovingRight.animation:AddFrame(TEXTURES['entities'], FRAMES[entityType .. '-move-right'][3], 0.3)
+  stateMovingRight.animation:AddFrame(TEXTURES['entities'], FRAMES[entityType .. '-move-right'][2], 0.3)
+  
+  -- animation states behaviours
+  stateIdleDown:AddStateMachineBehaviour('BehaviourEntityIdle')
+  stateIdleUp:AddStateMachineBehaviour('BehaviourEntityIdle')
+  stateIdleLeft:AddStateMachineBehaviour('BehaviourEntityIdle')
+  stateIdleRight:AddStateMachineBehaviour('BehaviourEntityIdle')
+  stateMovingLeft:AddStateMachineBehaviour('BehaviourEntityMovingLeft')
+  stateMovingRight:AddStateMachineBehaviour('BehaviourEntityMovingRight')
+  stateMovingUp:AddStateMachineBehaviour('BehaviourEntityMovingUp')
+  stateMovingDown:AddStateMachineBehaviour('BehaviourEntityMovingDown')
+  
+  -- transitions
+  local idleDownToMovingDownTransition = entityAnimatorController.stateMachine.states[stateIdleDown.name]:AddTransition(stateMovingDown)
+  local idleUpToMovingDownTransition = entityAnimatorController.stateMachine.states[stateIdleUp.name]:AddTransition(stateMovingDown)
+  local idleLeftToMovingDownTransition = entityAnimatorController.stateMachine.states[stateIdleLeft.name]:AddTransition(stateMovingDown)
+  local idleRightToMovingDownTransition = entityAnimatorController.stateMachine.states[stateIdleRight.name]:AddTransition(stateMovingDown)
+  local idleDownToMovingUpTransition = entityAnimatorController.stateMachine.states[stateIdleDown.name]:AddTransition(stateMovingUp)
+  local idleUpToMovingUpTransition = entityAnimatorController.stateMachine.states[stateIdleUp.name]:AddTransition(stateMovingUp)
+  local idleLeftToMovingUpTransition = entityAnimatorController.stateMachine.states[stateIdleLeft.name]:AddTransition(stateMovingUp)
+  local idleRightToMovingUpTransition = entityAnimatorController.stateMachine.states[stateIdleRight.name]:AddTransition(stateMovingUp)
+  local idleDownToMovingLeftTransition = entityAnimatorController.stateMachine.states[stateIdleDown.name]:AddTransition(stateMovingLeft)
+  local idleUpToMovingLeftTransition = entityAnimatorController.stateMachine.states[stateIdleUp.name]:AddTransition(stateMovingLeft)
+  local idleLeftToMovingLeftTransition = entityAnimatorController.stateMachine.states[stateIdleLeft.name]:AddTransition(stateMovingLeft)
+  local idleRightToMovingLeftTransition = entityAnimatorController.stateMachine.states[stateIdleRight.name]:AddTransition(stateMovingLeft)
+  local idleDownToMovingRightTransition = entityAnimatorController.stateMachine.states[stateIdleDown.name]:AddTransition(stateMovingRight)
+  local idleUpToMovingRightTransition = entityAnimatorController.stateMachine.states[stateIdleUp.name]:AddTransition(stateMovingRight)
+  local idleLeftToMovingRightTransition = entityAnimatorController.stateMachine.states[stateIdleLeft.name]:AddTransition(stateMovingRight)
+  local idleRightToMovingRightTransition = entityAnimatorController.stateMachine.states[stateIdleRight.name]:AddTransition(stateMovingRight)
+  local movingDownToIdleDownTransition = entityAnimatorController.stateMachine.states[stateMovingDown.name]:AddTransition(stateIdleDown)
+  local movingUpToIdleUpTransition = entityAnimatorController.stateMachine.states[stateMovingUp.name]:AddTransition(stateIdleUp)
+  local movingLeftToIdleLeftTransition = entityAnimatorController.stateMachine.states[stateMovingLeft.name]:AddTransition(stateIdleLeft)
+  local movingRightToIdleRightTransition = entityAnimatorController.stateMachine.states[stateMovingRight.name]:AddTransition(stateIdleRight)
+
+  -- transition conditions
+  idleDownToMovingDownTransition:AddCondition('MoveDown', AnimatorConditionOperatorType.Equals, true)
+  idleUpToMovingDownTransition:AddCondition('MoveDown', AnimatorConditionOperatorType.Equals, true)
+  idleLeftToMovingDownTransition:AddCondition('MoveDown', AnimatorConditionOperatorType.Equals, true)
+  idleRightToMovingDownTransition:AddCondition('MoveDown', AnimatorConditionOperatorType.Equals, true)
+  idleDownToMovingUpTransition:AddCondition('MoveUp', AnimatorConditionOperatorType.Equals, true)
+  idleUpToMovingUpTransition:AddCondition('MoveUp', AnimatorConditionOperatorType.Equals, true)
+  idleLeftToMovingUpTransition:AddCondition('MoveUp', AnimatorConditionOperatorType.Equals, true)
+  idleRightToMovingUpTransition:AddCondition('MoveUp', AnimatorConditionOperatorType.Equals, true)
+  idleDownToMovingLeftTransition:AddCondition('MoveLeft', AnimatorConditionOperatorType.Equals, true)
+  idleUpToMovingLeftTransition:AddCondition('MoveLeft', AnimatorConditionOperatorType.Equals, true)
+  idleLeftToMovingLeftTransition:AddCondition('MoveLeft', AnimatorConditionOperatorType.Equals, true)
+  idleRightToMovingLeftTransition:AddCondition('MoveLeft', AnimatorConditionOperatorType.Equals, true)
+  idleDownToMovingRightTransition:AddCondition('MoveRight', AnimatorConditionOperatorType.Equals, true)
+  idleUpToMovingRightTransition:AddCondition('MoveRight', AnimatorConditionOperatorType.Equals, true)
+  idleLeftToMovingRightTransition:AddCondition('MoveRight', AnimatorConditionOperatorType.Equals, true)
+  idleRightToMovingRightTransition:AddCondition('MoveRight', AnimatorConditionOperatorType.Equals, true)
+  movingDownToIdleDownTransition:AddCondition('MoveDown', AnimatorConditionOperatorType.Equals, false)
+  movingUpToIdleUpTransition:AddCondition('MoveUp', AnimatorConditionOperatorType.Equals, false)
+  movingLeftToIdleLeftTransition:AddCondition('MoveLeft', AnimatorConditionOperatorType.Equals, false)
+  movingRightToIdleRightTransition:AddCondition('MoveRight', AnimatorConditionOperatorType.Equals, false)
+
+  return entity
+end
+
+function Room:GenerateEntities()
+  local entityTypes = {'skeleton', 'slime', 'bat', 'ghost', 'spider'}
+  local entities = {}
+  
+  for i = 1, 10 do
+    local entityType = entityTypes[math.random(#entityTypes)]
+    local entity = self:CreateEntity(entityType)
+    table.insert(entities, entity)
+  end
+  
+  return entities
 end
 
 function Room:GenerateTileset()
