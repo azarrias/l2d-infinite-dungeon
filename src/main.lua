@@ -1,7 +1,6 @@
 require 'globals'
 
 local FONT_SIZE = 16
-local DEBUG_MODE = true
 
 function love.load()
   if DEBUG_MODE then

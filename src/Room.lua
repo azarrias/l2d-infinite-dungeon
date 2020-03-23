@@ -155,6 +155,14 @@ function Room:CreateEntity(entityType)
   movingLeftToIdleLeftTransition:AddCondition('MoveLeft', AnimatorConditionOperatorType.Equals, false)
   movingRightToIdleRightTransition:AddCondition('MoveRight', AnimatorConditionOperatorType.Equals, false)
 
+  -- add collider
+  local collider = Collider {
+    center = Vector2D(0, 0),
+    size = ENTITY_SIZE
+  }
+  
+  entity:AddComponent(collider)
+
   return entity
 end
 
