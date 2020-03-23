@@ -156,11 +156,18 @@ function Room:CreateEntity(entityType)
   movingRightToIdleRightTransition:AddCondition('MoveRight', AnimatorConditionOperatorType.Equals, false)
 
   -- add collider
-  local collider = Collider {
-    center = Vector2D(0, 0),
-    size = ENTITY_SIZE
-  }
-  
+  local collider
+  if entityType == 'skeleton' then
+    collider = Collider { center = Vector2D(0, 1), size = ENTITY_SIZE - Vector2D(8, 1) }
+  elseif entityType == 'slime' then
+    collider = Collider { center = Vector2D(0, 2), size = ENTITY_SIZE - Vector2D(2, 6) }
+  elseif entityType == 'bat' then
+    collider = Collider { center = Vector2D(0, -2), size = ENTITY_SIZE - Vector2D(6, 6) }
+  elseif entityType == 'ghost' then
+    collider = Collider { center = Vector2D(0, -1), size = ENTITY_SIZE - Vector2D(6, 4) }
+  elseif entityType == 'spider' then
+    collider = Collider { center = Vector2D(0, 3), size = ENTITY_SIZE - Vector2D(6, 6) }
+  end
   entity:AddComponent(collider)
 
   return entity
