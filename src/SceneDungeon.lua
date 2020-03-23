@@ -174,5 +174,9 @@ function SceneDungeon:CreatePlayer()
   attackingLeftToIdleLeftTransition:AddCondition('MoveLeft', AnimatorConditionOperatorType.Equals, false)
   attackingLeftToMovingLeftTransition:AddCondition('MoveLeft', AnimatorConditionOperatorType.Equals, true)
 
+  -- add collider
+  local collider = Collider { center = Vector2D(0, 1), size = PLAYER_WALK_SIZE - Vector2D(8, 12) }
+  player:AddComponent(collider)
+
   return player
 end
