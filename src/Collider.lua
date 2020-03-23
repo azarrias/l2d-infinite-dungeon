@@ -17,8 +17,8 @@ function Collider:render()
   love.graphics.setColor(1, 0.6, 0.6, 0.7)
   love.graphics.rectangle(
     'fill', 
-    math.floor(self.parent.position.x + self.center.x - self.size.x / 2), 
-    math.floor(self.parent.position.y + self.center.y - self.size.y / 2), 
+    math.floor(self.parent.position.x + self.center.x - math.floor(self.size.x / 2)), 
+    math.floor(self.parent.position.y + self.center.y - math.floor(self.size.y / 2)), 
     self.size.x, 
     self.size.y
   )

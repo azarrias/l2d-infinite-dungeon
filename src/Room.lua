@@ -56,7 +56,25 @@ function Room:CreateEntity(entityType)
   entitySprite = Sprite(TEXTURES['entities'], FRAMES[entityType .. '-move-down'][2])
   entity:AddComponent(entitySprite)
   
-  entity:AddScript('EntityController')
+  -- setup entity speed depending on its type
+  local speedSkeleton = 25
+  local speedSlime = 35
+  local speedBat = 45
+  local speedGhost = 50
+  local speedSpider = 60
+  
+  entityController = entity:AddScript('EntityController')
+  if entityType == 'skeleton' then
+    entityController.speed = math.random() + math.random(4) + speedSkeleton
+  elseif entityType == 'slime' then
+    entityController.speed = math.random() + math.random(4) + speedSlime
+  elseif entityType == 'bat' then
+    entityController.speed = math.random() + math.random(4) + speedBat
+  elseif entityType == 'ghost' then
+    entityController.speed = math.random() + math.random(4) + speedGhost
+  elseif entityType == 'spider' then
+    entityController.speed = math.random() + math.random(4) + speedSpider
+  end
   
   -- create animator controller and setup parameters
   local entityAnimatorController = AnimatorController('EntityAnimatorController')
@@ -76,30 +94,32 @@ function Room:CreateEntity(entityType)
   local stateMovingLeft = entityAnimatorController:AddAnimation('MovingLeft')
   local stateMovingRight = entityAnimatorController:AddAnimation('MovingRight')
   
+  local movingFrameDuration = 0.3
+  
   stateIdleDown.animation:AddFrame(TEXTURES['entities'], FRAMES[entityType .. '-move-down'][2])
   stateIdleUp.animation:AddFrame(TEXTURES['entities'], FRAMES[entityType .. '-move-up'][2])
   stateIdleLeft.animation:AddFrame(TEXTURES['entities'], FRAMES[entityType .. '-move-left'][2])
   stateIdleRight.animation:AddFrame(TEXTURES['entities'], FRAMES[entityType .. '-move-right'][2])
 
-  stateMovingDown.animation:AddFrame(TEXTURES['entities'], FRAMES[entityType .. '-move-down'][1], 0.3)
-  stateMovingDown.animation:AddFrame(TEXTURES['entities'], FRAMES[entityType .. '-move-down'][2], 0.3)
-  stateMovingDown.animation:AddFrame(TEXTURES['entities'], FRAMES[entityType .. '-move-down'][3], 0.3)
-  stateMovingDown.animation:AddFrame(TEXTURES['entities'], FRAMES[entityType .. '-move-down'][2], 0.3)
+  stateMovingDown.animation:AddFrame(TEXTURES['entities'], FRAMES[entityType .. '-move-down'][1], movingFrameDuration)
+  stateMovingDown.animation:AddFrame(TEXTURES['entities'], FRAMES[entityType .. '-move-down'][2], movingFrameDuration)
+  stateMovingDown.animation:AddFrame(TEXTURES['entities'], FRAMES[entityType .. '-move-down'][3], movingFrameDuration)
+  stateMovingDown.animation:AddFrame(TEXTURES['entities'], FRAMES[entityType .. '-move-down'][2], movingFrameDuration)
 
-  stateMovingUp.animation:AddFrame(TEXTURES['entities'], FRAMES[entityType .. '-move-up'][1], 0.3)
-  stateMovingUp.animation:AddFrame(TEXTURES['entities'], FRAMES[entityType .. '-move-up'][2], 0.3)
-  stateMovingUp.animation:AddFrame(TEXTURES['entities'], FRAMES[entityType .. '-move-up'][3], 0.3)
-  stateMovingUp.animation:AddFrame(TEXTURES['entities'], FRAMES[entityType .. '-move-up'][2], 0.3)
+  stateMovingUp.animation:AddFrame(TEXTURES['entities'], FRAMES[entityType .. '-move-up'][1], movingFrameDuration)
+  stateMovingUp.animation:AddFrame(TEXTURES['entities'], FRAMES[entityType .. '-move-up'][2], movingFrameDuration)
+  stateMovingUp.animation:AddFrame(TEXTURES['entities'], FRAMES[entityType .. '-move-up'][3], movingFrameDuration)
+  stateMovingUp.animation:AddFrame(TEXTURES['entities'], FRAMES[entityType .. '-move-up'][2], movingFrameDuration)
 
-  stateMovingLeft.animation:AddFrame(TEXTURES['entities'], FRAMES[entityType .. '-move-left'][1], 0.3)
-  stateMovingLeft.animation:AddFrame(TEXTURES['entities'], FRAMES[entityType .. '-move-left'][2], 0.3)
-  stateMovingLeft.animation:AddFrame(TEXTURES['entities'], FRAMES[entityType .. '-move-left'][3], 0.3)
-  stateMovingLeft.animation:AddFrame(TEXTURES['entities'], FRAMES[entityType .. '-move-left'][2], 0.3)
+  stateMovingLeft.animation:AddFrame(TEXTURES['entities'], FRAMES[entityType .. '-move-left'][1], movingFrameDuration)
+  stateMovingLeft.animation:AddFrame(TEXTURES['entities'], FRAMES[entityType .. '-move-left'][2], movingFrameDuration)
+  stateMovingLeft.animation:AddFrame(TEXTURES['entities'], FRAMES[entityType .. '-move-left'][3], movingFrameDuration)
+  stateMovingLeft.animation:AddFrame(TEXTURES['entities'], FRAMES[entityType .. '-move-left'][2], movingFrameDuration)
 
-  stateMovingRight.animation:AddFrame(TEXTURES['entities'], FRAMES[entityType .. '-move-right'][1], 0.3)
-  stateMovingRight.animation:AddFrame(TEXTURES['entities'], FRAMES[entityType .. '-move-right'][2], 0.3)
-  stateMovingRight.animation:AddFrame(TEXTURES['entities'], FRAMES[entityType .. '-move-right'][3], 0.3)
-  stateMovingRight.animation:AddFrame(TEXTURES['entities'], FRAMES[entityType .. '-move-right'][2], 0.3)
+  stateMovingRight.animation:AddFrame(TEXTURES['entities'], FRAMES[entityType .. '-move-right'][1], movingFrameDuration)
+  stateMovingRight.animation:AddFrame(TEXTURES['entities'], FRAMES[entityType .. '-move-right'][2], movingFrameDuration)
+  stateMovingRight.animation:AddFrame(TEXTURES['entities'], FRAMES[entityType .. '-move-right'][3], movingFrameDuration)
+  stateMovingRight.animation:AddFrame(TEXTURES['entities'], FRAMES[entityType .. '-move-right'][2], movingFrameDuration)
   
   -- animation states behaviours
   stateIdleDown:AddStateMachineBehaviour('BehaviourEntityIdle')

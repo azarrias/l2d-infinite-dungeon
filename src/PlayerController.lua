@@ -2,7 +2,7 @@ PlayerController = Class{__includes = Script}
 
 function PlayerController:init()
   Script.init(self, 'PlayerController')
-  self.speed = 110
+  self.speed = 80
 end
 
 function PlayerController:update(dt)

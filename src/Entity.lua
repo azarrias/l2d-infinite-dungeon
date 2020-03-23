@@ -47,6 +47,8 @@ function Entity:AddComponent(component)
   else
     self.components[component.componentType][component.name] = component
   end
+  
+  return component
 end
 
 function Entity:AddScript(scriptName)
@@ -55,6 +57,7 @@ function Entity:AddScript(scriptName)
   if f then
     local script = f()
     self:AddComponent(script)
+    return script
   else
     error("Object '"..scriptName.."' does not exist or is not accessible.")
   end
@@ -66,6 +69,7 @@ function AnimatorState:AddStateMachineBehaviour(behaviourName)
   if f then
     local behaviour = f()
     self.behaviours[behaviourName] = behaviour
+    return behaviour
   else
     error("Object '"..behaviourName.."' does not exist or is not accessible.")
   end

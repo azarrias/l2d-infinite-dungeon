@@ -20,7 +20,6 @@ end
 function BehaviourEntityMovingUp:OnStateExit(dt, animatorController)
 end
 
-
 function BehaviourEntityMovingUp:OnStateUpdate(dt, animatorController)
   local entity = animatorController.parent
   local entityController = entity.components['Script']['EntityController']
@@ -36,7 +35,7 @@ function BehaviourEntityMovingUp:OnStateUpdate(dt, animatorController)
   
   self.movementTimer = self.movementTimer + dt
 
-  entity.position.y = entity.position.y - math.floor(entityController.speed * dt)
+  entity.position.y = entity.position.y - entityController.speed * dt
   if entity.position.y - 8 <= self.bounds then
     entity.position.y = self.bounds + 8
     self.bumped = true
