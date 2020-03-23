@@ -21,6 +21,7 @@ require 'BehaviourMovingLeft'
 require 'BehaviourMovingRight'
 require 'BehaviourMovingUp'
 require 'Component'
+require 'Doorway'
 require 'Entity'
 require 'EntityController'
 require 'PlayerController'
@@ -103,7 +104,15 @@ FRAMES = {
   ['spider-move-down'] = GenerateQuads(TEXTURES['entities'], 1, 3, ENTITY_SIZE, Vector2D(144, 64)),
   ['spider-move-left'] = GenerateQuads(TEXTURES['entities'], 1, 3, ENTITY_SIZE, Vector2D(144, 80)),
   ['spider-move-right'] = GenerateQuads(TEXTURES['entities'], 1, 3, ENTITY_SIZE, Vector2D(144, 96)),
-  ['spider-move-up'] = GenerateQuads(TEXTURES['entities'], 1, 3, ENTITY_SIZE, Vector2D(144, 112))
+  ['spider-move-up'] = GenerateQuads(TEXTURES['entities'], 1, 3, ENTITY_SIZE, Vector2D(144, 112)),
+  ['door-open-left'] = GenerateQuads(TEXTURES['tiles'], 2, 2, Vector2D(TILE_SIZE, TILE_SIZE), Vector2D(144, 144)),
+  ['door-closed-left'] = GenerateQuads(TEXTURES['tiles'], 2, 2, Vector2D(TILE_SIZE, TILE_SIZE), Vector2D(144, 176)),
+  ['door-open-right'] = GenerateQuads(TEXTURES['tiles'], 2, 2, Vector2D(TILE_SIZE, TILE_SIZE), Vector2D(0, 144)),
+  ['door-closed-right'] = GenerateQuads(TEXTURES['tiles'], 2, 2, Vector2D(TILE_SIZE, TILE_SIZE), Vector2D(32, 144)),
+  ['door-open-top'] = GenerateQuads(TEXTURES['tiles'], 2, 2, Vector2D(TILE_SIZE, TILE_SIZE), Vector2D(32, 80)),
+  ['door-closed-top'] = GenerateQuads(TEXTURES['tiles'], 2, 2, Vector2D(TILE_SIZE, TILE_SIZE), Vector2D(0, 112)),
+  ['door-open-bottom'] = GenerateQuads(TEXTURES['tiles'], 2, 2, Vector2D(TILE_SIZE, TILE_SIZE), Vector2D(112, 80)),
+  ['door-closed-bottom'] = GenerateQuads(TEXTURES['tiles'], 2, 2, Vector2D(TILE_SIZE, TILE_SIZE), Vector2D(112, 144))
 }
 
 -- tile IDs
