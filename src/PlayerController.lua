@@ -6,7 +6,7 @@ function PlayerController:init()
 end
 
 function PlayerController:update(dt)
-  local playerAnimatorController = self.parent.components['AnimatorController']
+  local playerAnimatorController = self.entity.components['AnimatorController']
   
   local isDownDown = love.keyboard.isDown('down')
   local isDownUp = love.keyboard.isDown('up')

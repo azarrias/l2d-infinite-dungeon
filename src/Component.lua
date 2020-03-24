@@ -2,7 +2,7 @@ Component = Class{}
 
 function Component:init(parent)
   self.enabled = true
-  self.parent = nil
+  self.entity = nil
 end
 
 function Component:update(dt)

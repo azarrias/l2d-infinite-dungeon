@@ -1,9 +1,13 @@
 Entity = Class{}
 
 function Entity:init(posX, posY, rotation, scaleX, scaleY)
+  self.parent = nil
+  
+  -- transforms in local space
   self.position = Vector2D(posX, posY)
   self.rotation = rotation or 0
   self.scale = scaleX and scaleY and Vector2D(scaleX, scaleY) or Vector2D(1, 1)
+  
   self.components = {}
 end
 
@@ -32,7 +36,7 @@ function Entity:render()
 end
 
 function Entity:AddComponent(component)
-  component.parent = self
+  component.entity = self
   -- overwrite components if their type only allows one instance per entity
   if component.componentType == 'AnimatorController' or
     component.componentType == 'Sprite' then
@@ -63,14 +67,8 @@ function Entity:AddScript(scriptName)
   end
 end
 
-function AnimatorState:AddStateMachineBehaviour(behaviourName)
-  -- generates anonymous function that returns an instance of the behaviour class
-  local f = loadstring("return " .. behaviourName .. "()")
-  if f then
-    local behaviour = f()
-    self.behaviours[behaviourName] = behaviour
-    return behaviour
-  else
-    error("Object '"..behaviourName.."' does not exist or is not accessible.")
-  end
+-- Sets the parameter parent entity for this entity
+-- If the entity parameter is nil, it unparents the entity
+function Entity:SetParent(parent)
+  
 end

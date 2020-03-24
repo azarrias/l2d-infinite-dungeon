@@ -198,6 +198,7 @@ function Room:GenerateDoorways()
   local doorways = {}
   
   for k, direction in pairs(directions) do
+    local doorway
     table.insert(doorways, Doorway(direction, false))
   end
   

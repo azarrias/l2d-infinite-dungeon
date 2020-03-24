@@ -6,5 +6,5 @@ function EntityController:init()
 end
 
 function EntityController:update(dt)
-  local entityAnimatorController = self.parent.components['AnimatorController']
+  local entityAnimatorController = self.entity.components['AnimatorController']
 end

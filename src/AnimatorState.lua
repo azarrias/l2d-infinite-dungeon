@@ -19,6 +19,7 @@ function AnimatorState:AddStateMachineBehaviour(behaviourName)
   if f then
     local behaviour = f()
     self.behaviours[behaviourName] = behaviour
+    return behaviour
   else
     error("Object '"..behaviourName.."' does not exist or is not accessible.")
   end

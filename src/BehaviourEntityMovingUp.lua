@@ -21,7 +21,7 @@ function BehaviourEntityMovingUp:OnStateExit(dt, animatorController)
 end
 
 function BehaviourEntityMovingUp:OnStateUpdate(dt, animatorController)
-  local entity = animatorController.parent
+  local entity = animatorController.entity
   local entityController = entity.components['Script']['EntityController']
   
   -- if entity runs into a wall or its movement finished, it can go idle or move again

@@ -13,11 +13,11 @@ end
 
 function Sprite:render()
   local x, y, w, h = self.quad:getViewport()
-  x = math.floor(self.parent.position.x)
-  y = math.floor(self.parent.position.y)
-  local r = self.parent.rotation
-  local sx = self.parent.scale.x
-  local sy = self.parent.scale.y
+  x = math.floor(self.entity.position.x)
+  y = math.floor(self.entity.position.y)
+  local r = self.entity.rotation
+  local sx = self.entity.scale.x
+  local sy = self.entity.scale.y
   sx = sx * (self.flipX and -1 or 1)
   sy = sy * (self.flipY and -1 or 1)
   local ox = math.floor(w / 2)

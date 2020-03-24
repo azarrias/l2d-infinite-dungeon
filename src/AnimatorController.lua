@@ -45,11 +45,11 @@ function AnimatorController:update(dt)
   end
   
   -- update sprite component of the parent entity (if it exists)
-  if self.parent.components['Sprite'] then
+  if self.entity.components['Sprite'] then
     local animation = self.stateMachine.currentState.animation
     if animation then
-      self.parent.components['Sprite'].texture = animation.frames[animation.currentFrame].texture
-      self.parent.components['Sprite'].quad = animation.frames[animation.currentFrame].quad
+      self.entity.components['Sprite'].texture = animation.frames[animation.currentFrame].texture
+      self.entity.components['Sprite'].quad = animation.frames[animation.currentFrame].quad
     end
   end
 end

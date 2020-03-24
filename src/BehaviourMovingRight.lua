@@ -12,7 +12,7 @@ function BehaviourMovingRight:OnStateExit(dt, animatorController)
 end
 
 function BehaviourMovingRight:OnStateUpdate(dt, animatorController)
-  local entity = animatorController.parent
+  local entity = animatorController.entity
   local playerController = entity.components['Script']['PlayerController']
   local bounds = MAP_RENDER_OFFSET.x + MAP_SIZE.x * TILE_SIZE - TILE_SIZE
   
