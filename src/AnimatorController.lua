@@ -40,6 +40,7 @@ function AnimatorController:update(dt)
     local animation = self.stateMachine.currentState.animation
     if animation and (animation.isChangingFrames or self.changingState) then
       self.entity.components['Sprite']:SetDrawable(animation.frames[animation.currentFrame].texture, animation.frames[animation.currentFrame].quad)
+      animation.isChangingFrames = false
     end
   end
   

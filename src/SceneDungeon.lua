@@ -21,7 +21,7 @@ function SceneDungeon:CreatePlayer()
   local player = Entity(VIRTUAL_SIZE.x / 2, VIRTUAL_SIZE.y / 2)
   
   -- sprite component
-  local playerSprite = Sprite(TEXTURES['player'], FRAMES['player-walk-down'][1])
+  local playerSprite = Sprite(TEXTURES['player'], FRAMES['player-walk-up'][1])
   player:AddComponent(playerSprite)
   player:AddScript('PlayerController')
   

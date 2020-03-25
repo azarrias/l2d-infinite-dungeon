@@ -7,13 +7,12 @@ function Animation:init(name)
   self.frameTimer = 0
   self.currentFrame = 1
   self.duration = 0
-  self.isChangingFrames = false
+  self.isChangingFrames = true
 end
 
 function Animation:update(dt)
   -- no need to update if animation is only one frame
   if #self.frames > 1 then
-    self.isChangingFrames = false
     self.timer = self.timer + dt
     self.frameTimer = self.frameTimer + dt
     if self.frameTimer > self.frames[self.currentFrame].duration then
