@@ -66,9 +66,3 @@ function Entity:AddScript(scriptName)
     error("Object '"..scriptName.."' does not exist or is not accessible.")
   end
 end
-
--- Sets the parameter parent entity for this entity
--- If the entity parameter is nil, it unparents the entity
-function Entity:SetParent(parent)
-  
-end

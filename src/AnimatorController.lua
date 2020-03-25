@@ -35,21 +35,20 @@ function AnimatorController:update(dt)
     end
   end
   
+  -- update sprite component of the parent entity (if it exists and the animation is changing frames or the state machine is changing states)
+  if self.entity.components['Sprite'] then
+    local animation = self.stateMachine.currentState.animation
+    if animation and (animation.isChangingFrames or self.changingState) then
+      self.entity.components['Sprite']:SetDrawable(animation.frames[animation.currentFrame].texture, animation.frames[animation.currentFrame].quad)
+    end
+  end
+  
   -- execute update behaviour for the current state, except for its first and last frame
   if self.changingState then
     self.changingState = false
   else
     for k, behaviour in pairs(self.stateMachine.currentState.behaviours) do
       behaviour:OnStateUpdate(dt, self)
-    end
-  end
-  
-  -- update sprite component of the parent entity (if it exists)
-  if self.entity.components['Sprite'] then
-    local animation = self.stateMachine.currentState.animation
-    if animation then
-      self.entity.components['Sprite'].texture = animation.frames[animation.currentFrame].texture
-      self.entity.components['Sprite'].quad = animation.frames[animation.currentFrame].quad
     end
   end
 end

@@ -3,19 +3,21 @@ Animation = Class{}
 function Animation:init(name)
   self.name = name
   self.frames = {}
-  --self.interval = 0
   self.timer = 0
   self.frameTimer = 0
   self.currentFrame = 1
   self.duration = 0
+  self.isChangingFrames = false
 end
 
 function Animation:update(dt)
   -- no need to update if animation is only one frame
   if #self.frames > 1 then
+    self.isChangingFrames = false
     self.timer = self.timer + dt
     self.frameTimer = self.frameTimer + dt
     if self.frameTimer > self.frames[self.currentFrame].duration then
+      self.isChangingFrames = true
       self.frameTimer = self.frameTimer % self.frames[self.currentFrame].duration
       self.currentFrame = math.max(1, (self.currentFrame + 1) % (#self.frames + 1))
     end
