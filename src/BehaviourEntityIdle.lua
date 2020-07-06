@@ -1,8 +1,8 @@
-BehaviourEntityIdle = Class{__includes = StateMachineBehaviour}
+BehaviourEntityIdle = Class{__includes = tiny.StateMachineBehaviour}
 
 function BehaviourEntityIdle:init()
   self.name = 'BehaviourEntityIdle'
-  StateMachineBehaviour.init(self)
+  tiny.StateMachineBehaviour.init(self)
   
   -- used for AI waiting
   self.waitDuration = 0

@@ -1,4 +1,7 @@
-Collider = Class{__includes = Component}
+local current_folder = (...):gsub('%.Collider$', '') -- "my package path"
+local Component = require(current_folder .. '.Component')
+
+local Collider = Class{__includes = Component}
 
 function Collider:init(def)
   Component.init(self)
@@ -90,3 +93,5 @@ function Collider:collides(other)
     return true
   end
 end
+
+return Collider

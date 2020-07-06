@@ -1,4 +1,8 @@
-Sprite = Class{__includes = Component}
+local current_folder = (...):gsub('%.Sprite$', '') -- "my package path"
+local Component = require(current_folder .. '.Component')
+local Vector2D = require(current_folder .. '.Vector2D')
+
+local Sprite = Class{__includes = Component}
 
 function Sprite:init(texture, quad)
   Component.init(self)
@@ -28,3 +32,5 @@ function Sprite:SetDrawable(texture, quad)
   self.size = Vector2D(width, height)
   self.pivot = (self.size / 2):Floor()
 end
+
+return Sprite

@@ -1,4 +1,4 @@
-SceneStart = Class{__includes = Scene}
+SceneStart = Class{__includes = tiny.Scene}
 
 function SceneStart:init()
   self.text = { 

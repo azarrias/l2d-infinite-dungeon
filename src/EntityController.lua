@@ -1,7 +1,7 @@
-EntityController = Class{__includes = Script}
+EntityController = Class{__includes = tiny.Script}
 
 function EntityController:init()
-  Script.init(self, 'EntityController')
+  tiny.Script.init(self, 'EntityController')
   self.speed = nil
 end
 

@@ -1,8 +1,8 @@
-BehaviourPlayerMovingDown = Class{__includes = StateMachineBehaviour}
+BehaviourPlayerMovingDown = Class{__includes = tiny.StateMachineBehaviour}
 
 function BehaviourPlayerMovingDown:init()
   self.name = 'BehaviourPlayerMovingDown'
-  StateMachineBehaviour.init(self)
+  tiny.StateMachineBehaviour.init(self)
 end
 
 function BehaviourPlayerMovingDown:OnStateEnter(dt, animatorController)

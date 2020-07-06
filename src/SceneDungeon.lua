@@ -1,4 +1,4 @@
-SceneDungeon = Class{__includes = Scene}
+SceneDungeon = Class{__includes = tiny.Scene}
 
 function SceneDungeon:init()
   self.player = self:CreatePlayer()
@@ -18,15 +18,15 @@ function SceneDungeon:render()
 end
 
 function SceneDungeon:CreatePlayer()
-  local player = Entity(VIRTUAL_SIZE.x / 2, VIRTUAL_SIZE.y / 2)
+  local player = tiny.Entity(VIRTUAL_SIZE.x / 2, VIRTUAL_SIZE.y / 2)
   
   -- sprite component
-  local playerSprite = Sprite(TEXTURES['player'], FRAMES['player-walk-up'][1])
+  local playerSprite = tiny.Sprite(TEXTURES['player'], FRAMES['player-walk-up'][1])
   player:AddComponent(playerSprite)
   player:AddScript('PlayerController')
   
   -- create animator controller and setup parameters
-  local playerAnimatorController = AnimatorController('PlayerAnimatorController')
+  local playerAnimatorController = tiny.AnimatorController('PlayerAnimatorController')
   player:AddComponent(playerAnimatorController)
   playerAnimatorController:AddParameter('MoveDown', AnimatorControllerParameterType.Bool)
   playerAnimatorController:AddParameter('MoveUp', AnimatorControllerParameterType.Bool)
@@ -177,7 +177,7 @@ function SceneDungeon:CreatePlayer()
   attackingLeftToMovingLeftTransition:AddCondition('MoveLeft', AnimatorConditionOperatorType.Equals, true)
 
   -- add collider
-  local collider = Collider { center = Vector2D(0, 1), size = PLAYER_WALK_SIZE - Vector2D(8, 12) }
+  local collider = tiny.Collider { center = tiny.Vector2D(0, 1), size = PLAYER_WALK_SIZE - tiny.Vector2D(8, 12) }
   player:AddComponent(collider)
 
   return player

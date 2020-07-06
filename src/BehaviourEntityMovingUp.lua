@@ -1,8 +1,8 @@
-BehaviourEntityMovingUp = Class{__includes = StateMachineBehaviour}
+BehaviourEntityMovingUp = Class{__includes = tiny.StateMachineBehaviour}
 
 function BehaviourEntityMovingUp:init()
   self.name = 'BehaviourEntityMovingUp'
-  StateMachineBehaviour.init(self)
+  tiny.StateMachineBehaviour.init(self)
   self.bumped = false
   self.bounds = MAP_RENDER_OFFSET.y + TILE_SIZE
   

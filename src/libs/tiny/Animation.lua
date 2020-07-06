@@ -1,4 +1,7 @@
-Animation = Class{}
+local current_folder = (...):gsub('%.Animation$', '') -- "my package path"
+local AnimationFrame = require(current_folder .. '.AnimationFrame')
+
+local Animation = Class{}
 
 function Animation:init(name)
   self.name = name
@@ -36,3 +39,5 @@ function Animation:Reset()
   self.frameTimer = 0
   self.currentFrame = 1
 end
+
+return Animation

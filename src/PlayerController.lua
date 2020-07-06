@@ -1,7 +1,7 @@
-PlayerController = Class{__includes = Script}
+PlayerController = Class{__includes = tiny.Script}
 
 function PlayerController:init()
-  Script.init(self, 'PlayerController')
+  tiny.Script.init(self, 'PlayerController')
   self.speed = 80
 end
 

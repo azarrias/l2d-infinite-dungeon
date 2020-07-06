@@ -1,16 +1,17 @@
 -- libraries
 Class = require 'libs.class'
 push = require 'libs.push'
+tiny = require 'libs.tiny'
 
 -- general purpose / utility
-require 'Animation'
-require 'AnimationFrame'
-require 'AnimatorCondition'
-require 'AnimatorControllerParameter'
-require 'AnimatorController'
-require 'AnimatorState'
-require 'AnimatorStateMachine'
-require 'AnimatorStateTransition'
+--require 'Animation'
+--require 'AnimationFrame'
+--require 'AnimatorCondition'
+--require 'AnimatorControllerParameter'
+--require 'AnimatorController'
+--require 'AnimatorState'
+--require 'AnimatorStateMachine'
+--require 'AnimatorStateTransition'
 require 'BehaviourEntityIdle'
 require 'BehaviourEntityMovingDown'
 require 'BehaviourEntityMovingLeft'
@@ -20,22 +21,22 @@ require 'BehaviourPlayerMovingDown'
 require 'BehaviourPlayerMovingLeft'
 require 'BehaviourPlayerMovingRight'
 require 'BehaviourPlayerMovingUp'
-require 'Collider'
-require 'Component'
+--require 'Collider'
+--require 'Component'
 require 'Doorway'
-require 'Entity'
+--require 'Entity'
 require 'EntityController'
 require 'PlayerController'
 require 'Room'
-require 'Scene'
+--require 'Scene'
 require 'SceneDungeon'
-require 'SceneManager'
+--require 'SceneManager'
 require 'SceneStart'
-require 'Script'
-require 'Sprite'
-require 'StateMachineBehaviour'
+--require 'Script'
+--require 'Sprite'
+--require 'StateMachineBehaviour'
 require 'util'
-require 'Vector2D'
+--require 'Vector2D'
 
 --[[
     constants
@@ -48,16 +49,16 @@ MOBILE_OS = (love._version_major > 0 or love._version_minor >= 9) and (love.syst
 WEB_OS = (love._version_major > 0 or love._version_minor >= 9) and love.system.getOS() == 'Web'
   
 -- pixels resolution
-WINDOW_SIZE = Vector2D(1280, 720)
-VIRTUAL_SIZE = Vector2D(384, 216)
+WINDOW_SIZE = tiny.Vector2D(1280, 720)
+VIRTUAL_SIZE = tiny.Vector2D(384, 216)
 
 TILE_SIZE = 16
-PLAYER_WALK_SIZE = Vector2D(16, 32)
-PLAYER_ATTACK_SIZE = Vector2D(32, 32)
-ENTITY_SIZE = Vector2D(16, 16)
+PLAYER_WALK_SIZE = tiny.Vector2D(16, 32)
+PLAYER_ATTACK_SIZE = tiny.Vector2D(32, 32)
+ENTITY_SIZE = tiny.Vector2D(16, 16)
 
 -- room tile map number of tiles
-MAP_SIZE = (VIRTUAL_SIZE / TILE_SIZE - Vector2D(2, 2)):Floor()
+MAP_SIZE = (VIRTUAL_SIZE / TILE_SIZE - tiny.Vector2D(2, 2)):Floor()
 MAP_RENDER_OFFSET = ((VIRTUAL_SIZE - MAP_SIZE * TILE_SIZE) / 2):Floor()
 
 -- resources
@@ -79,42 +80,42 @@ TEXTURES = {
 
 FRAMES = {
   ['player-walk-down'] = GenerateQuads(TEXTURES['player'], 1, 4, PLAYER_WALK_SIZE),
-  ['player-walk-right'] = GenerateQuads(TEXTURES['player'], 1, 4, PLAYER_WALK_SIZE, Vector2D(0, 32)),
-  ['player-walk-up'] = GenerateQuads(TEXTURES['player'], 1, 4, PLAYER_WALK_SIZE, Vector2D(0, 64)),
-  ['player-walk-left'] = GenerateQuads(TEXTURES['player'], 1, 4, PLAYER_WALK_SIZE, Vector2D(0, 96)),
-  ['player-attack-down'] = GenerateQuads(TEXTURES['player'], 1, 4, PLAYER_ATTACK_SIZE, Vector2D(0, 128)),
-  ['player-attack-up'] = GenerateQuads(TEXTURES['player'], 1, 4, PLAYER_ATTACK_SIZE, Vector2D(0, 160)),
-  ['player-attack-right'] = GenerateQuads(TEXTURES['player'], 1, 4, PLAYER_ATTACK_SIZE, Vector2D(0, 192)),
-  ['player-attack-left'] = GenerateQuads(TEXTURES['player'], 1, 4, PLAYER_ATTACK_SIZE, Vector2D(0, 224)),
+  ['player-walk-right'] = GenerateQuads(TEXTURES['player'], 1, 4, PLAYER_WALK_SIZE, tiny.Vector2D(0, 32)),
+  ['player-walk-up'] = GenerateQuads(TEXTURES['player'], 1, 4, PLAYER_WALK_SIZE, tiny.Vector2D(0, 64)),
+  ['player-walk-left'] = GenerateQuads(TEXTURES['player'], 1, 4, PLAYER_WALK_SIZE, tiny.Vector2D(0, 96)),
+  ['player-attack-down'] = GenerateQuads(TEXTURES['player'], 1, 4, PLAYER_ATTACK_SIZE, tiny.Vector2D(0, 128)),
+  ['player-attack-up'] = GenerateQuads(TEXTURES['player'], 1, 4, PLAYER_ATTACK_SIZE, tiny.Vector2D(0, 160)),
+  ['player-attack-right'] = GenerateQuads(TEXTURES['player'], 1, 4, PLAYER_ATTACK_SIZE, tiny.Vector2D(0, 192)),
+  ['player-attack-left'] = GenerateQuads(TEXTURES['player'], 1, 4, PLAYER_ATTACK_SIZE, tiny.Vector2D(0, 224)),
   ['tiles'] = GenerateAllQuads(TEXTURES['tiles'], TILE_SIZE, TILE_SIZE),
-  ['skeleton-move-down'] = GenerateQuads(TEXTURES['entities'], 1, 3, ENTITY_SIZE, Vector2D(144, 0)),
-  ['skeleton-move-left'] = GenerateQuads(TEXTURES['entities'], 1, 3, ENTITY_SIZE, Vector2D(144, 16)),
-  ['skeleton-move-right'] = GenerateQuads(TEXTURES['entities'], 1, 3, ENTITY_SIZE, Vector2D(144, 32)),
-  ['skeleton-move-up'] = GenerateQuads(TEXTURES['entities'], 1, 3, ENTITY_SIZE, Vector2D(144, 48)),
-  ['slime-move-down'] = GenerateQuads(TEXTURES['entities'], 1, 3, ENTITY_SIZE, Vector2D(0, 64)),
-  ['slime-move-left'] = GenerateQuads(TEXTURES['entities'], 1, 3, ENTITY_SIZE, Vector2D(0, 80)),
-  ['slime-move-right'] = GenerateQuads(TEXTURES['entities'], 1, 3, ENTITY_SIZE, Vector2D(0, 96)),
-  ['slime-move-up'] = GenerateQuads(TEXTURES['entities'], 1, 3, ENTITY_SIZE, Vector2D(0, 112)),
-  ['bat-move-down'] = GenerateQuads(TEXTURES['entities'], 1, 3, ENTITY_SIZE, Vector2D(48, 64)),
-  ['bat-move-left'] = GenerateQuads(TEXTURES['entities'], 1, 3, ENTITY_SIZE, Vector2D(48, 80)),
-  ['bat-move-right'] = GenerateQuads(TEXTURES['entities'], 1, 3, ENTITY_SIZE, Vector2D(48, 96)),
-  ['bat-move-up'] = GenerateQuads(TEXTURES['entities'], 1, 3, ENTITY_SIZE, Vector2D(48, 112)),
-  ['ghost-move-down'] = GenerateQuads(TEXTURES['entities'], 1, 3, ENTITY_SIZE, Vector2D(96, 64)),
-  ['ghost-move-left'] = GenerateQuads(TEXTURES['entities'], 1, 3, ENTITY_SIZE, Vector2D(96, 80)),
-  ['ghost-move-right'] = GenerateQuads(TEXTURES['entities'], 1, 3, ENTITY_SIZE, Vector2D(96, 96)),
-  ['ghost-move-up'] = GenerateQuads(TEXTURES['entities'], 1, 3, ENTITY_SIZE, Vector2D(96, 112)),
-  ['spider-move-down'] = GenerateQuads(TEXTURES['entities'], 1, 3, ENTITY_SIZE, Vector2D(144, 64)),
-  ['spider-move-left'] = GenerateQuads(TEXTURES['entities'], 1, 3, ENTITY_SIZE, Vector2D(144, 80)),
-  ['spider-move-right'] = GenerateQuads(TEXTURES['entities'], 1, 3, ENTITY_SIZE, Vector2D(144, 96)),
-  ['spider-move-up'] = GenerateQuads(TEXTURES['entities'], 1, 3, ENTITY_SIZE, Vector2D(144, 112)),
-  ['door-open-left'] = GenerateQuads(TEXTURES['tiles'], 2, 2, Vector2D(TILE_SIZE, TILE_SIZE), Vector2D(144, 144)),
-  ['door-closed-left'] = GenerateQuads(TEXTURES['tiles'], 2, 2, Vector2D(TILE_SIZE, TILE_SIZE), Vector2D(144, 176)),
-  ['door-open-right'] = GenerateQuads(TEXTURES['tiles'], 2, 2, Vector2D(TILE_SIZE, TILE_SIZE), Vector2D(0, 144)),
-  ['door-closed-right'] = GenerateQuads(TEXTURES['tiles'], 2, 2, Vector2D(TILE_SIZE, TILE_SIZE), Vector2D(32, 144)),
-  ['door-open-top'] = GenerateQuads(TEXTURES['tiles'], 2, 2, Vector2D(TILE_SIZE, TILE_SIZE), Vector2D(32, 80)),
-  ['door-closed-top'] = GenerateQuads(TEXTURES['tiles'], 2, 2, Vector2D(TILE_SIZE, TILE_SIZE), Vector2D(0, 112)),
-  ['door-open-bottom'] = GenerateQuads(TEXTURES['tiles'], 2, 2, Vector2D(TILE_SIZE, TILE_SIZE), Vector2D(112, 80)),
-  ['door-closed-bottom'] = GenerateQuads(TEXTURES['tiles'], 2, 2, Vector2D(TILE_SIZE, TILE_SIZE), Vector2D(112, 144))
+  ['skeleton-move-down'] = GenerateQuads(TEXTURES['entities'], 1, 3, ENTITY_SIZE, tiny.Vector2D(144, 0)),
+  ['skeleton-move-left'] = GenerateQuads(TEXTURES['entities'], 1, 3, ENTITY_SIZE, tiny.Vector2D(144, 16)),
+  ['skeleton-move-right'] = GenerateQuads(TEXTURES['entities'], 1, 3, ENTITY_SIZE, tiny.Vector2D(144, 32)),
+  ['skeleton-move-up'] = GenerateQuads(TEXTURES['entities'], 1, 3, ENTITY_SIZE, tiny.Vector2D(144, 48)),
+  ['slime-move-down'] = GenerateQuads(TEXTURES['entities'], 1, 3, ENTITY_SIZE, tiny.Vector2D(0, 64)),
+  ['slime-move-left'] = GenerateQuads(TEXTURES['entities'], 1, 3, ENTITY_SIZE, tiny.Vector2D(0, 80)),
+  ['slime-move-right'] = GenerateQuads(TEXTURES['entities'], 1, 3, ENTITY_SIZE, tiny.Vector2D(0, 96)),
+  ['slime-move-up'] = GenerateQuads(TEXTURES['entities'], 1, 3, ENTITY_SIZE, tiny.Vector2D(0, 112)),
+  ['bat-move-down'] = GenerateQuads(TEXTURES['entities'], 1, 3, ENTITY_SIZE, tiny.Vector2D(48, 64)),
+  ['bat-move-left'] = GenerateQuads(TEXTURES['entities'], 1, 3, ENTITY_SIZE, tiny.Vector2D(48, 80)),
+  ['bat-move-right'] = GenerateQuads(TEXTURES['entities'], 1, 3, ENTITY_SIZE, tiny.Vector2D(48, 96)),
+  ['bat-move-up'] = GenerateQuads(TEXTURES['entities'], 1, 3, ENTITY_SIZE, tiny.Vector2D(48, 112)),
+  ['ghost-move-down'] = GenerateQuads(TEXTURES['entities'], 1, 3, ENTITY_SIZE, tiny.Vector2D(96, 64)),
+  ['ghost-move-left'] = GenerateQuads(TEXTURES['entities'], 1, 3, ENTITY_SIZE, tiny.Vector2D(96, 80)),
+  ['ghost-move-right'] = GenerateQuads(TEXTURES['entities'], 1, 3, ENTITY_SIZE, tiny.Vector2D(96, 96)),
+  ['ghost-move-up'] = GenerateQuads(TEXTURES['entities'], 1, 3, ENTITY_SIZE, tiny.Vector2D(96, 112)),
+  ['spider-move-down'] = GenerateQuads(TEXTURES['entities'], 1, 3, ENTITY_SIZE, tiny.Vector2D(144, 64)),
+  ['spider-move-left'] = GenerateQuads(TEXTURES['entities'], 1, 3, ENTITY_SIZE, tiny.Vector2D(144, 80)),
+  ['spider-move-right'] = GenerateQuads(TEXTURES['entities'], 1, 3, ENTITY_SIZE, tiny.Vector2D(144, 96)),
+  ['spider-move-up'] = GenerateQuads(TEXTURES['entities'], 1, 3, ENTITY_SIZE, tiny.Vector2D(144, 112)),
+  ['door-open-left'] = GenerateQuads(TEXTURES['tiles'], 2, 2, tiny.Vector2D(TILE_SIZE, TILE_SIZE), tiny.Vector2D(144, 144)),
+  ['door-closed-left'] = GenerateQuads(TEXTURES['tiles'], 2, 2, tiny.Vector2D(TILE_SIZE, TILE_SIZE), tiny.Vector2D(144, 176)),
+  ['door-open-right'] = GenerateQuads(TEXTURES['tiles'], 2, 2, tiny.Vector2D(TILE_SIZE, TILE_SIZE), tiny.Vector2D(0, 144)),
+  ['door-closed-right'] = GenerateQuads(TEXTURES['tiles'], 2, 2, tiny.Vector2D(TILE_SIZE, TILE_SIZE), tiny.Vector2D(32, 144)),
+  ['door-open-top'] = GenerateQuads(TEXTURES['tiles'], 2, 2, tiny.Vector2D(TILE_SIZE, TILE_SIZE), tiny.Vector2D(32, 80)),
+  ['door-closed-top'] = GenerateQuads(TEXTURES['tiles'], 2, 2, tiny.Vector2D(TILE_SIZE, TILE_SIZE), tiny.Vector2D(0, 112)),
+  ['door-open-bottom'] = GenerateQuads(TEXTURES['tiles'], 2, 2, tiny.Vector2D(TILE_SIZE, TILE_SIZE), tiny.Vector2D(112, 80)),
+  ['door-closed-bottom'] = GenerateQuads(TEXTURES['tiles'], 2, 2, tiny.Vector2D(TILE_SIZE, TILE_SIZE), tiny.Vector2D(112, 144))
 }
 
 -- tile IDs

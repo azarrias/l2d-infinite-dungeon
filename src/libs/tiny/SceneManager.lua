@@ -1,4 +1,4 @@
-SceneManager = Class{}
+local SceneManager = Class{}
 
 function SceneManager:init(states)
   self.empty = {
@@ -25,3 +25,5 @@ end
 function SceneManager:render()
   self.current:render()
 end
+
+return SceneManager

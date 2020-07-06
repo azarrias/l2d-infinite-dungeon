@@ -1,4 +1,4 @@
-StateMachineBehaviour = Class{}
+local StateMachineBehaviour = Class{}
 
 function StateMachineBehaviour:init()
 
@@ -15,3 +15,5 @@ end
 function StateMachineBehaviour:OnStateUpdate(dt, animatorController)
   
 end
+
+return StateMachineBehaviour

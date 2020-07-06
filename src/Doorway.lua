@@ -6,16 +6,16 @@ function Doorway:init(direction, isOpen)
   
   if direction == 'left' then
     self.position = MAP_RENDER_OFFSET + 
-      Vector2D(-TILE_SIZE, MAP_SIZE.y / 2 * TILE_SIZE - TILE_SIZE)
+      tiny.Vector2D(-TILE_SIZE, MAP_SIZE.y / 2 * TILE_SIZE - TILE_SIZE)
   elseif direction == 'right' then
     self.position = MAP_RENDER_OFFSET + 
-      Vector2D(MAP_SIZE.x * TILE_SIZE - TILE_SIZE, MAP_SIZE.y / 2 * TILE_SIZE - TILE_SIZE)
+      tiny.Vector2D(MAP_SIZE.x * TILE_SIZE - TILE_SIZE, MAP_SIZE.y / 2 * TILE_SIZE - TILE_SIZE)
   elseif direction == 'top' then
     self.position = MAP_RENDER_OFFSET + 
-      Vector2D(MAP_SIZE.x / 2 * TILE_SIZE - TILE_SIZE, -TILE_SIZE)
+      tiny.Vector2D(MAP_SIZE.x / 2 * TILE_SIZE - TILE_SIZE, -TILE_SIZE)
   elseif direction == 'bottom' then
     self.position = MAP_RENDER_OFFSET + 
-      Vector2D(MAP_SIZE.x / 2 * TILE_SIZE - TILE_SIZE, MAP_SIZE.y * TILE_SIZE - TILE_SIZE)
+      tiny.Vector2D(MAP_SIZE.x / 2 * TILE_SIZE - TILE_SIZE, MAP_SIZE.y * TILE_SIZE - TILE_SIZE)
   end
 end
 

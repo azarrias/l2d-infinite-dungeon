@@ -1,4 +1,7 @@
-Entity = Class{}
+local current_folder = (...):gsub('%.Entity$', '') -- "my package path"
+local Vector2D = require(current_folder .. '.Vector2D')
+
+local Entity = Class{}
 
 function Entity:init(posX, posY, rotation, scaleX, scaleY)
   self.parent = nil
@@ -66,3 +69,5 @@ function Entity:AddScript(scriptName)
     error("Object '"..scriptName.."' does not exist or is not accessible.")
   end
 end
+
+return Entity

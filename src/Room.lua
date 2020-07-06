@@ -38,22 +38,22 @@ end
 function Room:CreateEntity(entityType)
   local posX = math.random(MAP_RENDER_OFFSET.x + TILE_SIZE + 8, MAP_RENDER_OFFSET.x + MAP_SIZE.x * TILE_SIZE - TILE_SIZE - 8)
   local posY = math.random(MAP_RENDER_OFFSET.y + TILE_SIZE + 8, MAP_RENDER_OFFSET.y + MAP_SIZE.y * TILE_SIZE - TILE_SIZE - 8)
-  local entity = Entity(posX, posY)
+  local entity = tiny.Entity(posX, posY)
   local entitySprite
   
   -- sprite component
   if entityType == 'skeleton' then
-    entitySprite = Sprite(TEXTURES['entities'], FRAMES['skeleton-move-down'][2])
+    entitySprite = tiny.Sprite(TEXTURES['entities'], FRAMES['skeleton-move-down'][2])
   elseif entityType == 'slime' then
-    entitySprite = Sprite(TEXTURES['entities'], FRAMES['slime-move-down'][2])
+    entitySprite = tiny.Sprite(TEXTURES['entities'], FRAMES['slime-move-down'][2])
   elseif entityType == 'bat' then
-    entitySprite = Sprite(TEXTURES['entities'], FRAMES['bat-move-down'][2])
+    entitySprite = tiny.Sprite(TEXTURES['entities'], FRAMES['bat-move-down'][2])
   elseif entityType == 'ghost' then
-    entitySprite = Sprite(TEXTURES['entities'], FRAMES['ghost-move-down'][2])
+    entitySprite = tiny.Sprite(TEXTURES['entities'], FRAMES['ghost-move-down'][2])
   elseif entityType == 'spider' then
-    entitySprite = Sprite(TEXTURES['entities'], FRAMES['spider-move-down'][2])
+    entitySprite = tiny.Sprite(TEXTURES['entities'], FRAMES['spider-move-down'][2])
   end
-  entitySprite = Sprite(TEXTURES['entities'], FRAMES[entityType .. '-move-down'][2])
+  entitySprite = tiny.Sprite(TEXTURES['entities'], FRAMES[entityType .. '-move-down'][2])
   entity:AddComponent(entitySprite)
   
   -- setup entity speed depending on its type
@@ -77,7 +77,7 @@ function Room:CreateEntity(entityType)
   end
   
   -- create animator controller and setup parameters
-  local entityAnimatorController = AnimatorController('EntityAnimatorController')
+  local entityAnimatorController = tiny.AnimatorController('EntityAnimatorController')
   entity:AddComponent(entityAnimatorController)
   entityAnimatorController:AddParameter('MoveDown', AnimatorControllerParameterType.Bool)
   entityAnimatorController:AddParameter('MoveUp', AnimatorControllerParameterType.Bool)
@@ -178,15 +178,15 @@ function Room:CreateEntity(entityType)
   -- add collider
   local collider
   if entityType == 'skeleton' then
-    collider = Collider { center = Vector2D(0, 1), size = ENTITY_SIZE - Vector2D(8, 1) }
+    collider = tiny.Collider { center = tiny.Vector2D(0, 1), size = ENTITY_SIZE - tiny.Vector2D(8, 1) }
   elseif entityType == 'slime' then
-    collider = Collider { center = Vector2D(0, 2), size = ENTITY_SIZE - Vector2D(2, 6) }
+    collider = tiny.Collider { center = tiny.Vector2D(0, 2), size = ENTITY_SIZE - tiny.Vector2D(2, 6) }
   elseif entityType == 'bat' then
-    collider = Collider { center = Vector2D(0, -2), size = ENTITY_SIZE - Vector2D(6, 6) }
+    collider = tiny.Collider { center = tiny.Vector2D(0, -2), size = ENTITY_SIZE - tiny.Vector2D(6, 6) }
   elseif entityType == 'ghost' then
-    collider = Collider { center = Vector2D(0, -1), size = ENTITY_SIZE - Vector2D(6, 4) }
+    collider = tiny.Collider { center = tiny.Vector2D(0, -1), size = ENTITY_SIZE - tiny.Vector2D(6, 4) }
   elseif entityType == 'spider' then
-    collider = Collider { center = Vector2D(0, 3), size = ENTITY_SIZE - Vector2D(6, 6) }
+    collider = tiny.Collider { center = tiny.Vector2D(0, 3), size = ENTITY_SIZE - tiny.Vector2D(6, 6) }
   end
   entity:AddComponent(collider)
 

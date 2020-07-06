@@ -1,4 +1,7 @@
-AnimatorState = Class{}
+local current_folder = (...):gsub('%.AnimatorState$', '') -- "my package path"
+local AnimatorStateTransition = require(current_folder .. '.AnimatorStateTransition')
+
+local AnimatorState = Class{}
 
 function AnimatorState:init(name)
   self.name = name
@@ -30,3 +33,5 @@ function AnimatorState:AddTransition(state)
   table.insert(self.transitions, transition)
   return transition
 end
+
+return AnimatorState

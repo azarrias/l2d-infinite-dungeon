@@ -1,4 +1,4 @@
-Component = Class{}
+local Component = Class{}
 
 function Component:init(parent)
   self.enabled = true
@@ -7,3 +7,5 @@ end
 
 function Component:update(dt)
 end
+
+return Component

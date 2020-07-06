@@ -24,7 +24,7 @@ function love.load()
   })
   love.window.setTitle(GAME_TITLE)
   
-  sceneManager = SceneManager {
+  sceneManager = tiny.SceneManager {
     ['Start'] = function() return SceneStart() end,
     ['Play'] = function() return SceneDungeon() end,
     ['GameOver'] = function() return SceneGameOver() end

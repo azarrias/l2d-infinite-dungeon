@@ -1,4 +1,10 @@
-AnimatorController = Class{__includes = Component}
+local current_folder = (...):gsub('%.AnimatorController$', '') -- "my package path"
+local Animation = require(current_folder .. '.Animation')
+local AnimatorControllerParameter = require(current_folder .. '.AnimatorControllerParameter')
+local AnimatorStateMachine = require(current_folder .. '.AnimatorStateMachine')
+local Component = require(current_folder .. '.Component')
+
+local AnimatorController = Class{__includes = Component}
 
 function AnimatorController:init(name)
   Component.init(self)
@@ -155,3 +161,5 @@ function AnimatorController:ResetTrigger(triggerName)
     error('Parameter '..triggerName..' is not a Trigger.')
   end
 end
+
+return AnimatorController

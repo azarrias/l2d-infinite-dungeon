@@ -1,4 +1,4 @@
-AnimationFrame = Class{}
+local AnimationFrame = Class{}
 
 function AnimationFrame:init(texture, quad, duration)
   self.texture = texture
@@ -6,3 +6,5 @@ function AnimationFrame:init(texture, quad, duration)
     texture:getWidth(), texture:getHeight())
   self.duration = duration or 1
 end
+
+return AnimationFrame

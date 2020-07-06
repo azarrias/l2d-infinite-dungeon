@@ -1,4 +1,4 @@
-AnimatorControllerParameter = Class{}
+local AnimatorControllerParameter = Class{}
 
 AnimatorControllerParameterType = {
   Bool = "Bool",
@@ -18,3 +18,5 @@ function AnimatorControllerParameter:init(name, _type, value)
     self.value = value
   end
 end
+
+return AnimatorControllerParameter

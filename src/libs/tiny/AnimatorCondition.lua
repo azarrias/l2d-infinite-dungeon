@@ -1,4 +1,4 @@
-AnimatorCondition = Class{}
+local AnimatorCondition = Class{}
 
 AnimatorConditionOperatorType = {
   GreaterThan = "GreaterThan",
@@ -12,3 +12,5 @@ function AnimatorCondition:init(parameterName, operator, value)
   self.operator = operator
   self.value = value
 end
+
+return AnimatorCondition

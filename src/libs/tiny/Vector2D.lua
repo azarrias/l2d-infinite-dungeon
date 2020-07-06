@@ -1,4 +1,4 @@
-Vector2D = Class{}
+local Vector2D = Class{}
 
 function Vector2D:init(x, y)
   self.x = x
@@ -49,6 +49,25 @@ function Vector2D:__tostring()
   return "(" .. self.x .. ", " .. self.y .. ")"
 end
 
+function Vector2D:DotProduct(other)
+  return self.x * other.x + self.y * other.y
+end
+
 function Vector2D:Floor()
   return Vector2D(math.floor(self.x), math.floor(self.y))
 end
+
+function Vector2D:Magnitude()
+  return math.sqrt(self.x * self.x + self.y * self.y)
+end
+
+function Vector2D:Normalize()
+  return self / self:Magnitude()
+end
+
+-- can be used to sort magnitudes faster
+function Vector2D:SqrMagnitude()
+  return self.x * self.x + self.y * self.y
+end
+
+return Vector2D

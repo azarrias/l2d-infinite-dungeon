@@ -1,8 +1,8 @@
-BehaviourEntityMovingRight = Class{__includes = StateMachineBehaviour}
+BehaviourEntityMovingRight = Class{__includes = tiny.StateMachineBehaviour}
 
 function BehaviourEntityMovingRight:init()
   self.name = 'BehaviourEntityMovingRight'
-  StateMachineBehaviour.init(self)
+  tiny.StateMachineBehaviour.init(self)
   self.bumped = false
   self.bounds = MAP_RENDER_OFFSET.x + MAP_SIZE.x * TILE_SIZE - TILE_SIZE
   

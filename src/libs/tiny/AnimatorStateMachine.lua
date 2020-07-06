@@ -1,4 +1,8 @@
-AnimatorStateMachine = Class{}
+local current_folder = (...):gsub('%.AnimatorStateMachine$', '') -- "my package path"
+local AnimatorState = require(current_folder .. '.AnimatorState')
+local AnimatorStateTransition = require(current_folder .. '.AnimatorStateTransition')
+
+local AnimatorStateMachine = Class{}
 
 function AnimatorStateMachine:init()
   self.defaultState = nil
@@ -40,3 +44,5 @@ function AnimatorStateMachine:AddEntryTransition(state)
   
   return transition
 end
+
+return AnimatorStateMachine

@@ -1,8 +1,8 @@
-BehaviourEntityMovingLeft = Class{__includes = StateMachineBehaviour}
+BehaviourEntityMovingLeft = Class{__includes = tiny.StateMachineBehaviour}
 
 function BehaviourEntityMovingLeft:init()
   self.name = 'BehaviourEntityMovingLeft'
-  StateMachineBehaviour.init(self)
+  tiny.StateMachineBehaviour.init(self)
   self.bumped = false
   self.bounds = MAP_RENDER_OFFSET.x + TILE_SIZE
   

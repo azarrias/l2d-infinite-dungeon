@@ -31,8 +31,8 @@ end
 ]]
 function GenerateQuads(atlas, rows, columns, spriteSize, offset, padding)
   local spritesheet = {}
-  offset = offset or Vector2D(0, 0)
-  padding = padding or Vector2D(0, 0)
+  offset = offset or tiny.Vector2D(0, 0)
+  padding = padding or tiny.Vector2D(0, 0)
   
   for y = 0, rows - 1 do
     for x = 0, columns - 1 do
