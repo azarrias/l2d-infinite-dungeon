@@ -87,10 +87,10 @@ function SceneDungeon:CreatePlayer()
   stateAttackingLeft.animation:AddFrame(TEXTURES['player'], FRAMES['player-attack-left'][4], attackingFrameDuration)
 
   -- animation states behaviours
-  stateMovingLeft:AddStateMachineBehaviour('BehaviourMovingLeft')
-  stateMovingRight:AddStateMachineBehaviour('BehaviourMovingRight')
-  stateMovingUp:AddStateMachineBehaviour('BehaviourMovingUp')
-  stateMovingDown:AddStateMachineBehaviour('BehaviourMovingDown')
+  stateMovingLeft:AddStateMachineBehaviour('BehaviourPlayerMovingLeft')
+  stateMovingRight:AddStateMachineBehaviour('BehaviourPlayerMovingRight')
+  stateMovingUp:AddStateMachineBehaviour('BehaviourPlayerMovingUp')
+  stateMovingDown:AddStateMachineBehaviour('BehaviourPlayerMovingDown')
   
   -- transitions
   local idleDownToMovingDownTransition = playerAnimatorController.stateMachine.states[stateIdleDown.name]:AddTransition(stateMovingDown)

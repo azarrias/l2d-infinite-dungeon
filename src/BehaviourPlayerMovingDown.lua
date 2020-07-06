@@ -1,17 +1,17 @@
-BehaviourMovingDown = Class{__includes = StateMachineBehaviour}
+BehaviourPlayerMovingDown = Class{__includes = StateMachineBehaviour}
 
-function BehaviourMovingDown:init()
-  self.name = 'BehaviourMovingDown'
+function BehaviourPlayerMovingDown:init()
+  self.name = 'BehaviourPlayerMovingDown'
   StateMachineBehaviour.init(self)
 end
 
-function BehaviourMovingDown:OnStateEnter(dt, animatorController)
+function BehaviourPlayerMovingDown:OnStateEnter(dt, animatorController)
 end
 
-function BehaviourMovingDown:OnStateExit(dt, animatorController)
+function BehaviourPlayerMovingDown:OnStateExit(dt, animatorController)
 end
 
-function BehaviourMovingDown:OnStateUpdate(dt, animatorController)
+function BehaviourPlayerMovingDown:OnStateUpdate(dt, animatorController)
   local entity = animatorController.entity
   local playerController = entity.components['Script']['PlayerController']
   local bounds = MAP_RENDER_OFFSET.y + MAP_SIZE.y * TILE_SIZE - TILE_SIZE
