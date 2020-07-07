@@ -5,6 +5,7 @@ local Entity = Class{}
 
 function Entity:init(posX, posY, rotation, scaleX, scaleY)
   self.parent = nil
+  self.enabled = true
   
   -- transforms in local space
   self.position = Vector2D(posX, posY)
@@ -27,7 +28,7 @@ function Entity:update(dt)
 end
 
 function Entity:render()
-  if self.components['Sprite'] then
+  if self.components['Sprite'] and self.enabled then
     self.components['Sprite']:render()
   end
   
