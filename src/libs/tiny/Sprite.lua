@@ -10,15 +10,22 @@ function Sprite:init(texture, quad)
   self:SetDrawable(texture, quad)
   self.flipX = false
   self.flipY = false
+  self.color = { 1, 1, 1, 1 }
 end
 
 function Sprite:render()
-  local p = self.entity.position:Floor()
-  local r = self.entity.rotation
-  local s = self.entity.scale
-  s.x = s.x * (self.flipX and -1 or 1)
-  s.y = s.y * (self.flipY and -1 or 1)
-  love.graphics.draw(self.texture, self.quad, p.x, p.y, r, s.x, s.y, self.pivot.x, self.pivot.y)
+  local r, g, b, a = love.graphics.getColor()
+  local oldColor = { r, g, b, a }
+  love.graphics.setColor(self.color)
+  
+  local pos = self.entity.position:Floor()
+  local rot = self.entity.rotation
+  local sca = self.entity.scale
+  sca.x = sca.x * (self.flipX and -1 or 1)
+  sca.y = sca.y * (self.flipY and -1 or 1)
+  love.graphics.draw(self.texture, self.quad, pos.x, pos.y, rot, sca.x, sca.y, self.pivot.x, self.pivot.y)
+  
+  love.graphics.setColor(oldColor)
 end
 
 function Sprite:SetDrawable(texture, quad)
