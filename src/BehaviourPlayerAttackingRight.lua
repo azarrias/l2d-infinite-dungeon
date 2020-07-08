@@ -1,26 +1,26 @@
-BehaviourPlayerAttackingDown = Class{__includes = tiny.StateMachineBehaviour}
+BehaviourPlayerAttackingRight = Class{__includes = tiny.StateMachineBehaviour}
 
-function BehaviourPlayerAttackingDown:init()
-  self.name = 'BehaviourPlayerAttackingDown'
+function BehaviourPlayerAttackingRight:init()
+  self.name = 'BehaviourPlayerAttackingRight'
   tiny.StateMachineBehaviour.init(self)
 end
 
-function BehaviourPlayerAttackingDown:OnStateEnter(dt, animatorController)
+function BehaviourPlayerAttackingRight:OnStateEnter(dt, animatorController)
   local entity = animatorController.entity
   local playerController = entity.components['Script']['PlayerController']
-  local colliderCenter = tiny.Vector2D(0, 11)
-  local colliderSize = tiny.Vector2D(16, 12)
+  local colliderCenter = tiny.Vector2D(9, 3)
+  local colliderSize = tiny.Vector2D(10, 18)
   local collider = tiny.Collider { center = colliderCenter, size = colliderSize }
   entity:AddComponent(collider)
   playerController.attackCollider = collider
 end
 
-function BehaviourPlayerAttackingDown:OnStateExit(dt, animatorController)
+function BehaviourPlayerAttackingRight:OnStateExit(dt, animatorController)
   local entity = animatorController.entity
   local playerController = entity.components['Script']['PlayerController']
   colliders = entity.components['Collider']
   entity:RemoveComponent(playerController.attackCollider)
 end
 
-function BehaviourPlayerAttackingDown:OnStateUpdate(dt, animatorController)
+function BehaviourPlayerAttackingRight:OnStateUpdate(dt, animatorController)
 end
