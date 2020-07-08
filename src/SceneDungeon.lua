@@ -91,6 +91,7 @@ function SceneDungeon:CreatePlayer()
   stateMovingRight:AddStateMachineBehaviour('BehaviourPlayerMovingRight')
   stateMovingUp:AddStateMachineBehaviour('BehaviourPlayerMovingUp')
   stateMovingDown:AddStateMachineBehaviour('BehaviourPlayerMovingDown')
+  stateAttackingDown:AddStateMachineBehaviour('BehaviourPlayerAttackingDown')
   
   -- transitions
   local idleDownToMovingDownTransition = playerAnimatorController.stateMachine.states[stateIdleDown.name]:AddTransition(stateMovingDown)

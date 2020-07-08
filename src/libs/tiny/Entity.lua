@@ -45,15 +45,15 @@ function Entity:AddComponent(component)
   if component.componentType == 'AnimatorController' or
     component.componentType == 'Sprite' then
     self.components[component.componentType] = component
-  elseif self.components[component.componentType] == nil or next(self.components[component.componentType]) == nil then
-    self.components[component.componentType] = {}
+  else
+    if self.components[component.componentType] == nil or next(self.components[component.componentType]) == nil then
+      self.components[component.componentType] = {}
+    end
     if component.name then
       self.components[component.componentType][component.name] = component
     else
       table.insert(self.components[component.componentType], component)
     end
-  else
-    self.components[component.componentType][component.name] = component
   end
   
   return component
@@ -68,6 +68,28 @@ function Entity:AddScript(scriptName)
     return script
   else
     error("Object '"..scriptName.."' does not exist or is not accessible.")
+  end
+end
+
+function Entity:GetComponentIndex(component)
+  if self.components[component.componentType] then
+    for idx, comp in pairs(self.components[component.componentType]) do
+      if comp == component then
+        return idx
+      end
+    end
+  end
+  error("Component '"..component.."' does not exist or is not accessible.")
+end
+
+function Entity:RemoveComponent(component)
+  if component.componentType == 'AnimatorController' or component.componentType == 'Sprite' then
+    self.components[component.componentType] = nil
+  else
+    local index = self:GetComponentIndex(component)
+    if index then
+      table.remove(self.components[component.componentType], index)
+    end
   end
 end
 

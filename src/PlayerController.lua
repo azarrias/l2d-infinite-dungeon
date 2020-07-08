@@ -8,7 +8,6 @@ function PlayerController:init()
   self.invulnerableDuration = 0
   self.invulnerableTimer = 0
   self.flashTimer = 0
-  self.orientation = 'down'
   self.dead = false
   self.bodyCollider = nil
   self.attackCollider = nil
@@ -33,9 +32,15 @@ function PlayerController:update(dt)
   if self.invulnerable and self.flashTimer > 0.1 then
     self.flashTimer = 0
   elseif self.invulnerable and self.flashTimer > 0.06 then
-    sprite.color = { 255 / 255, 255 / 255, 255 / 255, 64 / 255 }
+    if sprite then
+      sprite.color = { 255 / 255, 255 / 255, 255 / 255, 64 / 255 }
+    else
+      error("Sprite not found!")
+    end
   else
-    sprite.color = { 1, 1, 1, 1 }
+    if sprite then
+      sprite.color = { 1, 1, 1, 1 }
+    end
   end
   
   -- update the animator controller's parameters with the given input
