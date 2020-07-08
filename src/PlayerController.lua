@@ -8,7 +8,10 @@ function PlayerController:init()
   self.invulnerableDuration = 0
   self.invulnerableTimer = 0
   self.flashTimer = 0
+  self.orientation = 'down'
   self.dead = false
+  self.bodyCollider = nil
+  self.attackCollider = nil
 end
 
 function PlayerController:update(dt)
@@ -25,6 +28,7 @@ function PlayerController:update(dt)
     end
   end
   
+  -- make the player's sprite flash when it it invulnerable after being hit
   sprite = self.entity.components['Sprite']
   if self.invulnerable and self.flashTimer > 0.1 then
     self.flashTimer = 0

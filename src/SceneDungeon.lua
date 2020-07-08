@@ -176,9 +176,13 @@ function SceneDungeon:CreatePlayer()
   attackingLeftToIdleLeftTransition:AddCondition('MoveLeft', AnimatorConditionOperatorType.Equals, false)
   attackingLeftToMovingLeftTransition:AddCondition('MoveLeft', AnimatorConditionOperatorType.Equals, true)
 
-  -- add collider
+  -- add collider and set it in the player controller script as the player's body collider
   local collider = tiny.Collider { center = tiny.Vector2D(0, 1), size = PLAYER_WALK_SIZE - tiny.Vector2D(8, 12) }
   player:AddComponent(collider)
+  if player.components['Script']['PlayerController'] then
+    playerController = player.components['Script']['PlayerController']
+    playerController.bodyCollider = collider
+  end
 
   return player
 end

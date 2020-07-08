@@ -19,10 +19,10 @@ function Room:update(dt)
   if self.player.components['Collider'] then
     playerCollider = self.player.components['Collider'][1]
     for k, entity in pairs(self.entities) do
-      if entity.components['Collider'] and playerCollider:collides(entity.components['Collider'][1]) then
+      if entity.components['Collider'] and self.player.components['Script']['PlayerController'] then
+        playerController = self.player.components['Script']['PlayerController']
         -- decrement player's health and apply cooldown to the player's vulnerability
-        if self.player.components['Script']['PlayerController'] then
-          playerController = self.player.components['Script']['PlayerController']
+        if playerController.bodyCollider and playerController.bodyCollider:collides(entity.components['Collider'][1]) then
           if not playerController.invulnerable then
             playerController:damage(1)
             -- if the player dies, transition to game over scene
