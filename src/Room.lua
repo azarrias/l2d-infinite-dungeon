@@ -34,6 +34,21 @@ function Room:update(dt)
       end
     end
   end
+  
+  -- check for collisions between the player's sword and the entities in the room
+  if self.player.components['Script']['PlayerController'] then
+    playerController = self.player.components['Script']['PlayerController']
+    -- only check if there is an active attack collider
+    if playerController.attackCollider then
+      for k, entity in pairs(self.entities) do
+        if entity.components['Collider'] and playerController.attackCollider:collides(entity.components['Collider'][1]) then
+          table.remove(self.entities, k)
+        end
+      end
+    end
+  else
+    error("Cannot find the PlayerController script component")
+  end
 end
 
 function Room:render()
