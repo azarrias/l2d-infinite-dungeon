@@ -41,6 +41,7 @@ WINDOW_SIZE = tiny.Vector2D(1280, 720)
 VIRTUAL_SIZE = tiny.Vector2D(384, 216)
 
 TILE_SIZE = 16
+SWITCH_SIZE = tiny.Vector2D(16, 18)
 PLAYER_WALK_SIZE = tiny.Vector2D(16, 32)
 PLAYER_ATTACK_SIZE = tiny.Vector2D(32, 32)
 ENTITY_SIZE = tiny.Vector2D(16, 16)
@@ -63,7 +64,8 @@ FONTS = {
 TEXTURES = {
   ['player'] = love.graphics.newImage('graphics/character.png'),
   ['entities'] = love.graphics.newImage('graphics/entities.png'),
-  ['tiles'] = love.graphics.newImage('graphics/tilesheet.png')
+  ['tiles'] = love.graphics.newImage('graphics/tilesheet.png'),
+  ['switches'] = love.graphics.newImage('graphics/switches.png')
 }
 
 FRAMES = {
@@ -103,7 +105,8 @@ FRAMES = {
   ['door-open-top'] = GenerateQuads(TEXTURES['tiles'], 2, 2, tiny.Vector2D(TILE_SIZE, TILE_SIZE), tiny.Vector2D(32, 80)),
   ['door-closed-top'] = GenerateQuads(TEXTURES['tiles'], 2, 2, tiny.Vector2D(TILE_SIZE, TILE_SIZE), tiny.Vector2D(0, 112)),
   ['door-open-bottom'] = GenerateQuads(TEXTURES['tiles'], 2, 2, tiny.Vector2D(TILE_SIZE, TILE_SIZE), tiny.Vector2D(112, 80)),
-  ['door-closed-bottom'] = GenerateQuads(TEXTURES['tiles'], 2, 2, tiny.Vector2D(TILE_SIZE, TILE_SIZE), tiny.Vector2D(112, 144))
+  ['door-closed-bottom'] = GenerateQuads(TEXTURES['tiles'], 2, 2, tiny.Vector2D(TILE_SIZE, TILE_SIZE), tiny.Vector2D(112, 144)),
+  ['switches'] = GenerateAllQuads(TEXTURES['switches'], SWITCH_SIZE.x, SWITCH_SIZE.y)
 }
 
 -- tile IDs

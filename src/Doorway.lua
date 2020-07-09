@@ -20,7 +20,7 @@ function Doorway:init(direction, isOpen)
 end
 
 function Doorway:render()
-  local state_str = self.open and 'open' or 'closed'
+  local state_str = self.isOpen and 'open' or 'closed'
   love.graphics.draw(TEXTURES['tiles'], FRAMES['door-' .. state_str .. '-' .. self.direction][1],
     self.position.x, self.position.y)
   love.graphics.draw(TEXTURES['tiles'], FRAMES['door-' .. state_str .. '-' .. self.direction][2],

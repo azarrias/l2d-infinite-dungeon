@@ -4,7 +4,7 @@ function Room:init(player)
   self.size = MAP_SIZE
   self.tiles = self:GenerateTileset(MAP_SIZE.x, MAP_SIZE.y)
   self.entities = self:GenerateEntities(10)
-  self.objects = {}
+  self.objects = self:GenerateObjects()
   self.doorways = self:GenerateDoorways()
   self.player = player
   self.renderOffset = MAP_RENDER_OFFSET
@@ -63,6 +63,10 @@ function Room:render()
   
   for k, doorway in pairs(self.doorways) do
     doorway:render()
+  end
+  
+  for k, object in pairs(self.objects) do
+    object:render()
   end
   
   for k, entity in pairs(self.entities) do
@@ -254,6 +258,15 @@ function Room:GenerateEntities(n)
 end
 
 function Room:GenerateObjects()
+  local objects = {}
+  local posX = math.random(MAP_RENDER_OFFSET.x + TILE_SIZE + 8, MAP_RENDER_OFFSET.x + MAP_SIZE.x * TILE_SIZE - TILE_SIZE - 8)
+  local posY = math.random(MAP_RENDER_OFFSET.y + TILE_SIZE + 8, MAP_RENDER_OFFSET.y + MAP_SIZE.y * TILE_SIZE - TILE_SIZE - 8)
+  local doorSwitch = tiny.Entity(posX, posY)
+  local switchSprite = tiny.Sprite(TEXTURES['switches'], FRAMES['switches'][2])
+  doorSwitch:AddComponent(switchSprite)
+  table.insert(objects, doorSwitch)
+  
+  return objects
 end
 
 function Room:GenerateTileset(width, height)
