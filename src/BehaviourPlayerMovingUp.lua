@@ -17,7 +17,7 @@ function BehaviourPlayerMovingUp:OnStateUpdate(dt, animatorController)
   local bounds = MAP_RENDER_OFFSET.y + TILE_SIZE
   
   entity.position.y = entity.position.y - playerController.speed * dt
-  if entity.position.y - 11 <= bounds then
-    entity.position.y = bounds + 11
+  if entity.position.y <= bounds then
+    entity.position.y = bounds
   end
 end

@@ -17,7 +17,7 @@ function BehaviourPlayerMovingLeft:OnStateUpdate(dt, animatorController)
   local bounds = MAP_RENDER_OFFSET.x + TILE_SIZE
     
   entity.position.x = entity.position.x - playerController.speed * dt
-  if entity.position.x - 8 <= bounds then
-    entity.position.x = bounds + 8
+  if entity.position.x - 6 <= bounds then
+    entity.position.x = bounds + 6
   end
 end

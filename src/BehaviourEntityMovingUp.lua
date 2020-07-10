@@ -36,8 +36,8 @@ function BehaviourEntityMovingUp:OnStateUpdate(dt, animatorController)
   self.movementTimer = self.movementTimer + dt
 
   entity.position.y = entity.position.y - entityController.speed * dt
-  if entity.position.y - 8 <= self.bounds then
-    entity.position.y = self.bounds + 8
+  if entity.position.y <= self.bounds then
+    entity.position.y = self.bounds
     self.bumped = true
   end
 end

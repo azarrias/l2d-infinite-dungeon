@@ -61,11 +61,15 @@ function Room:update(dt)
           if playerController.bodyCollider:collides(object.components['Collider'][1]) then
             for i, doorway in pairs(self.doorways) do
               doorway.isOpen = true
+              -- add a collider for the doorway's game object
+              local collider = tiny.Collider { center = tiny.Vector2D(TILE_SIZE, TILE_SIZE), size = tiny.Vector2D(TILE_SIZE * 2, TILE_SIZE * 2) }
+              doorway.gameObject:AddComponent(collider)
             end
             local sprite = object.components['Sprite']
             if sprite then
               object:RemoveComponent(sprite)
             end
+            -- remove the switch collider and 'closed switch' sprite and add the 'opened switch' sprite
             object:RemoveComponent(object.components['Collider'][1])
             sprite = tiny.Sprite(TEXTURES['switches'], FRAMES['switches'][1])
             object:AddComponent(sprite)

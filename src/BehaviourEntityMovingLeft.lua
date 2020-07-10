@@ -36,8 +36,8 @@ function BehaviourEntityMovingLeft:OnStateUpdate(dt, animatorController)
   self.movementTimer = self.movementTimer + dt
   
   entity.position.x = entity.position.x - entityController.speed * dt
-  if entity.position.x - 8 <= self.bounds then
-    entity.position.x = self.bounds + 8
+  if entity.position.x - 6 <= self.bounds then
+    entity.position.x = self.bounds + 6
     self.bumped = true
   end
 end
