@@ -104,8 +104,8 @@ FRAMES = {
   ['door-closed-right'] = GenerateQuads(TEXTURES['tiles'], 2, 2, tiny.Vector2D(TILE_SIZE, TILE_SIZE), tiny.Vector2D(32, 144)),
   ['door-open-top'] = GenerateQuads(TEXTURES['tiles'], 2, 2, tiny.Vector2D(TILE_SIZE, TILE_SIZE), tiny.Vector2D(32, 80)),
   ['door-closed-top'] = GenerateQuads(TEXTURES['tiles'], 2, 2, tiny.Vector2D(TILE_SIZE, TILE_SIZE), tiny.Vector2D(0, 112)),
-  ['door-open-bottom'] = GenerateQuads(TEXTURES['tiles'], 2, 2, tiny.Vector2D(TILE_SIZE, TILE_SIZE), tiny.Vector2D(112, 80)),
-  ['door-closed-bottom'] = GenerateQuads(TEXTURES['tiles'], 2, 2, tiny.Vector2D(TILE_SIZE, TILE_SIZE), tiny.Vector2D(112, 144)),
+  ['door-open-bottom'] = GenerateQuads(TEXTURES['tiles'], 2, 2, tiny.Vector2D(TILE_SIZE, TILE_SIZE), tiny.Vector2D(112, 112)),
+  ['door-closed-bottom'] = GenerateQuads(TEXTURES['tiles'], 2, 2, tiny.Vector2D(TILE_SIZE, TILE_SIZE), tiny.Vector2D(96, 176)),
   ['switches'] = GenerateAllQuads(TEXTURES['switches'], SWITCH_SIZE.x, SWITCH_SIZE.y)
 }
 

@@ -18,7 +18,6 @@ function Room:update(dt)
   -- check for collisions between the player and the entities within the room
   if self.player.components['Script']['PlayerController'] then
     playerController = self.player.components['Script']['PlayerController']
-    -- only check if there is an active body collider
     if playerController.bodyCollider then
       for k, entity in pairs(self.entities) do
         if entity.components['Collider'] and entity.components['Collider'][1] then
@@ -53,7 +52,28 @@ function Room:update(dt)
   end
   
   -- check for collisions between the player and the door switches in the room
-  
+  if self.player.components['Script']['PlayerController'] then
+    playerController = self.player.components['Script']['PlayerController']
+    if playerController.bodyCollider then
+      for k, object in pairs(self.objects) do
+        if object.components['Collider'] and object.components['Collider'][1] then
+          -- open doors if the switch has not been already used
+          if playerController.bodyCollider:collides(object.components['Collider'][1]) then
+            for i, doorway in pairs(self.doorways) do
+              doorway.isOpen = true
+            end
+            local sprite = object.components['Sprite']
+            if sprite then
+              object:RemoveComponent(sprite)
+            end
+            object:RemoveComponent(object.components['Collider'][1])
+            sprite = tiny.Sprite(TEXTURES['switches'], FRAMES['switches'][1])
+            object:AddComponent(sprite)
+          end
+        end
+      end
+    end
+  end  
 end
 
 function Room:render()
