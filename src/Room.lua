@@ -49,6 +49,9 @@ function Room:update(dt)
   else
     error("Cannot find the PlayerController script component")
   end
+  
+  -- check for collisions between the player and the door switches in the room
+  
 end
 
 function Room:render()
@@ -262,8 +265,13 @@ function Room:GenerateObjects()
   local posX = math.random(MAP_RENDER_OFFSET.x + TILE_SIZE + 8, MAP_RENDER_OFFSET.x + MAP_SIZE.x * TILE_SIZE - TILE_SIZE - 8)
   local posY = math.random(MAP_RENDER_OFFSET.y + TILE_SIZE + 8, MAP_RENDER_OFFSET.y + MAP_SIZE.y * TILE_SIZE - TILE_SIZE - 8)
   local doorSwitch = tiny.Entity(posX, posY)
+  
   local switchSprite = tiny.Sprite(TEXTURES['switches'], FRAMES['switches'][2])
   doorSwitch:AddComponent(switchSprite)
+  
+  local collider = tiny.Collider { center = tiny.Vector2D(0, 0), size = SWITCH_SIZE }
+  doorSwitch:AddComponent(collider)
+  
   table.insert(objects, doorSwitch)
   
   return objects
