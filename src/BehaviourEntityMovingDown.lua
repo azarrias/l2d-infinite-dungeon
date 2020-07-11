@@ -3,7 +3,6 @@ BehaviourEntityMovingDown = Class{__includes = tiny.StateMachineBehaviour}
 function BehaviourEntityMovingDown:init()
   self.name = 'BehaviourEntityMovingDown'
   tiny.StateMachineBehaviour.init(self)
-  self.bumped = false
   self.bounds = MAP_RENDER_OFFSET.y + MAP_SIZE.y * TILE_SIZE - TILE_SIZE
   
   -- used for AI control

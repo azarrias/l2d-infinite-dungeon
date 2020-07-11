@@ -1,8 +1,10 @@
 Room = Class{}
 
-function Room:init(player)
+function Room:init(player, shift)
   self.size = MAP_SIZE
   self.tiles = self:GenerateTileset(MAP_SIZE.x, MAP_SIZE.y)
+  -- shifting distance for transitioning between rooms
+  self.shift = shift or tiny.Vector2D(0, 0)
   self.entities = self:GenerateEntities(10)
   self.objects = self:GenerateObjects()
   self.doorways = self:GenerateDoorways()
@@ -85,8 +87,8 @@ function Room:render()
     for x = 1, self.size.x do
       local tile = self.tiles[y][x]
       love.graphics.draw(TEXTURES['tiles'], FRAMES['tiles'][tile.id],
-        (x - 1) * TILE_SIZE + self.renderOffset.x,
-        (y - 1) * TILE_SIZE + self.renderOffset.y)
+        (x - 1) * TILE_SIZE + self.renderOffset.x + self.shift.x,
+        (y - 1) * TILE_SIZE + self.renderOffset.y + self.shift.y)
     end
   end
   
@@ -106,7 +108,7 @@ end
 function Room:CreateEntity(entityType)
   local posX = math.random(MAP_RENDER_OFFSET.x + TILE_SIZE + 8, MAP_RENDER_OFFSET.x + MAP_SIZE.x * TILE_SIZE - TILE_SIZE - 8)
   local posY = math.random(MAP_RENDER_OFFSET.y + TILE_SIZE + 8, MAP_RENDER_OFFSET.y + MAP_SIZE.y * TILE_SIZE - TILE_SIZE - 8)
-  local entity = tiny.Entity(posX, posY)
+  local entity = tiny.Entity(posX + self.shift.x, posY + self.shift.y)
   local entitySprite
   
   -- sprite component
@@ -267,7 +269,7 @@ function Room:GenerateDoorways()
   
   for k, direction in pairs(directions) do
     local doorway
-    table.insert(doorways, Doorway(direction, false))
+    table.insert(doorways, Doorway(direction, self.shift))
   end
   
   return doorways
@@ -290,7 +292,7 @@ function Room:GenerateObjects()
   local objects = {}
   local posX = math.random(MAP_RENDER_OFFSET.x + TILE_SIZE + 8, MAP_RENDER_OFFSET.x + MAP_SIZE.x * TILE_SIZE - TILE_SIZE - 8)
   local posY = math.random(MAP_RENDER_OFFSET.y + TILE_SIZE + 8, MAP_RENDER_OFFSET.y + MAP_SIZE.y * TILE_SIZE - TILE_SIZE - 8)
-  local doorSwitch = tiny.Entity(posX, posY)
+  local doorSwitch = tiny.Entity(posX + self.shift.x, posY + self.shift.y)
   
   local switchSprite = tiny.Sprite(TEXTURES['switches'], FRAMES['switches'][2])
   doorSwitch:AddComponent(switchSprite)

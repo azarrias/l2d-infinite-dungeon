@@ -4,17 +4,66 @@ function SceneDungeon:init()
   self.player = self:CreatePlayer()
   
   self.rooms = {}
+  
+  -- active room and next room, used when the player is shifting rooms
   self.currentRoom = Room(self.player)
+  self.nextRoom = nil
+  self.shifting = false
+  self.camera = tiny.Vector2D(0, 0)
+  
+  -- trigger camera translation and adjustment of rooms whenever the player triggers a shift
+  -- via a doorway collision, triggered in the respective BehaviourPlayerMoving scripts
+  Event.on('shift-left', function()
+    self:BeginShifting(-VIRTUAL_SIZE.x, 0)
+  end)
+
+  Event.on('shift-right', function()
+    self:BeginShifting(VIRTUAL_SIZE.x, 0)
+  end)
+
+  Event.on('shift-up', function()
+    self:BeginShifting(0, -VIRTUAL_SIZE.y)
+  end)
+
+  Event.on('shift-down', function()
+    self:BeginShifting(0, VIRTUAL_SIZE.y)
+  end)
 end
 
 function SceneDungeon:update(dt)
-  self.currentRoom:update(dt)
-  self.player:update(dt)
+  Timer.update(dt)
+  if not self.shifting then
+    self.currentRoom:update(dt)
+    self.player:update(dt)
+  end
 end
 
 function SceneDungeon:render()
+  -- translate the camera if we're actively shifting
+  love.graphics.push()
+  if self.shifting then
+    love.graphics.translate(-math.floor(self.camera.x), -math.floor(self.camera.y))
+  end
   self.currentRoom:render()
   self.player:render()
+  if self.nextRoom then
+    self.nextRoom:render()
+  end
+  love.graphics.pop()
+end
+
+--[[
+    Prepares for the camera shifting process, kicking off a tween of the camera position.
+]]
+function SceneDungeon:BeginShifting(shiftX, shiftY)
+  self.shifting = true
+  self.nextRoom = Room(self.player, tiny.Vector2D(shiftX, shiftY))
+  
+  -- tween the camera in whichever direction the new room is in, as well as the player to be
+  -- at the opposite door in the next room, walking through the wall (which is stenciled)
+  Timer.tween(1, {
+    [self.camera] = { x = shiftX, y = shiftY }
+  })
 end
 
 function SceneDungeon:CreatePlayer()
@@ -186,6 +235,7 @@ function SceneDungeon:CreatePlayer()
   if player.components['Script']['PlayerController'] then
     playerController = player.components['Script']['PlayerController']
     playerController.bodyCollider = collider
+    playerController.dungeon = self
   end
 
   return player

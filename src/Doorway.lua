@@ -1,20 +1,21 @@
 Doorway = Class{}
 
-function Doorway:init(direction, isOpen)
+function Doorway:init(direction, shift)
   self.direction = direction
-  self.isOpen = isOpen
+  self.isOpen = false
+  self.shift = shift or tiny.Vector2D(0, 0)
   
   if direction == 'left' then
-    self.position = MAP_RENDER_OFFSET + 
+    self.position = MAP_RENDER_OFFSET + self.shift + 
       tiny.Vector2D(-TILE_SIZE, MAP_SIZE.y / 2 * TILE_SIZE - TILE_SIZE)
   elseif direction == 'right' then
-    self.position = MAP_RENDER_OFFSET + 
+    self.position = MAP_RENDER_OFFSET + self.shift +
       tiny.Vector2D(MAP_SIZE.x * TILE_SIZE - TILE_SIZE, MAP_SIZE.y / 2 * TILE_SIZE - TILE_SIZE)
   elseif direction == 'top' then
-    self.position = MAP_RENDER_OFFSET + 
+    self.position = MAP_RENDER_OFFSET + self.shift + 
       tiny.Vector2D(MAP_SIZE.x / 2 * TILE_SIZE - TILE_SIZE, -TILE_SIZE)
   elseif direction == 'bottom' then
-    self.position = MAP_RENDER_OFFSET + 
+    self.position = MAP_RENDER_OFFSET + self.shift +
       tiny.Vector2D(MAP_SIZE.x / 2 * TILE_SIZE - TILE_SIZE, MAP_SIZE.y * TILE_SIZE - TILE_SIZE)
   end
   

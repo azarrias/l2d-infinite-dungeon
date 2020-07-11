@@ -1,6 +1,8 @@
 -- libraries
 Class = require 'libs.class'
+Event = require 'libs.knife.event'
 push = require 'libs.push'
+Timer = require 'libs.knife.timer'
 tiny = require 'libs.tiny'
 
 -- general purpose / utility

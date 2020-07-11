@@ -11,6 +11,7 @@ function PlayerController:init()
   self.dead = false
   self.bodyCollider = nil
   self.attackCollider = nil
+  self.dungeon = nil
 end
 
 function PlayerController:update(dt)
