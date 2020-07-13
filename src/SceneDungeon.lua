@@ -81,7 +81,38 @@ function SceneDungeon:BeginShifting(shiftX, shiftY)
   Timer.tween(1, {
     [self.camera] = { x = shiftX, y = shiftY },
     [self.player.position] = { x = playerNewPosX, y = playerNewPosY }
-  })
+  }):finish(function()
+    self:EndShifting()
+  end)
+end
+
+--[[
+    Restores regular values to the variables involved in the shifting process
+]]
+function SceneDungeon:EndShifting()
+  self.shifting = false
+  self.currentRoom = self.nextRoom
+  self.nextRoom = nil
+  
+  -- open the next room doorways until the shifting process ends
+  for k, doorway in pairs(self.currentRoom.doorways) do
+    doorway.isOpen = false
+    doorway.gameObject.position = doorway.gameObject.position - self.currentRoom.shift
+    --doorway.position = doorway.position - self.currentRoom.shift
+  end
+  
+  for k, object in pairs(self.currentRoom.objects) do
+    object.position = object.position - self.currentRoom.shift
+  end
+  
+  for k, entity in pairs(self.currentRoom.entities) do
+    entity.position = entity.position - self.currentRoom.shift
+  end
+  
+  self.player.position = self.player.position - self.currentRoom.shift
+  
+  self.currentRoom.shift = tiny.Vector2D(0, 0)
+  self.camera = tiny.Vector2D(0, 0)
 end
 
 function SceneDungeon:CreatePlayer()
