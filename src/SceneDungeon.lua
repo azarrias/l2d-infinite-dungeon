@@ -45,10 +45,10 @@ function SceneDungeon:render()
     love.graphics.translate(-math.floor(self.camera.x), -math.floor(self.camera.y))
   end
   self.currentRoom:render()
-  self.player:render()
   if self.nextRoom then
     self.nextRoom:render()
   end
+  self.player:render()
   love.graphics.pop()
 end
 
@@ -59,10 +59,28 @@ function SceneDungeon:BeginShifting(shiftX, shiftY)
   self.shifting = true
   self.nextRoom = Room(self.player, tiny.Vector2D(shiftX, shiftY))
   
+  -- open the next room doorways until the shifting process ends
+  for k, doorway in pairs(self.nextRoom.doorways) do
+    doorway.isOpen = true
+  end
+  
+  -- calculate player's ending position to tween it during the room shifting process
+  local playerNewPosX, playerNewPosY = self.player.position.x, self.player.position.y
+  if shiftX > 0 then
+    playerNewPosX = VIRTUAL_SIZE.x + MAP_RENDER_OFFSET.x + TILE_SIZE + 6
+  elseif shiftX < 0 then
+    playerNewPosX = -MAP_RENDER_OFFSET.x - 6 - TILE_SIZE
+  elseif shiftY > 0 then
+    playerNewPosY = VIRTUAL_SIZE.y + MAP_RENDER_OFFSET.y + 11
+  elseif shiftY < 0 then
+    playerNewPosY = -MAP_RENDER_OFFSET.y - 11 - TILE_SIZE
+  end
+  
   -- tween the camera in whichever direction the new room is in, as well as the player to be
   -- at the opposite door in the next room, walking through the wall (which is stenciled)
   Timer.tween(1, {
-    [self.camera] = { x = shiftX, y = shiftY }
+    [self.camera] = { x = shiftX, y = shiftY },
+    [self.player.position] = { x = playerNewPosX, y = playerNewPosY }
   })
 end
 
