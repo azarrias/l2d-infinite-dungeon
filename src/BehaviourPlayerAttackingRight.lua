@@ -20,6 +20,7 @@ function BehaviourPlayerAttackingRight:OnStateExit(dt, animatorController)
   local playerController = entity.components['Script']['PlayerController']
   colliders = entity.components['Collider']
   entity:RemoveComponent(playerController.attackCollider)
+  playerController.attackCollider = nil
 end
 
 function BehaviourPlayerAttackingRight:OnStateUpdate(dt, animatorController)
