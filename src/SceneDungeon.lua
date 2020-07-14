@@ -48,7 +48,6 @@ function SceneDungeon:render()
   if self.nextRoom then
     self.nextRoom:render()
   end
-  self.player:render()
   love.graphics.pop()
 end
 
@@ -71,7 +70,7 @@ function SceneDungeon:BeginShifting(shiftX, shiftY)
   elseif shiftX < 0 then
     playerNewPosX = -MAP_RENDER_OFFSET.x - 6 - TILE_SIZE
   elseif shiftY > 0 then
-    playerNewPosY = VIRTUAL_SIZE.y + MAP_RENDER_OFFSET.y + 11
+    playerNewPosY = VIRTUAL_SIZE.y + MAP_RENDER_OFFSET.y + 13
   elseif shiftY < 0 then
     playerNewPosY = -MAP_RENDER_OFFSET.y - 11 - TILE_SIZE
   end

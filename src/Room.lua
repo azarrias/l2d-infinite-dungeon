@@ -64,7 +64,17 @@ function Room:update(dt)
             for i, doorway in pairs(self.doorways) do
               doorway.isOpen = true
               -- add a collider for the doorway's game object
-              local collider = tiny.Collider { center = tiny.Vector2D(TILE_SIZE, TILE_SIZE), size = tiny.Vector2D(TILE_SIZE * 2, TILE_SIZE * 2) }
+              local pos
+              if i == 1 then --left
+                pos = tiny.Vector2D(3 * TILE_SIZE / 2, TILE_SIZE)
+              elseif i == 2 then --right
+                pos = tiny.Vector2D(TILE_SIZE / 2, TILE_SIZE)
+              elseif i == 3 then --top
+                pos = tiny.Vector2D(TILE_SIZE, 3 * TILE_SIZE / 2)
+              elseif i == 4 then --bottom
+                pos = tiny.Vector2D(TILE_SIZE, TILE_SIZE / 2)
+              end
+              local collider = tiny.Collider { center = pos, size = tiny.Vector2D(TILE_SIZE, TILE_SIZE) }
               doorway.gameObject:AddComponent(collider)
             end
             local sprite = object.components['Sprite']
@@ -103,6 +113,30 @@ function Room:render()
   for k, entity in pairs(self.entities) do
     entity:render()
   end
+  
+  -- stencil out the door arches so it looks like the player is going through
+  love.graphics.stencil(function()
+    -- left
+    love.graphics.rectangle('fill', -TILE_SIZE - 4, VIRTUAL_SIZE.y / 2 - 2 * TILE_SIZE,
+      TILE_SIZE * 2.5, TILE_SIZE * 3)  
+    -- right  
+    love.graphics.rectangle('fill', VIRTUAL_SIZE.x - TILE_SIZE - 4, VIRTUAL_SIZE.y / 2 - 2 * TILE_SIZE,
+      TILE_SIZE * 2.5, TILE_SIZE * 3)  
+    -- top
+    love.graphics.rectangle('fill', VIRTUAL_SIZE.x / 2 - TILE_SIZE, -1.5 * TILE_SIZE,
+      TILE_SIZE * 2, TILE_SIZE * 3)  
+    -- bottom
+    love.graphics.rectangle('fill', VIRTUAL_SIZE.x / 2 - TILE_SIZE, VIRTUAL_SIZE.y - 1.5 * TILE_SIZE,
+      TILE_SIZE * 2, TILE_SIZE * 3)     
+  end, 'replace', 1)
+
+  love.graphics.setStencilTest('less', 1)
+  
+  if self.player then
+      self.player:render()
+  end
+
+  love.graphics.setStencilTest()
 end
 
 function Room:CreateEntity(entityType)
