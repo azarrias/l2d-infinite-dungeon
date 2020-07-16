@@ -6,7 +6,7 @@ function Room:init(player, shift)
   -- shifting distance for transitioning between rooms
   self.shift = shift or tiny.Vector2D(0, 0)
   self.entities = self:GenerateEntities(10)
-  self.objects = self:GenerateObjects()
+  self.doorSwitch = self:CreateDoorSwitch()
   self.doorways = self:GenerateDoorways()
   self.player = player
   self.renderOffset = MAP_RENDER_OFFSET
@@ -57,35 +57,10 @@ function Room:update(dt)
   if self.player.components['Script']['PlayerController'] then
     playerController = self.player.components['Script']['PlayerController']
     if playerController.bodyCollider then
-      for k, object in pairs(self.objects) do
-        if object.components['Collider'] and object.components['Collider'][1] then
-          -- open doors if the switch has not been already used
-          if playerController.bodyCollider:collides(object.components['Collider'][1]) then
-            for i, doorway in pairs(self.doorways) do
-              doorway.isOpen = true
-              -- add a collider for the doorway's game object
-              local pos
-              if i == 1 then --left
-                pos = tiny.Vector2D(3 * TILE_SIZE / 2, TILE_SIZE)
-              elseif i == 2 then --right
-                pos = tiny.Vector2D(TILE_SIZE / 2, TILE_SIZE)
-              elseif i == 3 then --top
-                pos = tiny.Vector2D(TILE_SIZE, 3 * TILE_SIZE / 2)
-              elseif i == 4 then --bottom
-                pos = tiny.Vector2D(TILE_SIZE, TILE_SIZE / 2)
-              end
-              local collider = tiny.Collider { center = pos, size = tiny.Vector2D(TILE_SIZE, TILE_SIZE) }
-              doorway.gameObject:AddComponent(collider)
-            end
-            local sprite = object.components['Sprite']
-            if sprite then
-              object:RemoveComponent(sprite)
-            end
-            -- remove the switch collider and 'closed switch' sprite and add the 'opened switch' sprite
-            object:RemoveComponent(object.components['Collider'][1])
-            sprite = tiny.Sprite(TEXTURES['switches'], FRAMES['switches'][1])
-            object:AddComponent(sprite)
-          end
+      if self.doorSwitch.components['Collider'] and self.doorSwitch.components['Collider'][1] then
+        -- open doors if the switch has not been already used
+        if playerController.bodyCollider:collides(self.doorSwitch.components['Collider'][1]) then
+          self:OpenDoors()
         end
       end
     end
@@ -106,9 +81,7 @@ function Room:render()
     doorway:render()
   end
   
-  for k, object in pairs(self.objects) do
-    object:render()
-  end
+  self.doorSwitch:render()
   
   for k, entity in pairs(self.entities) do
     entity:render()
@@ -137,6 +110,20 @@ function Room:render()
   end
 
   love.graphics.setStencilTest()
+end
+
+function Room:CreateDoorSwitch()
+  local posX = math.random(MAP_RENDER_OFFSET.x + TILE_SIZE + 8, MAP_RENDER_OFFSET.x + MAP_SIZE.x * TILE_SIZE - TILE_SIZE - 8)
+  local posY = math.random(MAP_RENDER_OFFSET.y + TILE_SIZE + 8, MAP_RENDER_OFFSET.y + MAP_SIZE.y * TILE_SIZE - TILE_SIZE - 8)
+  local doorSwitch = tiny.Entity(posX + self.shift.x, posY + self.shift.y)
+  
+  local switchSprite = tiny.Sprite(TEXTURES['switches'], FRAMES['switches'][2])
+  doorSwitch:AddComponent(switchSprite)
+  
+  local collider = tiny.Collider { center = tiny.Vector2D(0, 0), size = SWITCH_SIZE }
+  doorSwitch:AddComponent(collider)
+  
+  return doorSwitch
 end
 
 function Room:CreateEntity(entityType)
@@ -322,23 +309,6 @@ function Room:GenerateEntities(n)
   return entities
 end
 
-function Room:GenerateObjects()
-  local objects = {}
-  local posX = math.random(MAP_RENDER_OFFSET.x + TILE_SIZE + 8, MAP_RENDER_OFFSET.x + MAP_SIZE.x * TILE_SIZE - TILE_SIZE - 8)
-  local posY = math.random(MAP_RENDER_OFFSET.y + TILE_SIZE + 8, MAP_RENDER_OFFSET.y + MAP_SIZE.y * TILE_SIZE - TILE_SIZE - 8)
-  local doorSwitch = tiny.Entity(posX + self.shift.x, posY + self.shift.y)
-  
-  local switchSprite = tiny.Sprite(TEXTURES['switches'], FRAMES['switches'][2])
-  doorSwitch:AddComponent(switchSprite)
-  
-  local collider = tiny.Collider { center = tiny.Vector2D(0, 0), size = SWITCH_SIZE }
-  doorSwitch:AddComponent(collider)
-  
-  table.insert(objects, doorSwitch)
-  
-  return objects
-end
-
 function Room:GenerateTileset(width, height)
   local tiles = {}
   
@@ -373,4 +343,31 @@ function Room:GenerateTileset(width, height)
   end
   
   return tiles
+end
+
+function Room:OpenDoors()
+  for i, doorway in pairs(self.doorways) do
+    doorway.isOpen = true
+    -- add a collider for the doorway's game object
+    local pos
+    if i == 1 then --left
+      pos = tiny.Vector2D(3 * TILE_SIZE / 2, TILE_SIZE)
+    elseif i == 2 then --right
+      pos = tiny.Vector2D(TILE_SIZE / 2, TILE_SIZE)
+    elseif i == 3 then --top
+      pos = tiny.Vector2D(TILE_SIZE, 3 * TILE_SIZE / 2)
+    elseif i == 4 then --bottom
+      pos = tiny.Vector2D(TILE_SIZE, TILE_SIZE / 2)
+    end
+    local collider = tiny.Collider { center = pos, size = tiny.Vector2D(TILE_SIZE, TILE_SIZE) }
+    doorway.gameObject:AddComponent(collider)
+  end
+  local sprite = self.doorSwitch.components['Sprite']
+  if sprite then
+    self.doorSwitch:RemoveComponent(sprite)
+  end
+  -- remove the switch collider and 'closed switch' sprite and add the 'opened switch' sprite
+  self.doorSwitch:RemoveComponent(self.doorSwitch.components['Collider'][1])
+  sprite = tiny.Sprite(TEXTURES['switches'], FRAMES['switches'][1])
+  self.doorSwitch:AddComponent(sprite)
 end

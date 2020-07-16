@@ -100,9 +100,7 @@ function SceneDungeon:EndShifting()
     --doorway.position = doorway.position - self.currentRoom.shift
   end
   
-  for k, object in pairs(self.currentRoom.objects) do
-    object.position = object.position - self.currentRoom.shift
-  end
+  self.currentRoom.doorSwitch.position = self.currentRoom.doorSwitch.position - self.currentRoom.shift
   
   for k, entity in pairs(self.currentRoom.entities) do
     entity.position = entity.position - self.currentRoom.shift
