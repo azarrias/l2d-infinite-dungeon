@@ -54,13 +54,15 @@ MAP_RENDER_OFFSET = ((VIRTUAL_SIZE - MAP_SIZE * TILE_SIZE) / 2):Floor()
 
 -- resources
 FONTS = {
-  ['small'] = love.graphics.newFont('fonts/font.ttf', 8),
-  ['medium'] = love.graphics.newFont('fonts/font.ttf', 16),
-  ['large'] = love.graphics.newFont('fonts/font.ttf', 32),
-  ['gothic-medium'] = love.graphics.newFont('fonts/GothicPixels.ttf', 16),
-  ['gothic-large'] = love.graphics.newFont('fonts/GothicPixels.ttf', 32),
-  ['zelda'] = love.graphics.newFont('fonts/zelda.otf', 48),
-  ['zelda-small'] = love.graphics.newFont('fonts/zelda.otf', 24)
+  --['small'] = love.graphics.newFont('fonts/font.ttf', 8),
+  --['medium'] = love.graphics.newFont('fonts/font.ttf', 16),
+  --['large'] = love.graphics.newFont('fonts/font.ttf', 32),
+  --['gothic-medium'] = love.graphics.newFont('fonts/GothicPixels.ttf', 16),
+  --['gothic-large'] = love.graphics.newFont('fonts/GothicPixels.ttf', 32),
+  --['zelda'] = love.graphics.newFont('fonts/zelda.otf', 48),
+  --['zelda-small'] = love.graphics.newFont('fonts/zelda.otf', 24)
+  ['regular'] = love.graphics.newFont('fonts/ArcadeAlternate.ttf', 40),
+  ['small'] = love.graphics.newFont('fonts/ArcadeAlternate.ttf', 24)
 }
 
 TEXTURES = {

@@ -2,8 +2,8 @@ SceneGameOver = Class{__includes = tiny.Scene}
 
 function SceneGameOver:init()
   self.text = { 
-    { string = 'GAME OVER', font = FONTS['zelda'], textColor = {175 / 255, 53 / 255, 42 / 255, 1} },
-    { string = 'Press Enter', font = FONTS['zelda-small'] }
+    { string = 'GAME OVER', font = FONTS['regular'], textColor = {175 / 255, 53 / 255, 42 / 255, 1} },
+    { string = 'Press Enter', font = FONTS['small'] }
   }
 end
 

@@ -2,8 +2,8 @@ SceneStart = Class{__includes = tiny.Scene}
 
 function SceneStart:init()
   self.text = { 
-    { string = GAME_TITLE, font = FONTS['zelda'], textColor = {175 / 255, 53 / 255, 42 / 255, 1}, shadowColor = {34 / 255, 34 / 255, 34 / 255, 1} },
-    { string = 'Press Enter', font = FONTS['zelda-small'] }
+    { string = GAME_TITLE, font = FONTS['regular'], textColor = {175 / 255, 53 / 255, 42 / 255, 1}, shadowColor = {34 / 255, 34 / 255, 34 / 255, 1} },
+    { string = 'Press Enter', font = FONTS['small'] }
   }
   local background = TEXTURES['background']
   local sprite = tiny.Sprite(background)
