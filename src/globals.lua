@@ -32,7 +32,7 @@ require 'util'
     constants
   ]]
 GAME_TITLE = 'Infinite Dungeon'
-DEBUG_MODE = true
+DEBUG_MODE = false
 
 -- OS checks in order to make necessary adjustments to support multiplatform
 MOBILE_OS = (love._version_major > 0 or love._version_minor >= 9) and (love.system.getOS() == 'Android' or love.system.getOS() == 'OS X')
