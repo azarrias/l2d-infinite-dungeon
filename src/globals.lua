@@ -61,8 +61,8 @@ FONTS = {
   --['gothic-large'] = love.graphics.newFont('fonts/GothicPixels.ttf', 32),
   --['zelda'] = love.graphics.newFont('fonts/zelda.otf', 48),
   --['zelda-small'] = love.graphics.newFont('fonts/zelda.otf', 24)
-  ['regular'] = love.graphics.newFont('fonts/ArcadeAlternate.ttf', 40),
-  ['small'] = love.graphics.newFont('fonts/ArcadeAlternate.ttf', 24)
+  ['regular'] = love.graphics.newFont('fonts/zelda.otf', 48),
+  ['small'] = love.graphics.newFont('fonts/zelda.otf', 24)
 }
 
 TEXTURES = {
