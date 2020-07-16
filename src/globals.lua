@@ -112,6 +112,13 @@ FRAMES = {
   ['switches'] = GenerateAllQuads(TEXTURES['switches'], SWITCH_SIZE.x, SWITCH_SIZE.y)
 }
 
+SOUNDS = {
+  ['door'] = love.audio.newSource('sounds/door.wav', 'static'),
+  ['hit-enemy'] = love.audio.newSource('sounds/hit_enemy.wav', 'static'),
+  ['hit-player'] = love.audio.newSource('sounds/hit_player.wav', 'static'),
+  ['sword'] = love.audio.newSource('sounds/sword.wav', 'static')
+}
+
 -- tile IDs
 TILE_EMPTY = 19
 

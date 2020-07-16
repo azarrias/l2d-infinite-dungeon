@@ -93,12 +93,12 @@ function SceneDungeon:EndShifting()
   self.currentRoom = self.nextRoom
   self.nextRoom = nil
   
-  -- open the next room doorways until the shifting process ends
+  -- close the doorways now that the shifting process ends
   for k, doorway in pairs(self.currentRoom.doorways) do
     doorway.isOpen = false
     doorway.gameObject.position = doorway.gameObject.position - self.currentRoom.shift
-    --doorway.position = doorway.position - self.currentRoom.shift
   end
+  SOUNDS['door']:play()
   
   self.currentRoom.doorSwitch.position = self.currentRoom.doorSwitch.position - self.currentRoom.shift
   

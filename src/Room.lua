@@ -27,6 +27,7 @@ function Room:update(dt)
           if playerController.bodyCollider:collides(entity.components['Collider'][1]) then
             if not playerController.invulnerable then
               playerController:damage(1)
+              SOUNDS['hit-player']:play()
               -- if the player dies, transition to game over scene
               if playerController.health <= 0 then
                 sceneManager:change('GameOver')
@@ -45,6 +46,7 @@ function Room:update(dt)
     if playerController.attackCollider then
       for k, entity in pairs(self.entities) do
         if entity.components['Collider'] and playerController.attackCollider:collides(entity.components['Collider'][1]) then
+          SOUNDS['hit-enemy']:play()
           table.remove(self.entities, k)
         end
       end
@@ -370,4 +372,5 @@ function Room:OpenDoors()
   self.doorSwitch:RemoveComponent(self.doorSwitch.components['Collider'][1])
   sprite = tiny.Sprite(TEXTURES['switches'], FRAMES['switches'][1])
   self.doorSwitch:AddComponent(sprite)
+  SOUNDS['door']:play()
 end

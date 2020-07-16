@@ -13,6 +13,7 @@ function BehaviourPlayerAttackingDown:OnStateEnter(dt, animatorController)
   local collider = tiny.Collider { center = colliderCenter, size = colliderSize }
   entity:AddComponent(collider)
   playerController.attackCollider = collider
+  SOUNDS['sword']:play()
 end
 
 function BehaviourPlayerAttackingDown:OnStateExit(dt, animatorController)
