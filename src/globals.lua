@@ -67,7 +67,8 @@ TEXTURES = {
   ['player'] = love.graphics.newImage('graphics/character.png'),
   ['entities'] = love.graphics.newImage('graphics/entities.png'),
   ['tiles'] = love.graphics.newImage('graphics/tilesheet.png'),
-  ['switches'] = love.graphics.newImage('graphics/switches.png')
+  ['switches'] = love.graphics.newImage('graphics/switches.png'),
+  ['background'] = love.graphics.newImage('graphics/background.png')
 }
 
 FRAMES = {

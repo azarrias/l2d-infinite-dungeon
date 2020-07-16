@@ -7,6 +7,9 @@ local Sprite = Class{__includes = Component}
 function Sprite:init(texture, quad)
   Component.init(self)
   self.componentType = 'Sprite'
+  if not texture then
+    error("Can't find texture file")
+  end
   self:SetDrawable(texture, quad)
   self.flipX = false
   self.flipY = false
