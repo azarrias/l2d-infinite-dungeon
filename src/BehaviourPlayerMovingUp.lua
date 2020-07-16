@@ -23,11 +23,11 @@ function BehaviourPlayerMovingUp:OnStateUpdate(dt, animatorController)
   -- {'left', 'right', 'top', 'bottom'}
   local doorway = playerController.dungeon.currentRoom.doorways[3]
   
-  if playerController.bodyCollider then
+  if playerController.feetCollider then
     if doorway.gameObject.components['Collider'] and doorway.gameObject.components['Collider'][1] then
       -- temporary shift to check collision
       entity.position.y = entity.position.y - playerController.speed * dt
-      if playerController.bodyCollider:collides(doorway.gameObject.components['Collider'][1]) then
+      if playerController.feetCollider:collides(doorway.gameObject.components['Collider'][1]) then
         -- dispatch event to make a shift to a new room
         -- event will be triggered in Dungeon:init
         Event.dispatch('shift-up')

@@ -353,15 +353,15 @@ function Room:OpenDoors()
     -- add a collider for the doorway's game object
     local pos
     if i == 1 then --left
-      pos = tiny.Vector2D(3 * TILE_SIZE / 2, TILE_SIZE)
+      pos = tiny.Vector2D(15 * TILE_SIZE / 8, 5 * TILE_SIZE / 4)
     elseif i == 2 then --right
-      pos = tiny.Vector2D(TILE_SIZE / 2, TILE_SIZE)
+      pos = tiny.Vector2D(TILE_SIZE / 8, 5 * TILE_SIZE / 4)
     elseif i == 3 then --top
-      pos = tiny.Vector2D(TILE_SIZE, 3 * TILE_SIZE / 2)
+      pos = tiny.Vector2D(TILE_SIZE, 15 * TILE_SIZE / 8)
     elseif i == 4 then --bottom
-      pos = tiny.Vector2D(TILE_SIZE, TILE_SIZE / 2)
+      pos = tiny.Vector2D(TILE_SIZE, TILE_SIZE / 8)
     end
-    local collider = tiny.Collider { center = pos, size = tiny.Vector2D(TILE_SIZE, TILE_SIZE) }
+    local collider = tiny.Collider { center = pos, size = tiny.Vector2D(TILE_SIZE / 4, TILE_SIZE / 4) }
     doorway.gameObject:AddComponent(collider)
   end
   local sprite = self.doorSwitch.components['Sprite']
