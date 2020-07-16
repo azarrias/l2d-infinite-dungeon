@@ -119,6 +119,12 @@ SOUNDS = {
   ['sword'] = love.audio.newSource('sounds/sword.wav', 'static')
 }
 
+if WEB_OS then
+  SOUNDS['music'] = love.audio.newSource('sounds/music.wav', 'static')
+else
+  SOUNDS['music'] = love.audio.newSource('sounds/music.mp3', 'stream')
+end
+
 -- tile IDs
 TILE_EMPTY = 19
 
