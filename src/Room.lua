@@ -357,7 +357,7 @@ function Room:OpenDoors()
     elseif i == 2 then --right
       pos = tiny.Vector2D(TILE_SIZE / 8, 5 * TILE_SIZE / 4)
     elseif i == 3 then --top
-      pos = tiny.Vector2D(TILE_SIZE, 15 * TILE_SIZE / 8)
+      pos = tiny.Vector2D(TILE_SIZE, 31 * TILE_SIZE / 16)
     elseif i == 4 then --bottom
       pos = tiny.Vector2D(TILE_SIZE, TILE_SIZE / 8)
     end
