@@ -6,8 +6,7 @@ This new room will always be created from scratch at the moment of the transitio
 
 ![preview](https://raw.githubusercontent.com/azarrias/l2d-infinite-dungeon/master/preview.gif "Preview animated gif")
 
-* [Repository](https://github.com/azarrias/l2d-infinite-dungeon){:target="_blank"}.
-* [Latest release](https://github.com/azarrias/l2d-infinite-dungeon/releases/latest){:target="_blank"}.
+* [Latest release](https://github.com/azarrias/l2d-infinite-dungeon/releases/latest).
 
 ## Controls
 
