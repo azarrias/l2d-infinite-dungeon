@@ -3,16 +3,13 @@ local Component = require(current_folder .. '.Component')
 
 local Collider = Class{__includes = Component}
 
-function Collider:init(def)
+function Collider:init(center, size)
   Component.init(self)
   self.componentType = 'Collider'
   
   -- center and size in the collider's local space
-  self.center = def.center
-  self.size = def.size
-end
-
-function Collider:update(dt)
+  self.center = center
+  self.size = size
 end
 
 function Collider:render()
@@ -79,7 +76,7 @@ function Collider:checkEntityCollisions()
   return nil
 end
 
-function Collider:collides(other)
+function Collider:Collides(other)
   -- AABB collision detection
   if other.entity.position.x + other.center.x - other.size.x / 2 > self.entity.position.x + self.center.x + self.size.x / 2 then
     return false

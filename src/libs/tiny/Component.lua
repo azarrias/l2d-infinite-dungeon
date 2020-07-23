@@ -1,6 +1,6 @@
 local Component = Class{}
 
-function Component:init(parent)
+function Component:init()
   self.enabled = true
   self.entity = nil
 end

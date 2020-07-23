@@ -1,5 +1,6 @@
 local current_folder = (...):gsub('%.AnimatorController$', '') -- "my package path"
 local Animation = require(current_folder .. '.Animation')
+local AnimatorConditionOperatorType = require(current_folder .. '.AnimatorConditionOperatorType')
 local AnimatorControllerParameter = require(current_folder .. '.AnimatorControllerParameter')
 local AnimatorStateMachine = require(current_folder .. '.AnimatorStateMachine')
 local Component = require(current_folder .. '.Component')
@@ -63,8 +64,8 @@ end
 --[[
      Creates a new state with the animation in it
   ]]
-function AnimatorController:AddAnimation(name, frames, interval)
-  local animation = Animation(name, frames, interval)
+function AnimatorController:AddAnimation(name)
+  local animation = Animation(name)
   self.animations[name] = animation
   local state = self.stateMachine:AddState(name)
   state.animation = animation
@@ -109,7 +110,7 @@ function AnimatorController:AreAllConditionsMet(transition)
 end
 
 function AnimatorController:ChangeState(transition)
-  -- automatically reset animation and triggers and that have been consumed by this transaction
+  -- automatically reset animation and triggers that may have been consumed by this transition
   self.stateMachine.currentState.animation:Reset()
   self:ResetTransitionTriggers(transition)
   

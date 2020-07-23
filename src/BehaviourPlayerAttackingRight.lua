@@ -10,7 +10,7 @@ function BehaviourPlayerAttackingRight:OnStateEnter(dt, animatorController)
   local playerController = entity.components['Script']['PlayerController']
   local colliderCenter = tiny.Vector2D(9, 3)
   local colliderSize = tiny.Vector2D(10, 18)
-  local collider = tiny.Collider { center = colliderCenter, size = colliderSize }
+  local collider = tiny.Collider(colliderCenter, colliderSize)
   entity:AddComponent(collider)
   playerController.attackCollider = collider
   SOUNDS['sword']:play()

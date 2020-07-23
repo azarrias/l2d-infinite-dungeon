@@ -24,7 +24,7 @@ function Room:update(dt)
       for k, entity in pairs(self.entities) do
         if entity.components['Collider'] and entity.components['Collider'][1] then
           -- decrement player's health and apply cooldown to the player's vulnerability
-          if playerController.bodyCollider:collides(entity.components['Collider'][1]) then
+          if playerController.bodyCollider:Collides(entity.components['Collider'][1]) then
             if not playerController.invulnerable then
               playerController:damage(1)
               SOUNDS['hit-player']:play()
@@ -45,7 +45,7 @@ function Room:update(dt)
     -- only check if there is an active attack collider
     if playerController.attackCollider then
       for k, entity in pairs(self.entities) do
-        if entity.components['Collider'] and playerController.attackCollider:collides(entity.components['Collider'][1]) then
+        if entity.components['Collider'] and playerController.attackCollider:Collides(entity.components['Collider'][1]) then
           SOUNDS['hit-enemy']:play()
           table.remove(self.entities, k)
         end
@@ -61,7 +61,7 @@ function Room:update(dt)
     if playerController.bodyCollider then
       if self.doorSwitch.components['Collider'] and self.doorSwitch.components['Collider'][1] then
         -- open doors if the switch has not been already used
-        if playerController.bodyCollider:collides(self.doorSwitch.components['Collider'][1]) then
+        if playerController.bodyCollider:Collides(self.doorSwitch.components['Collider'][1]) then
           self:OpenDoors()
         end
       end
@@ -122,7 +122,7 @@ function Room:CreateDoorSwitch()
   local switchSprite = tiny.Sprite(TEXTURES['switches'], FRAMES['switches'][2])
   doorSwitch:AddComponent(switchSprite)
   
-  local collider = tiny.Collider { center = tiny.Vector2D(0, 0), size = SWITCH_SIZE }
+  local collider = tiny.Collider(tiny.Vector2D(0, 0), SWITCH_SIZE)
   doorSwitch:AddComponent(collider)
   
   return doorSwitch
@@ -172,10 +172,10 @@ function Room:CreateEntity(entityType)
   -- create animator controller and setup parameters
   local entityAnimatorController = tiny.AnimatorController('EntityAnimatorController')
   entity:AddComponent(entityAnimatorController)
-  entityAnimatorController:AddParameter('MoveDown', AnimatorControllerParameterType.Bool)
-  entityAnimatorController:AddParameter('MoveUp', AnimatorControllerParameterType.Bool)
-  entityAnimatorController:AddParameter('MoveLeft', AnimatorControllerParameterType.Bool)
-  entityAnimatorController:AddParameter('MoveRight', AnimatorControllerParameterType.Bool)
+  entityAnimatorController:AddParameter('MoveDown', tiny.AnimatorControllerParameterType.Bool)
+  entityAnimatorController:AddParameter('MoveUp', tiny.AnimatorControllerParameterType.Bool)
+  entityAnimatorController:AddParameter('MoveLeft', tiny.AnimatorControllerParameterType.Bool)
+  entityAnimatorController:AddParameter('MoveRight', tiny.AnimatorControllerParameterType.Bool)
   
   -- create state machine states (first state to be created will be the default state)
   local stateIdleDown = entityAnimatorController:AddAnimation('IdleDown')
@@ -247,39 +247,39 @@ function Room:CreateEntity(entityType)
   local movingRightToIdleRightTransition = entityAnimatorController.stateMachine.states[stateMovingRight.name]:AddTransition(stateIdleRight)
 
   -- transition conditions
-  idleDownToMovingDownTransition:AddCondition('MoveDown', AnimatorConditionOperatorType.Equals, true)
-  idleUpToMovingDownTransition:AddCondition('MoveDown', AnimatorConditionOperatorType.Equals, true)
-  idleLeftToMovingDownTransition:AddCondition('MoveDown', AnimatorConditionOperatorType.Equals, true)
-  idleRightToMovingDownTransition:AddCondition('MoveDown', AnimatorConditionOperatorType.Equals, true)
-  idleDownToMovingUpTransition:AddCondition('MoveUp', AnimatorConditionOperatorType.Equals, true)
-  idleUpToMovingUpTransition:AddCondition('MoveUp', AnimatorConditionOperatorType.Equals, true)
-  idleLeftToMovingUpTransition:AddCondition('MoveUp', AnimatorConditionOperatorType.Equals, true)
-  idleRightToMovingUpTransition:AddCondition('MoveUp', AnimatorConditionOperatorType.Equals, true)
-  idleDownToMovingLeftTransition:AddCondition('MoveLeft', AnimatorConditionOperatorType.Equals, true)
-  idleUpToMovingLeftTransition:AddCondition('MoveLeft', AnimatorConditionOperatorType.Equals, true)
-  idleLeftToMovingLeftTransition:AddCondition('MoveLeft', AnimatorConditionOperatorType.Equals, true)
-  idleRightToMovingLeftTransition:AddCondition('MoveLeft', AnimatorConditionOperatorType.Equals, true)
-  idleDownToMovingRightTransition:AddCondition('MoveRight', AnimatorConditionOperatorType.Equals, true)
-  idleUpToMovingRightTransition:AddCondition('MoveRight', AnimatorConditionOperatorType.Equals, true)
-  idleLeftToMovingRightTransition:AddCondition('MoveRight', AnimatorConditionOperatorType.Equals, true)
-  idleRightToMovingRightTransition:AddCondition('MoveRight', AnimatorConditionOperatorType.Equals, true)
-  movingDownToIdleDownTransition:AddCondition('MoveDown', AnimatorConditionOperatorType.Equals, false)
-  movingUpToIdleUpTransition:AddCondition('MoveUp', AnimatorConditionOperatorType.Equals, false)
-  movingLeftToIdleLeftTransition:AddCondition('MoveLeft', AnimatorConditionOperatorType.Equals, false)
-  movingRightToIdleRightTransition:AddCondition('MoveRight', AnimatorConditionOperatorType.Equals, false)
+  idleDownToMovingDownTransition:AddCondition('MoveDown', tiny.AnimatorConditionOperatorType.Equals, true)
+  idleUpToMovingDownTransition:AddCondition('MoveDown', tiny.AnimatorConditionOperatorType.Equals, true)
+  idleLeftToMovingDownTransition:AddCondition('MoveDown', tiny.AnimatorConditionOperatorType.Equals, true)
+  idleRightToMovingDownTransition:AddCondition('MoveDown', tiny.AnimatorConditionOperatorType.Equals, true)
+  idleDownToMovingUpTransition:AddCondition('MoveUp', tiny.AnimatorConditionOperatorType.Equals, true)
+  idleUpToMovingUpTransition:AddCondition('MoveUp', tiny.AnimatorConditionOperatorType.Equals, true)
+  idleLeftToMovingUpTransition:AddCondition('MoveUp', tiny.AnimatorConditionOperatorType.Equals, true)
+  idleRightToMovingUpTransition:AddCondition('MoveUp', tiny.AnimatorConditionOperatorType.Equals, true)
+  idleDownToMovingLeftTransition:AddCondition('MoveLeft', tiny.AnimatorConditionOperatorType.Equals, true)
+  idleUpToMovingLeftTransition:AddCondition('MoveLeft', tiny.AnimatorConditionOperatorType.Equals, true)
+  idleLeftToMovingLeftTransition:AddCondition('MoveLeft', tiny.AnimatorConditionOperatorType.Equals, true)
+  idleRightToMovingLeftTransition:AddCondition('MoveLeft', tiny.AnimatorConditionOperatorType.Equals, true)
+  idleDownToMovingRightTransition:AddCondition('MoveRight', tiny.AnimatorConditionOperatorType.Equals, true)
+  idleUpToMovingRightTransition:AddCondition('MoveRight', tiny.AnimatorConditionOperatorType.Equals, true)
+  idleLeftToMovingRightTransition:AddCondition('MoveRight', tiny.AnimatorConditionOperatorType.Equals, true)
+  idleRightToMovingRightTransition:AddCondition('MoveRight', tiny.AnimatorConditionOperatorType.Equals, true)
+  movingDownToIdleDownTransition:AddCondition('MoveDown', tiny.AnimatorConditionOperatorType.Equals, false)
+  movingUpToIdleUpTransition:AddCondition('MoveUp', tiny.AnimatorConditionOperatorType.Equals, false)
+  movingLeftToIdleLeftTransition:AddCondition('MoveLeft', tiny.AnimatorConditionOperatorType.Equals, false)
+  movingRightToIdleRightTransition:AddCondition('MoveRight', tiny.AnimatorConditionOperatorType.Equals, false)
 
   -- add collider
   local collider
   if entityType == 'skeleton' then
-    collider = tiny.Collider { center = tiny.Vector2D(0, 1), size = ENTITY_SIZE - tiny.Vector2D(8, 1) }
+    collider = tiny.Collider(tiny.Vector2D(0, 1), ENTITY_SIZE - tiny.Vector2D(8, 1))
   elseif entityType == 'slime' then
-    collider = tiny.Collider { center = tiny.Vector2D(0, 2), size = ENTITY_SIZE - tiny.Vector2D(2, 6) }
+    collider = tiny.Collider(tiny.Vector2D(0, 2), ENTITY_SIZE - tiny.Vector2D(2, 6))
   elseif entityType == 'bat' then
-    collider = tiny.Collider { center = tiny.Vector2D(0, -2), size = ENTITY_SIZE - tiny.Vector2D(6, 6) }
+    collider = tiny.Collider(tiny.Vector2D(0, -2), ENTITY_SIZE - tiny.Vector2D(6, 6))
   elseif entityType == 'ghost' then
-    collider = tiny.Collider { center = tiny.Vector2D(0, -1), size = ENTITY_SIZE - tiny.Vector2D(6, 4) }
+    collider = tiny.Collider(tiny.Vector2D(0, -1), ENTITY_SIZE - tiny.Vector2D(6, 4))
   elseif entityType == 'spider' then
-    collider = tiny.Collider { center = tiny.Vector2D(0, 3), size = ENTITY_SIZE - tiny.Vector2D(6, 6) }
+    collider = tiny.Collider(tiny.Vector2D(0, 3), ENTITY_SIZE - tiny.Vector2D(6, 6))
   end
   entity:AddComponent(collider)
 
@@ -361,7 +361,7 @@ function Room:OpenDoors()
     elseif i == 4 then --bottom
       pos = tiny.Vector2D(TILE_SIZE, TILE_SIZE / 8)
     end
-    local collider = tiny.Collider { center = pos, size = tiny.Vector2D(TILE_SIZE / 4, TILE_SIZE / 4) }
+    local collider = tiny.Collider(pos, tiny.Vector2D(TILE_SIZE / 4, TILE_SIZE / 4))
     doorway.gameObject:AddComponent(collider)
   end
   local sprite = self.doorSwitch.components['Sprite']

@@ -25,11 +25,12 @@ function love.load()
   })
   love.window.setTitle(GAME_TITLE)
   
-  sceneManager = tiny.SceneManager {
+  scenes = {
     ['Start'] = function() return SceneStart() end,
     ['Play'] = function() return SceneDungeon() end,
     ['GameOver'] = function() return SceneGameOver() end
   }
+  sceneManager = tiny.SceneManager(scenes)
   sceneManager:change('Start')
   
   SOUNDS['music']:setLooping(true)
