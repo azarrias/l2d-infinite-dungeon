@@ -3,7 +3,9 @@
    tiny package that provides very simple game engine features, such as:
    Colliders, animations, sprites, state machines, vectors, etc.
    Implemented using the ECS pattern
-   Depends on the class module, from the HUMP package by Matthias Richter
+   Depends on the class module, from the HUMP package 
+   Copyright (c) 2010-2018 Matthias Richter
+   Could easily be modified to use a different class module, if needed
   ]]
 
 local current_folder = (...):gsub('%.init$', '') -- "my package path"
